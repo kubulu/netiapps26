@@ -1,0 +1,160 @@
+.section {
+    padding: 6rem 0;
+    background-color: transparent;
+}
+
+.leftCard {
+    background: #fff;
+    border-radius: 40px;
+    padding: 5rem 4rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.titleLink {
+    text-decoration: none;
+    display: block;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.title {
+    font-size: 4.5rem;
+    font-weight: 500;
+    color: #1a1a1a;
+    line-height: 1.1;
+    margin-bottom: 4rem;
+}
+
+.linkList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-top: auto;
+
+    li {
+        margin-bottom: 1.5rem;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.serviceLink {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 1.25rem;
+    color: #1a1a1a;
+    text-decoration: none;
+    font-weight: 400;
+    gap: 1rem;
+    transition: all 0.3s ease;
+
+    .arrow {
+        transition: transform 0.3s ease;
+    }
+
+    &:hover {
+        color: #000;
+
+        .arrow {
+            transform: translateX(5px);
+        }
+    }
+}
+
+.rightCardWrapper {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-top: 151px; // Space for the overlapping image
+}
+
+.imageOverlay {
+    position: absolute;
+    top: -113px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    z-index: 2;
+
+    .mainImg {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+    }
+}
+
+.rightCard {
+    background: #0d0f21; // Dark navy/midnight blue
+    border-radius: 40px;
+    padding: 8rem 4rem 4rem;
+    height: auto;
+}
+
+.description {
+    p {
+        font-size: 1.15rem;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 2rem;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+@media (max-width: 1400px) {
+    .title {
+        font-size: 3.5rem;
+    }
+}
+
+@media (max-width: 1200px) {
+    .title {
+        font-size: 3rem;
+    }
+
+    .leftCard,
+    .rightCard {
+        padding: 3rem;
+    }
+}
+
+@media (max-width: 991px) {
+    .rightCardWrapper {
+        margin-top: 2rem;
+    }
+
+    .leftCard {
+        padding: 4rem 2rem;
+    }
+
+    .title {
+        font-size: 2.8rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .title {
+        font-size: 2.2rem;
+        margin-bottom: 2rem;
+    }
+
+    .serviceLink {
+        font-size: 1.1rem;
+    }
+
+    .rightCardWrapper {
+        padding-top: 100px;
+    }
+}

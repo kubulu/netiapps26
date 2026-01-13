@@ -1,0 +1,153 @@
+.section {
+    padding: 5rem 0;
+    background-color: var(--background);
+}
+
+.subtext {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #1a1a1a;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.5px;
+}
+
+.mainTitle {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #1a1a1a;
+
+    span {
+        display: block;
+    }
+}
+
+.grid {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 4rem;
+}
+
+.card {
+    position: relative;
+    border-radius: 40px;
+    overflow: hidden;
+    background-color: #fff;
+    transition: transform 0.3s ease;
+
+    &:hover {
+        transform: translateY(-5px);
+    }
+}
+
+.image {
+    object-fit: cover;
+}
+
+.cardContent {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    padding: 2.5rem;
+    z-index: 2;
+}
+
+.cardTitle {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.2;
+}
+
+.cardTitleDark {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    line-height: 1.2;
+}
+
+// Layout specifics
+.bigCard {
+    flex: 1;
+    height: 600px;
+}
+
+.rightColumn {
+    flex: 1.2;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.wideCard {
+    height: 320px;
+
+    .cardContent {
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .cardTitle {
+        color: #1a1a1a;
+    }
+}
+
+.bottomRow {
+    display: flex;
+    gap: 1.5rem;
+    height: calc(600px - 320px - 1.5rem);
+}
+
+.smallCard {
+    flex: 1;
+}
+
+.textCard {
+    flex: 1;
+    background-color: #fff;
+
+    .cardContent {
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .grid {
+        flex-direction: column;
+    }
+
+    .bigCard {
+        height: 400px;
+    }
+
+    .rightColumn {
+        flex: none;
+    }
+
+    .bottomRow {
+        height: auto;
+        aspect-ratio: 2 / 1;
+    }
+}
+
+@media (max-width: 576px) {
+    .subtext {
+        font-size: 1.2rem;
+    }
+
+    .mainTitle {
+        font-size: 1.75rem;
+    }
+
+    .bottomRow {
+        flex-direction: column;
+        aspect-ratio: auto;
+    }
+
+    .smallCard,
+    .textCard {
+        height: 200px;
+    }
+}
