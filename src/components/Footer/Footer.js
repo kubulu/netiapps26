@@ -8,7 +8,7 @@ export default function Footer() {
             <div className="container">
                 {/* Hire CTA Section */}
                 <div className={styles.hireCta}>
-                    <div className="d-flex flex-column flex-md-row align-items-center justify-content-between p-3 p-md-4">
+                    <div className="d-flex flex-column flex-md-row align-items-center justify-content-between p-3">
                         <h2 className={styles.hireTitle}>
                             Looking to hire for long-term or short-term assignments?
                         </h2>
@@ -76,9 +76,9 @@ export default function Footer() {
                             </div>
 
                             <div className={styles.certificates}>
-                                <Image src="/images/certificate1.svg" alt="ISO Certified" width={60} height={60} />
-                                <Image src="/images/certificate2.svg" alt="NASSCOM" width={100} height={40} />
-                                <Image src="/images/certificate3.svg" alt="CMMI Level 3" width={80} height={40} />
+                                <Image src="/images/certificate1.svg" alt="ISO Certified" width={50} height={50} />
+                                <Image src="/images/certificate2.svg" alt="NASSCOM" width={80} height={32} />
+                                <Image src="/images/certificate3.svg" alt="CMMI Level 3" width={65} height={32} />
                             </div>
                         </div>
                     </div>

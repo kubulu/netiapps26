@@ -1,0 +1,117 @@
+.section {
+    padding: 4rem 0;
+    background-color: transparent;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.card {
+    border: 2px solid #ffffff;
+    border-radius: 30px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+
+    &:hover {
+        transform: translateY(-5px);
+
+        .applyLink svg {
+            transform: translateX(5px);
+        }
+    }
+}
+
+.cardContent {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.25rem;
+}
+
+.jobTitle {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    line-height: 1.2;
+    margin-bottom: 1.25rem;
+}
+
+.location {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 400;
+    margin: 0;
+}
+
+.applyLink {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    text-decoration: none;
+    padding: 0 0.75rem;
+    transition: all 0.3s ease;
+
+    svg {
+        transition: transform 0.3s ease;
+        stroke-width: 2.5;
+    }
+
+    &:hover {
+        color: #1a1a1a;
+    }
+}
+
+@media (max-width: 991px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+
+    .cardContent {
+        min-height: 280px;
+        padding: 2.5rem 2rem;
+    }
+
+    .jobTitle {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .section {
+        padding: 3rem 0;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .card {
+        padding: 1.25rem;
+    }
+
+    .cardContent {
+        min-height: 240px;
+        padding: 2rem 1.5rem;
+    }
+
+    .jobTitle {
+        font-size: 1.8rem;
+    }
+
+    .applyLink {
+        font-size: 1rem;
+    }
+}

@@ -4,6 +4,9 @@ import LatestInsight from '@/components/LatestInsight';
 import WhyChooseUs from '@/components/WhyChooseUs';
 import ServiceIntroduction from '@/components/ServiceIntroduction';
 import ServiceDualList from '@/components/ServiceDualList';
+import SingleFullImage from '@/components/SingleFullImage';
+import SingleText from '@/components/SingleText';
+import WhyChoose from '@/components/WhyChoose';
 import { services } from '@/data/servicesData';
 import styles from './page.module.scss';
 import Image from 'next/image';
@@ -43,43 +46,11 @@ export default async function ServiceDetail({ params }) {
             />
 
             <ServiceDualList />
-
-            <section className={styles.contentSection}>
-                <div className="container">
-                    <div className="row">
-                        <div className="col-lg-8">
-                            <div className={styles.mainContent}>
-                                <h2 className={styles.subHeading}>Our Capabilities</h2>
-                                <div className={styles.capabilitiesGrid}>
-                                    {service.subServices.map((sub, index) => (
-                                        <div key={index} className={styles.capabilityItem}>
-                                            <Image src="/images/arrow.svg" alt="arrow" width={20} height={20} className="me-3" />
-                                            <span>{sub}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="col-lg-4">
-                            <aside className={styles.sidebar}>
-                                <div className={styles.detailCard}>
-                                    <h3>Why Choose This Service?</h3>
-                                    <ul className={styles.detailsList}>
-                                        {service.details.map((detail, index) => (
-                                            <li key={index}>
-                                                <strong>{detail.title}</strong>
-                                                <p>{detail.text}</p>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            </aside>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
+            <SingleFullImage />
+            <SingleText />
+            <SingleFullImage />
+            <SingleText />
+            <WhyChoose />
             <WhyChooseUs />
             <ConnectNow />
             <LatestInsight />
