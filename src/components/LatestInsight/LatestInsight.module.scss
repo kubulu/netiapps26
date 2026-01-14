@@ -1,14 +1,14 @@
 .section {
-    padding: 0rem 0;
+    padding: 40px 0 4rem;
     background-color: var(--background);
 }
 
 .sectionTitle {
-    font-size: 2.5rem;
+    font-size: 1.8rem;
     font-weight: 500;
     color: #1a1a1a;
-    margin-bottom: 3.5rem;
-    letter-spacing: -0.5px;
+    margin-bottom: 2.5rem;
+    letter-spacing: -0.3px;
 }
 
 .card {
@@ -45,14 +45,14 @@
 }
 
 .date {
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: #666;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
     font-weight: 400;
 }
 
 .title {
-    font-size: 1.25rem;
+    font-size: 1.05rem;
     font-weight: 600;
     line-height: 1.4;
     color: #1a1a1a;
@@ -66,15 +66,15 @@
 
 @media (max-width: 768px) {
     .sectionTitle {
-        font-size: 2rem;
-        margin-bottom: 2.5rem;
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
     }
 
     .imageWrapper {
-        border-radius: 25px;
+        border-radius: 15px;
     }
 
     .title {
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
 }

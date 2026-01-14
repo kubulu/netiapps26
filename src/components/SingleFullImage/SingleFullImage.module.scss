@@ -1,19 +1,21 @@
 .section {
     padding: 4rem 0;
     background-color: transparent;
+    width: 100%;
 }
 
 .imageWrapper {
     width: 100%;
-    border-radius: 40px;
+    height: 60vh;
     overflow: hidden;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
 
     .mainImg {
         width: 100%;
-        height: auto;
+        height: 120%;
         display: block;
         object-fit: cover;
+        will-change: transform;
+        transform: translateY(-10%); // Center it initially
     }
 }
 
@@ -23,6 +25,6 @@
     }
 
     .imageWrapper {
-        border-radius: 20px;
+        height: 40vh;
     }
 }

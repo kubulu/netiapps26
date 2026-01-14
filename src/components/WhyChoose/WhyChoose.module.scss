@@ -1,0 +1,76 @@
+.section {
+    position: relative;
+    min-height: 800px;
+    background-image: url('/images/whychoose.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: flex-end;
+    padding: 4rem 0 8rem;
+    margin: 4rem 0;
+}
+
+.content {
+    color: #ffffff;
+    padding-left: 2rem;
+}
+
+.title {
+    font-size: 1.6rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    letter-spacing: -0.3px;
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.listItem {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: flex-start;
+    color: rgba(255, 255, 255, 0.9);
+
+    &::before {
+        content: "•";
+        margin-right: 1rem;
+        font-size: 1rem;
+        color: #ffffff;
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 991px) {
+    .section {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/whychoose.png');
+        min-height: auto;
+        padding: 4rem 0;
+    }
+
+    .content {
+        padding-left: 0;
+    }
+
+    .title {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .title {
+        font-size: 2rem;
+    }
+
+    .listItem {
+        font-size: 1.1rem;
+    }
+}

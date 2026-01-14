@@ -17,8 +17,12 @@
     "react-dom": "19.2.3"
   },
   "devDependencies": {
+    "@types/node": "^25.0.8",
+    "@types/react": "^19.2.8",
+    "@types/react-dom": "^19.2.3",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
-    "sass": "^1.97.2"
+    "sass": "^1.97.2",
+    "typescript": "^5.9.3"
   }
 }
