@@ -10,8 +10,6 @@ import WhatWeDo from '@/components/WhatWeDo';
 import ServiceHighlight from '@/components/ServiceHighlight';
 import { services } from '@/data/servicesData';
 
-// Removing local allServices array as it's now in src/data/servicesData.js
-
 export default function ServicesPage() {
     return (
         <main>

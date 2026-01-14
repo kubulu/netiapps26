@@ -1,6 +1,12 @@
 import styles from './ServiceIntroduction.module.scss';
 
-export default function ServiceIntroduction({ title, description, longDescription }) {
+interface ServiceIntroductionProps {
+    title: string;
+    description: string;
+    longDescription?: string;
+}
+
+export default function ServiceIntroduction({ title, description, longDescription }: ServiceIntroductionProps) {
     return (
         <section className={styles.section}>
             <div className="container">

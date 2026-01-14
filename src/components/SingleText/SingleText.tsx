@@ -1,6 +1,16 @@
 import styles from './SingleText.module.scss';
 
-const defaultData = {
+interface SingleTextData {
+    title: string;
+    description: string;
+    items: string[];
+}
+
+interface SingleTextProps {
+    data?: SingleTextData;
+}
+
+const defaultData: SingleTextData = {
     title: "Data, Analytics &\nAI Enablement",
     description: "We help organizations become data-driven with advanced analytics and AI solutions.",
     items: [
@@ -11,7 +21,7 @@ const defaultData = {
     ]
 };
 
-export default function SingleText({ data = defaultData }) {
+export default function SingleText({ data = defaultData }: SingleTextProps) {
     return (
         <section className={styles.section}>
             <div className="container">

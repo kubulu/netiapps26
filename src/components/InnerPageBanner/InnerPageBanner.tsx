@@ -5,9 +5,21 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from './InnerPageBanner.module.scss';
 
-export default function InnerPageBanner({ tag, title, breadcrumbs, imageSrc }) {
-    const containerRef = useRef(null);
-    const imageWrapperRef = useRef(null);
+interface Breadcrumb {
+    label: string;
+    link?: string;
+}
+
+interface InnerPageBannerProps {
+    tag: string;
+    title: string;
+    breadcrumbs: Breadcrumb[];
+    imageSrc: string;
+}
+
+export default function InnerPageBanner({ tag, title, breadcrumbs, imageSrc }: InnerPageBannerProps) {
+    const containerRef = useRef<HTMLElement>(null);
+    const imageWrapperRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -15,7 +27,7 @@ export default function InnerPageBanner({ tag, title, breadcrumbs, imageSrc }) {
 
             const scrollY = window.scrollY;
             const windowWidth = window.innerWidth;
-            const containerWidth = imageWrapperRef.current.parentElement.offsetWidth;
+            const containerWidth = imageWrapperRef.current.parentElement?.offsetWidth || 0;
 
             // Calculate max expansion needed to hit full viewport width
             const maxExpand = Math.max(0, windowWidth - containerWidth);
@@ -24,7 +36,7 @@ export default function InnerPageBanner({ tag, title, breadcrumbs, imageSrc }) {
             const progress = Math.min(scrollY / 500, 1);
             const currentExpand = maxExpand * progress;
 
-            imageWrapperRef.current.style.setProperty('--scroll-progress', progress);
+            imageWrapperRef.current.style.setProperty('--scroll-progress', progress.toString());
             imageWrapperRef.current.style.setProperty('--scroll-expand', `${currentExpand}px`);
         };
 

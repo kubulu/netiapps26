@@ -7,15 +7,15 @@ import ClientLogos from "@/components/ClientLogos";
 import Hero from "@/components/Hero";
 
 export default function Home() {
-  return (
-    <main>
-      <Hero />
-      <ClientLogos />
-      <Services />
-      <Solutions />
-      <ClientSpeaks />
-      <Industries />
-      <LatestInsight />
-    </main>
-  );
+    return (
+        <main>
+            <Hero />
+            <ClientLogos />
+            <Services />
+            <Solutions />
+            <ClientSpeaks />
+            <Industries />
+            <LatestInsight />
+        </main>
+    );
 }

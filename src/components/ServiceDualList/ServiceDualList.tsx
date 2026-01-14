@@ -1,6 +1,22 @@
 import styles from './ServiceDualList.module.scss';
 
-const defaultData = {
+interface SectionData {
+    title: string;
+    desc: string;
+    items: string[];
+}
+
+interface ServiceDualListData {
+    mainTitle: string;
+    leftSection: SectionData;
+    rightSection: SectionData;
+}
+
+interface ServiceDualListProps {
+    data?: ServiceDualListData;
+}
+
+const defaultData: ServiceDualListData = {
     mainTitle: "Our Digital Transformation Services",
     leftSection: {
         title: "Business Process\nTransformation",
@@ -24,7 +40,7 @@ const defaultData = {
     }
 };
 
-export default function ServiceDualList({ data = defaultData }) {
+export default function ServiceDualList({ data = defaultData }: ServiceDualListProps) {
     return (
         <section className={styles.section}>
             <div className="container">
@@ -67,3 +83,4 @@ export default function ServiceDualList({ data = defaultData }) {
         </section>
     );
 }
+

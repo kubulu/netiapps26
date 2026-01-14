@@ -1,7 +1,14 @@
 import Image from 'next/image';
 import styles from './Industries.module.scss';
 
-const industries = [
+interface Industry {
+    id: number;
+    title: string;
+    image: string;
+    featured?: boolean;
+}
+
+const industries: Industry[] = [
     {
         id: 1,
         title: 'Technology',

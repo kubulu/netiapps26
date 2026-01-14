@@ -3,9 +3,14 @@ import Image from 'next/image';
 import styles from './SearchOverlay.module.scss';
 import { X } from 'lucide-react';
 
-export default function SearchOverlay({ isOpen, onClose }) {
+interface SearchOverlayProps {
+    isOpen: boolean;
+    onClose: () => void;
+}
+
+export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
     useEffect(() => {
-        const handleEsc = (event) => {
+        const handleEsc = (event: KeyboardEvent) => {
             if (event.key === 'Escape') {
                 onClose();
             }

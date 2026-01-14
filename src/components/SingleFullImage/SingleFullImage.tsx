@@ -4,14 +4,20 @@ import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import styles from './SingleFullImage.module.scss';
 
-export default function SingleFullImage({ imageSrc = '/images/singlefullimage.png', alt = 'Full Width Visual' }) {
-    const imageRef = useRef(null);
+interface SingleFullImageProps {
+    imageSrc?: string;
+    alt?: string;
+}
+
+export default function SingleFullImage({ imageSrc = '/images/singlefullimage.png', alt = 'Full Width Visual' }: SingleFullImageProps) {
+    const imageRef = useRef<HTMLImageElement>(null);
 
     useEffect(() => {
         const handleScroll = () => {
             if (!imageRef.current) return;
             const element = imageRef.current;
             const container = element.parentElement;
+            if (!container) return;
             const rect = container.getBoundingClientRect();
             const windowHeight = window.innerHeight;
 
@@ -45,3 +51,4 @@ export default function SingleFullImage({ imageSrc = '/images/singlefullimage.pn
         </section>
     );
 }
+

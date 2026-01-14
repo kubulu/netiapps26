@@ -31,12 +31,13 @@ const reasons = [
 ];
 
 export default function WhyChooseUs() {
-    const scrollRef = useRef(null);
+    const scrollRef = useRef<HTMLDivElement>(null);
     const [isDragging, setIsDragging] = useState(false);
     const [startX, setStartX] = useState(0);
     const [scrollLeft, setScrollLeft] = useState(0);
 
-    const onMouseDown = (e) => {
+    const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!scrollRef.current) return;
         setIsDragging(true);
         setStartX(e.pageX - scrollRef.current.offsetLeft);
         setScrollLeft(scrollRef.current.scrollLeft);
@@ -46,8 +47,8 @@ export default function WhyChooseUs() {
         setIsDragging(false);
     };
 
-    const onMouseMove = (e) => {
-        if (!isDragging) return;
+    const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!isDragging || !scrollRef.current) return;
         e.preventDefault();
         const x = e.pageX - scrollRef.current.offsetLeft;
         const walk = (x - startX) * 2; // Scroll speed
@@ -84,3 +85,4 @@ export default function WhyChooseUs() {
         </section>
     );
 }
+

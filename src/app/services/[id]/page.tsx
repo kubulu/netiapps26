@@ -12,13 +12,17 @@ import styles from './page.module.scss';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
+interface PageParams {
+    params: Promise<{ id: string }>;
+}
+
 export function generateStaticParams() {
     return services.map((service) => ({
         id: service.id,
     }));
 }
 
-export default async function ServiceDetail({ params }) {
+export default async function ServiceDetail({ params }: PageParams) {
     const { id } = await params;
     const service = services.find(s => s.id === id);
 

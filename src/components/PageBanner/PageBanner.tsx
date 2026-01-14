@@ -1,7 +1,13 @@
 import styles from './PageBanner.module.scss';
 import Link from 'next/link';
 
-export default function PageBanner({ title, subtitle, breadcrumb }) {
+interface PageBannerProps {
+    title: string;
+    subtitle?: string;
+    breadcrumb: string;
+}
+
+export default function PageBanner({ title, subtitle, breadcrumb }: PageBannerProps) {
     return (
         <section className={styles.banner}>
             <div className="container">
@@ -19,3 +25,4 @@ export default function PageBanner({ title, subtitle, breadcrumb }) {
         </section>
     );
 }
+

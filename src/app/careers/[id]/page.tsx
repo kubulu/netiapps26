@@ -1,8 +1,26 @@
 import Link from 'next/link';
 import styles from './page.module.scss';
 
+// Type definitions
+interface Job {
+    title: string;
+    position: string;
+    qualification: string;
+    experience: string;
+    responsibilities: string[];
+    summary: string;
+}
+
+interface JobData {
+    [key: string]: Job;
+}
+
+interface PageParams {
+    params: Promise<{ id: string }>;
+}
+
 // Job data - in a real app, this would come from a database
-const jobData = {
+const jobData: JobData = {
     1: {
         title: 'Sr. WordPress Developer',
         position: 'Sr. WordPress Developer',
@@ -95,7 +113,7 @@ const jobData = {
     }
 };
 
-export default async function CareerDetailPage({ params }) {
+export default async function CareerDetailPage({ params }: PageParams) {
     const { id } = await params;
     const job = jobData[id];
 

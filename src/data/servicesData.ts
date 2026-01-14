@@ -1,4 +1,24 @@
-export const services = [
+// Type definitions for service data
+
+export interface ServiceDetail {
+    title: string;
+    text: string;
+}
+
+export interface Service {
+    id: string;
+    slug: string;
+    tag: string;
+    title: string;
+    description: string;
+    longDescription: string;
+    icon: string;
+    image: string;
+    subServices: string[];
+    details: ServiceDetail[];
+}
+
+export const services: Service[] = [
     {
         id: "1",
         slug: "digital-strategy-and-consulting",
