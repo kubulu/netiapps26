@@ -5,15 +5,22 @@ import Solutions from "@/components/Solutions";
 import Services from "@/components/Services";
 import ClientLogos from "@/components/ClientLogos";
 import Hero from "@/components/Hero";
+import { ApiService } from "../services/api.service";
 
-export default function Home() {
+export default async function Home() {
+    const baseUrl = new ApiService();
+
+    const resHome = await fetch(baseUrl.getBaseUrl() + "wp-json/wp/v2/homepagesection");
+
+    const home = await resHome.json();
+    console.log('Home',home);
     return (
         <main>
             <Hero />
-            <ClientLogos />
-            <Services />
-            <Solutions />
-            <ClientSpeaks />
+            <ClientLogos client={home[0].acf.client_logo} />
+            <Services services={home[0].acf.services} />
+            <Solutions solution={home[0].acf.solution}  />
+            <ClientSpeaks testimonials={home[0].acf.client} />
             <Industries />
             <LatestInsight />
         </main>

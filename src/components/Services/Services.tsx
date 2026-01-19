@@ -5,82 +5,83 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from './Services.module.scss';
 
-const services = [
-    {
-        id: 1,
-        title: "Digital Strategy and Consulting",
-        image: "/images/service1.png",
-        subServices: [
-            "Digital Transformation Consulting",
-            "Product & Platform Strategy",
-            "Business Process Analysis & Optimization",
-            "Technology Road mapping",
-            "AI Adoption & Readiness Assessment"
-        ]
-    },
-    {
-        id: 2,
-        title: "Web Development Services",
-        image: "/images/service1.png", // Using same image for demo
-        subServices: ["Frontend Development", "Backend Systems", "Full Stack Solutions"]
-    },
-    {
-        id: 3,
-        title: "Mobile App Development",
-        image: "/images/service1.png",
-        subServices: ["iOS Apps", "Android Apps", "React Native"]
-    },
-    {
-        id: 4,
-        title: "Custom Software Development",
-        image: "/images/service1.png",
-        subServices: ["SaaS Product Dev", "Enterprise Software", "Legacy Migration"]
-    },
-    {
-        id: 5,
-        title: "Cloud and DevOps Services",
-        image: "/images/service1.png",
-        subServices: ["AWS/Azure", "CI/CD Pipelines", "Infrastructure as Code"]
-    },
-    {
-        id: 6,
-        title: "UI/UX Experience Design",
-        image: "/images/service1.png",
-        subServices: ["User Research", "Wireframing", "Visual Design"]
-    },
-    {
-        id: 7,
-        title: "Integration and API Services",
-        image: "/images/service1.png",
-        subServices: ["Third Party Integration", "Custom API Dev", "Microservices"]
-    },
-    {
-        id: 8,
-        title: "Maintenance and Managed Services",
-        image: "/images/service1.png",
-        subServices: ["24/7 Support", "Performance Monitoring", "Security Audits"]
-    }
-];
+// const services = [
+//     {
+//         id: 1,
+//         title: "Digital Strategy and Consulting",
+//         image: "/images/service1.png",
+//         subServices: [
+//             "Digital Transformation Consulting",
+//             "Product & Platform Strategy",
+//             "Business Process Analysis & Optimization",
+//             "Technology Road mapping",
+//             "AI Adoption & Readiness Assessment"
+//         ]
+//     },
+//     {
+//         id: 2,
+//         title: "Web Development Services",
+//         image: "/images/service1.png", // Using same image for demo
+//         subServices: ["Frontend Development", "Backend Systems", "Full Stack Solutions"]
+//     },
+//     {
+//         id: 3,
+//         title: "Mobile App Development",
+//         image: "/images/service1.png",
+//         subServices: ["iOS Apps", "Android Apps", "React Native"]
+//     },
+//     {
+//         id: 4,
+//         title: "Custom Software Development",
+//         image: "/images/service1.png",
+//         subServices: ["SaaS Product Dev", "Enterprise Software", "Legacy Migration"]
+//     },
+//     {
+//         id: 5,
+//         title: "Cloud and DevOps Services",
+//         image: "/images/service1.png",
+//         subServices: ["AWS/Azure", "CI/CD Pipelines", "Infrastructure as Code"]
+//     },
+//     {
+//         id: 6,
+//         title: "UI/UX Experience Design",
+//         image: "/images/service1.png",
+//         subServices: ["User Research", "Wireframing", "Visual Design"]
+//     },
+//     {
+//         id: 7,
+//         title: "Integration and API Services",
+//         image: "/images/service1.png",
+//         subServices: ["Third Party Integration", "Custom API Dev", "Microservices"]
+//     },
+//     {
+//         id: 8,
+//         title: "Maintenance and Managed Services",
+//         image: "/images/service1.png",
+//         subServices: ["24/7 Support", "Performance Monitoring", "Security Audits"]
+//     }
+// ];
 
-export default function Services() {
+export default function Services(services: any) {
     const [activeIndex, setActiveIndex] = useState(0);
-
+console.log(services);
     return (
         <section className={styles.section}>
             <div className="container">
-                <div className="text-center mb-5">
-                    <h2 className={styles.header}>
+                <div className={`${styles.header} text-center mb-5`}>
+                    {/* <h2>
                         With a <strong>strong</strong> focus on<br />
                         analytics and <strong>performance</strong> optimization
-                    </h2>
+                    </h2> */}
+                    <div dangerouslySetInnerHTML={{ __html: services.services.title}} />
                 </div>
 
                 <div className={styles.servicesWrapper}>
-                    {services.map((service, index) => {
+                    {services.services.service_content.map((service: any, index: any) => {
                         const isActive = activeIndex === index;
                         return (
                             <div
-                                key={service.id}
+                                key={index}
                                 className={`${styles.serviceItem} ${isActive ? styles.active : ''}`}
                                 onClick={() => setActiveIndex(index)}
                             >
@@ -101,8 +102,8 @@ export default function Services() {
                                 <div className={styles.expandedWrapper}>
                                     <div className={styles.expandedContent}>
                                         <div className={styles.imageBlock}>
-                                            <Image
-                                                src={service.image}
+                                            <img
+                                                src={service.img}
                                                 alt={service.title}
                                                 width={400}
                                                 height={250}
@@ -112,11 +113,11 @@ export default function Services() {
 
                                         <div className={styles.detailsBlock}>
                                             <ul className={styles.subServicesList}>
-                                                {service.subServices.map((item, i) => (
+                                                {service.sub_services.map((item: any, i: any) => (
                                                     <li key={i}>
-                                                        <Link href="#">
-                                                            {item}
-                                                            <Image
+                                                        <Link href={item.link}>
+                                                            {item.item}
+                                                            <img
                                                                 src="/images/arrow.svg"
                                                                 alt="Arrow"
                                                                 width={16}
@@ -128,7 +129,7 @@ export default function Services() {
                                                 ))}
                                             </ul>
 
-                                            <Link href="/services" className={styles.readMore}>
+                                            <Link href={service.button_link} className={styles.readMore}>
                                                 Read More
                                             </Link>
                                         </div>
