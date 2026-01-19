@@ -1,0 +1,234 @@
+.contactForm {
+    padding: 0 0 6rem 0;
+    background: transparent;
+    margin-top: -4rem;
+    position: relative;
+    z-index: 10;
+}
+
+.formWrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    padding: 3rem;
+    border-radius: 24px;
+    box-shadow: 0 10px 60px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(227, 6, 19, 0.1);
+}
+
+.formHeader {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 1rem;
+
+    &::after {
+        content: '';
+        display: block;
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(90deg, #E30613 0%, #ff4757 100%);
+        margin: 1.5rem auto 0;
+        border-radius: 2px;
+    }
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: #333;
+    font-size: 0.95rem;
+
+    svg {
+        color: #E30613;
+    }
+}
+
+.input,
+.select,
+.textarea {
+    padding: 1rem 1.25rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    background: white;
+    color: #333;
+
+    &:focus {
+        outline: none;
+        border-color: #E30613;
+        box-shadow: 0 0 0 4px rgba(227, 6, 19, 0.1);
+        transform: translateY(-2px);
+    }
+
+    &::placeholder {
+        color: #999;
+    }
+}
+
+.select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23E30613' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 20px;
+    padding-right: 3rem;
+}
+
+.textarea {
+    resize: vertical;
+    min-height: 150px;
+    line-height: 1.6;
+}
+
+.submitBtn {
+    background: linear-gradient(135deg, #E30613 0%, #ff4757 100%);
+    color: white;
+    padding: 1.25rem 3rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    box-shadow: 0 4px 20px rgba(227, 6, 19, 0.3);
+
+    &:hover:not(:disabled) {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(227, 6, 19, 0.4);
+    }
+
+    &:active:not(:disabled) {
+        transform: translateY(-1px);
+    }
+
+    &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+
+    svg {
+        transition: transform 0.3s ease;
+    }
+
+    &:hover:not(:disabled) svg {
+        transform: translateX(4px);
+    }
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.successMessage {
+    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+    color: #155724;
+    padding: 1.25rem 1.5rem;
+    border-radius: 12px;
+    border: 2px solid #28a745;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    animation: slideIn 0.4s ease;
+}
+
+.errorMessage {
+    background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+    color: #721c24;
+    padding: 1.25rem 1.5rem;
+    border-radius: 12px;
+    border: 2px solid #dc3545;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    animation: slideIn 0.4s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .contactForm {
+        padding: 4rem 0;
+    }
+
+    .formWrapper {
+        padding: 2rem 1.5rem;
+        border-radius: 16px;
+    }
+
+    .title {
+        font-size: 2rem;
+    }
+
+    .row {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .submitBtn {
+        padding: 1rem 2rem;
+        font-size: 1rem;
+    }
+}

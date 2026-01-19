@@ -8,7 +8,13 @@ const nextConfig = {
   transpilePackages: ["bootstrap"],
   devIndicators: {
     buildActivity: false,
-    autoPrerender: false, // optional, removes other hints
+    autoPrerender: false,
+  },
+  // Optimize for development
+  experimental: {
+    turbo: {
+      // Turbopack optimizations
+    },
   },
 };
 
