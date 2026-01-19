@@ -6,6 +6,16 @@ const __dirname = path.dirname(__filename);
 
 const nextConfig = {
   transpilePackages: ["bootstrap"],
-}
+  devIndicators: {
+    buildActivity: false,
+    autoPrerender: false,
+  },
+  // Optimize for development
+  experimental: {
+    turbo: {
+      // Turbopack optimizations
+    },
+  },
+};
 
 export default nextConfig;

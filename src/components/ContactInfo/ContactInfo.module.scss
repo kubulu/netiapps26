@@ -1,0 +1,121 @@
+.contactInfo {
+    padding: 6rem 0;
+    background: transparent;
+    margin-top: 4rem;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 1rem;
+
+    &::after {
+        content: '';
+        display: block;
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(90deg, #E30613 0%, #ff4757 100%);
+        margin: 1.5rem auto 0;
+        border-radius: 2px;
+    }
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.card {
+    background: white;
+    padding: 2.5rem 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+    text-align: center;
+    border: 1px solid rgba(227, 6, 19, 0.1);
+
+    &:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 40px rgba(227, 6, 19, 0.15);
+        border-color: rgba(227, 6, 19, 0.3);
+
+        .iconWrapper {
+            background: linear-gradient(135deg, #E30613 0%, #ff4757 100%);
+            color: white;
+            transform: scale(1.1) rotate(5deg);
+        }
+    }
+}
+
+.iconWrapper {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #fff5f5 0%, #ffe5e7 100%);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    color: #E30613;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.cardTitle {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 1rem;
+}
+
+.details {
+    p {
+        color: #666;
+        font-size: 0.95rem;
+        line-height: 1.8;
+        margin: 0.5rem 0;
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: #E30613;
+        }
+    }
+}
+
+
+
+@media (max-width: 768px) {
+    .contactInfo {
+        padding: 4rem 0;
+    }
+
+    .title {
+        font-size: 2rem;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .card {
+        padding: 2rem 1.5rem;
+    }
+
+
+}
