@@ -1,5 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import styles from './SearchOverlay.module.scss';
 import { X } from 'lucide-react';
 
@@ -9,6 +10,9 @@ interface SearchOverlayProps {
 }
 
 export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
+    const [searchTerm, setSearchTerm] = useState('');
+    const router = useRouter();
+
     useEffect(() => {
         const handleEsc = (event: KeyboardEvent) => {
             if (event.key === 'Escape') {
@@ -24,6 +28,13 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
             window.removeEventListener('keydown', handleEsc);
         };
     }, [isOpen, onClose]);
+
+    const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter' && searchTerm.trim()) {
+            onClose();
+            router.push(`/search?q=${encodeURIComponent(searchTerm)}`);
+        }
+    };
 
     return (
         <div
@@ -52,6 +63,9 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                             className={styles.input}
                             placeholder="What you are looking for?"
                             autoFocus
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            onKeyDown={handleSearch}
                         />
                     </div>
                 </div>

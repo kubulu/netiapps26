@@ -16,15 +16,14 @@ const locations = [
     {
         title: "US Office",
         city: "New York, USA",
-        address: "45 Broadway, Suite 200, New York, NY 10006, United States",
-        phone: "+1 212 555 0123",
+        address: "44 Court St Brooklyn, NY 11201",
+        phone: "(315) 291-8670",
         mapLink: "#"
     },
     {
-        title: "European Regional Office",
-        city: "London, UK",
-        address: "1 Canada Square, Canary Wharf, London E14 5AB, United Kingdom",
-        phone: "+44 20 7123 4567",
+        title: "Singapore Office",
+        city: "Singapore, UK",
+        address: "No 7 Temasek Boulevard#12-07 PMB1157 Suntec Tower One Singapore, 038987",
         mapLink: "#"
     }
 ];
@@ -36,19 +35,6 @@ export default function OfficeLocations() {
                 <div className={styles.grid}>
                     {locations.map((loc, index) => (
                         <div key={index} className={styles.card}>
-                            <div className={styles.bgMap}>
-                                <Image
-                                    src="/images/solar_global-outline.svg"
-                                    alt="World Map"
-                                    width={300}
-                                    height={180}
-                                    className={styles.mapImage}
-                                />
-                                <div className={styles.pin}>
-                                    <MapPin size={20} fill="#E30613" stroke="white" />
-                                </div>
-                            </div>
-
                             <div className={styles.content}>
                                 <h3 className={styles.title}>{loc.title}</h3>
 
@@ -61,11 +47,6 @@ export default function OfficeLocations() {
                                     <MapPin size={18} className={styles.icon} />
                                     <span className={styles.text}>{loc.address}</span>
                                 </div>
-
-                                <Link href={loc.mapLink} className={styles.mapLink}>
-                                    Open map
-                                    <ArrowRight size={16} />
-                                </Link>
 
                                 <div className={styles.divider}></div>
 

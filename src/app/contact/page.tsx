@@ -22,7 +22,6 @@ export default function ContactPage() {
                 imageSrc="/images/contact-banner.png"
             />
 
-            <ContactInfo />
 
             <OfficeLocations />
 

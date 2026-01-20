@@ -1,0 +1,136 @@
+.container {
+    padding: 6rem 0;
+}
+
+.searchHeader {
+    margin-bottom: 4rem;
+}
+
+.searchBoxWrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    margin-top: -2rem; // Pull up into banner area slightly if desired, or just standard
+}
+
+.searchInputGroup {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 1rem 1.5rem;
+    border-radius: 50px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    border: 1px solid #eee;
+
+    &:focus-within {
+        border-color: #E30613;
+        box-shadow: 0 10px 40px rgba(227, 6, 19, 0.1);
+    }
+}
+
+.input {
+    flex: 1;
+    border: none;
+    font-size: 1.1rem;
+    margin-left: 1rem;
+    outline: none;
+    color: #1a1a1a;
+
+    &::placeholder {
+        color: #999;
+    }
+}
+
+.searchIcon {
+    opacity: 0.5;
+}
+
+.searchBtn {
+    background: #E30613;
+    color: white;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+
+    &:hover {
+        background: #c30510;
+    }
+}
+
+.resultsCount {
+    margin: 2rem 0;
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.resultsList {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 900px;
+}
+
+.resultCard {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    border: 1px solid #eee;
+    transition: all 0.3s ease;
+    text-align: left;
+
+    &:hover {
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        border-color: rgba(227, 6, 19, 0.2);
+        transform: translateY(-2px);
+    }
+}
+
+.resultCategory {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #E30613;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    display: block;
+}
+
+.resultTitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 0.75rem;
+
+    a {
+        text-decoration: none;
+        color: inherit;
+        transition: color 0.2s;
+
+        &:hover {
+            color: #E30613;
+        }
+    }
+}
+
+.resultDescription {
+    color: #555;
+    line-height: 1.6;
+    font-size: 1.05rem;
+}
+
+.noResults {
+    text-align: center;
+    padding: 4rem;
+    color: #666;
+    background: #fff;
+    border-radius: 16px;
+
+    h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: #1a1a1a;
+    }
+}

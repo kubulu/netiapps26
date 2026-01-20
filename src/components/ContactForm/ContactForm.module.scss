@@ -9,11 +9,10 @@
 .formWrapper {
     max-width: 900px;
     margin: 0 auto;
-    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+
     padding: 3rem;
     border-radius: 24px;
-    box-shadow: 0 10px 60px rgba(0, 0, 0, 0.08);
-    border: 1px solid rgba(227, 6, 19, 0.1);
+
 }
 
 .formHeader {
@@ -23,25 +22,15 @@
 
 .title {
     font-size: 2.5rem;
-    font-weight: 700;
+    font-weight: 300;
     color: #1a1a1a;
-    margin-bottom: 1rem;
-
-    &::after {
-        content: '';
-        display: block;
-        width: 80px;
-        height: 4px;
-        background: linear-gradient(90deg, #E30613 0%, #ff4757 100%);
-        margin: 1.5rem auto 0;
-        border-radius: 2px;
-    }
 }
 
 .subtitle {
     font-size: 1.1rem;
     color: #666;
     line-height: 1.6;
+    padding-bottom: 10px;
 }
 
 .form {
@@ -71,7 +60,7 @@
     font-size: 0.95rem;
 
     svg {
-        color: #E30613;
+        color: #000000;
     }
 }
 
@@ -89,7 +78,7 @@
 
     &:focus {
         outline: none;
-        border-color: #E30613;
+        border-color: #000000;
         box-shadow: 0 0 0 4px rgba(227, 6, 19, 0.1);
         transform: translateY(-2px);
     }
