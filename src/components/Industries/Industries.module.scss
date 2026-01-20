@@ -88,12 +88,12 @@
 
 // Adjust colors based on image brightness if needed
 // For Manufacturing (darker image), we might want white text
-.card:nth-child(3),
-.card:nth-child(4) {
-    .cardTitle {
-        color: #ffffff;
-    }
-}
+// .card:nth-child(3),
+// .card:nth-child(4) {
+//     .cardTitle {
+//         color: #ffffff;
+//     }
+// }
 
 @media (max-width: 768px) {
     .sectionTitle {
