@@ -13,7 +13,6 @@ export default async function Home() {
     const resHome = await fetch(baseUrl.getBaseUrl() + "wp-json/wp/v2/homepagesection");
 
     const home = await resHome.json();
-    console.log('Home',home);
     return (
         <main>
             <Hero />
@@ -21,8 +20,9 @@ export default async function Home() {
             <Services services={home[0].acf.services} />
             <Solutions solution={home[0].acf.solution}  />
             <ClientSpeaks testimonials={home[0].acf.client} />
-            <Industries />
+            <Industries industries={home[0].acf.industry}/>
             <LatestInsight />
         </main>
     );
 }
+

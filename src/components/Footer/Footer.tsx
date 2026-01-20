@@ -6,7 +6,6 @@ import styles from './Footer.module.scss';
 import { useState } from "react";
 
 export default function Footer(footer: any) {
-    // console.log('Footer',footer);
     const addresses = footer.footer.address_field;
 
     // Default first country
@@ -71,7 +70,7 @@ export default function Footer(footer: any) {
   
                             <div className={styles.certificates}>
                                 {footer.footer.certificates.map((element: any, index: any)=>(
-                                    <Image key={index} src={element.img} alt={element.name} width={50} height={50} />  
+                                    <img key={index} src={element.img} alt={element.name} width={50} height={50} />  
                                 ))}
                             </div>
                         </div>

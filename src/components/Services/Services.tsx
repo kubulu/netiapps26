@@ -5,74 +5,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from './Services.module.scss';
 
-// const services = [
-//     {
-//         id: 1,
-//         title: "Digital Strategy and Consulting",
-//         image: "/images/service1.png",
-//         subServices: [
-//             "Digital Transformation Consulting",
-//             "Product & Platform Strategy",
-//             "Business Process Analysis & Optimization",
-//             "Technology Road mapping",
-//             "AI Adoption & Readiness Assessment"
-//         ]
-//     },
-//     {
-//         id: 2,
-//         title: "Web Development Services",
-//         image: "/images/service1.png", // Using same image for demo
-//         subServices: ["Frontend Development", "Backend Systems", "Full Stack Solutions"]
-//     },
-//     {
-//         id: 3,
-//         title: "Mobile App Development",
-//         image: "/images/service1.png",
-//         subServices: ["iOS Apps", "Android Apps", "React Native"]
-//     },
-//     {
-//         id: 4,
-//         title: "Custom Software Development",
-//         image: "/images/service1.png",
-//         subServices: ["SaaS Product Dev", "Enterprise Software", "Legacy Migration"]
-//     },
-//     {
-//         id: 5,
-//         title: "Cloud and DevOps Services",
-//         image: "/images/service1.png",
-//         subServices: ["AWS/Azure", "CI/CD Pipelines", "Infrastructure as Code"]
-//     },
-//     {
-//         id: 6,
-//         title: "UI/UX Experience Design",
-//         image: "/images/service1.png",
-//         subServices: ["User Research", "Wireframing", "Visual Design"]
-//     },
-//     {
-//         id: 7,
-//         title: "Integration and API Services",
-//         image: "/images/service1.png",
-//         subServices: ["Third Party Integration", "Custom API Dev", "Microservices"]
-//     },
-//     {
-//         id: 8,
-//         title: "Maintenance and Managed Services",
-//         image: "/images/service1.png",
-//         subServices: ["24/7 Support", "Performance Monitoring", "Security Audits"]
-//     }
-// ];
-
 export default function Services(services: any) {
     const [activeIndex, setActiveIndex] = useState(0);
-console.log(services);
     return (
         <section className={styles.section}>
             <div className="container">
                 <div className={`${styles.header} text-center mb-5`}>
-                    {/* <h2>
-                        With a <strong>strong</strong> focus on<br />
-                        analytics and <strong>performance</strong> optimization
-                    </h2> */}
                     <div dangerouslySetInnerHTML={{ __html: services.services.title}} />
                 </div>
 
@@ -130,7 +68,7 @@ console.log(services);
                                             </ul>
 
                                             <Link href={service.button_link} className={styles.readMore}>
-                                                Read More
+                                                {service.button_name}
                                             </Link>
                                         </div>
                                     </div>
