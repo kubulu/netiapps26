@@ -8,163 +8,10 @@ import SearchOverlay from '@/components/SearchOverlay';
 import { ChevronDown } from 'lucide-react';
 
 // Navigation data structure
-const navigationData = {
-    about: {
-        title: 'About',
-        items: [
-            { label: 'About NetiApps', href: '/about' },
-            { label: 'Engagement Model', href: '/about/engagement-model' },
-            { label: 'Development Process', href: '/about/development-process' },
-            { label: 'Clients', href: '/about/clients' },
-            { label: 'Terms of Use', href: '/about/terms-of-use' },
-            { label: 'Privacy Policy', href: '/about/privacy-policy' },
-        ]
-    },
-    services: {
-        title: 'Services',
-        megaMenu: [
-            {
-                title: 'Digital Strategy and Consulting',
-                href: '/services/digital-strategy',
-                items: [
-                    'Digital Transformation Consulting',
-                    'Product & Platform Strategy',
-                    'Business Process Analysis & Optimization',
-                    'Technology Road mapping',
-                    'AI Adoption & Readiness Assessment'
-                ]
-            },
-            {
-                title: 'Web Development Services',
-                href: '/services/web-development',
-                items: [
-                    'Corporate & Enterprise Websites',
-                    'Custom Web Application Development',
-                    'CMS Development (WordPress, Headless CMS)',
-                    'Progressive Web Apps (PWA)',
-                    'Portal & Dashboard Development',
-                    'Website Revamp & Performance Optimization'
-                ]
-            },
-            {
-                title: 'Mobile App Development',
-                href: '/services/mobile-development',
-                items: [
-                    'Native iOS & Android Apps',
-                    'Cross-Platform Apps (Flutter, React Native)',
-                    'Enterprise Mobility Solutions',
-                    'App Modernization & Migration',
-                    'UI/UX-Focused App Design'
-                ]
-            },
-            {
-                title: 'Custom Software Development',
-                href: '/services/custom-software',
-                items: [
-                    'Enterprise Software Solutions',
-                    'SaaS Product Development',
-                    'Microservices Architecture',
-                    'API Development & Integration',
-                    'Legacy System Modernization'
-                ]
-            },
-            {
-                title: 'Cloud and DevOps Services',
-                href: '/services/cloud-devops',
-                items: [
-                    'Cloud Migration (AWS, Azure, GCP)',
-                    'Cloud-Native Application Development',
-                    'DevOps & CI/CD Implementation',
-                    'Security & Compliance'
-                ]
-            },
-            {
-                title: 'UI/UX Experience Design',
-                href: '/services/ui-ux-design',
-                items: [
-                    'User Experience (UX) Strategy',
-                    'User Interface (UI) Design',
-                    'Design Systems',
-                    'Prototyping & Usability Testing',
-                    'Enterprise UX Optimization'
-                ]
-            },
-            {
-                title: 'Integration and API Services',
-                href: '/services/integration-api',
-                items: [
-                    'Third-Party System Integration',
-                    'ERP, CRM & HRMS Integration',
-                    'Payment, Logistics & CRM APIs',
-                    'Middleware & Integration Platforms'
-                ]
-            },
-            {
-                title: 'Maintenance and Managed Services',
-                href: '/services/maintenance',
-                items: [
-                    'Application Support & Maintenance',
-                    'Performance Monitoring',
-                    'Security Updates & Patching',
-                    'SLA-Based Managed Services'
-                ]
-            }
-        ]
-    },
-    solutions: {
-        title: 'Solutions',
-        megaMenu: [
-            {
-                title: 'AI and Intelligent Solutions',
-                href: '/solutions/ai-intelligent',
-                items: [
-                    'AI-Driven Business Automation',
-                    'Chatbots & Virtual Assistants',
-                    'Predictive Analytics & BI',
-                    'Machine Learning Models',
-                    'Recommendation Engines',
-                    'Computer Vision & NLP Solutions'
-                ]
-            },
-            {
-                title: 'Data Analytics and BI',
-                href: '/solutions/data-analytics',
-                items: [
-                    'Data Engineering & Warehousing',
-                    'Business Intelligence Dashboards',
-                    'Data Visualization',
-                    'Real-Time Reporting',
-                    'AI-Driven Insights'
-                ]
-            },
-            {
-                title: 'E-Commerce Solutions',
-                href: '/solutions/ecommerce',
-                items: [
-                    'Custom E-Commerce Development',
-                    'B2B & B2C Commerce Platforms',
-                    'Marketplace Development',
-                    'Payment Gateway & ERP Integration',
-                    'Subscription & SaaS Commerce',
-                    'E-Commerce Automation & Analytics'
-                ]
-            },
-            {
-                title: 'Business Process Automation',
-                href: '/solutions/business-automation',
-                items: [
-                    'Workflow Automation',
-                    'Robotic Process Automation (RPA)',
-                    'CRM & ERP Automation',
-                    'Document & Data Automation',
-                    'AI-Powered Decision Systems'
-                ]
-            }
-        ]
-    }
-};
 
-export default function Navbar() {
+export default function Navbar(nav: any) {
+    // console.log('Nav',nav);
+    const navigationData = nav.nav.navigation_data;
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
     const [activeServiceTab, setActiveServiceTab] = useState(0);
@@ -187,9 +34,9 @@ export default function Navbar() {
                 <div className="container d-flex align-items-center justify-content-between">
                     {/* Logo Section */}
                     <div className={styles.logoSection}>
-                        <Link href="/" className={styles.logoLink}>
+                        <Link href={nav.nav.logo.link} className={styles.logoLink}>
                             <Image
-                                src="/images/logo.svg"
+                                src={nav.nav.logo.img}
                                 alt="netiapps logo"
                                 width={180}
                                 height={60}
@@ -202,7 +49,7 @@ export default function Navbar() {
                     <div className={styles.navLinksWrapper}>
                         <ul className={styles.navLinks}>
                             <li>
-                                <Link href="/">Home</Link>
+                                <Link href={navigationData.home.link}>{navigationData.home.name}</Link>
                             </li>
 
                             {/* About Dropdown */}
@@ -212,14 +59,14 @@ export default function Navbar() {
                                 onMouseLeave={handleMouseLeave}
                             >
                                 <span className={styles.dropdownTrigger}>
-                                    About <ChevronDown size={16} />
+                                    {navigationData.about.title} <ChevronDown size={16} />
                                 </span>
                                 {activeDropdown === 'about' && (
                                     <div className={styles.dropdown}>
                                         <ul>
-                                            {navigationData.about.items.map((item, index) => (
+                                            {navigationData.about.menu_items.map((item: any, index: any) => (
                                                 <li key={index}>
-                                                    <Link href={item.href}>{item.label}</Link>
+                                                    <Link href={item.link}>{item.name}</Link>
                                                 </li>
                                             ))}
                                         </ul>
@@ -234,7 +81,7 @@ export default function Navbar() {
                                 onMouseLeave={handleMouseLeave}
                             >
                                 <span className={styles.dropdownTrigger}>
-                                    Services <ChevronDown size={16} />
+                                    {navigationData.services.title} <ChevronDown size={16} />
                                 </span>
                             </li>
 
@@ -245,12 +92,12 @@ export default function Navbar() {
                                 onMouseLeave={handleMouseLeave}
                             >
                                 <span className={styles.dropdownTrigger}>
-                                    Solutions <ChevronDown size={16} />
+                                    {navigationData.solutions.title} <ChevronDown size={16} />
                                 </span>
                             </li>
 
                             <li>
-                                <Link href="/careers">Careers</Link>
+                                <Link href={navigationData.career.link}>{navigationData.career.name}</Link>
                             </li>
                         </ul>
                     </div>
@@ -263,8 +110,8 @@ export default function Navbar() {
                             <Image src="/images/down.svg" alt="Dropdown" width={12} height={12} className="ms-1" />
                         </div>
 
-                        <Link href="/contact" className={styles.contactBtn}>
-                            Contact Us
+                        <Link href={navigationData.contact.link} className={styles.contactBtn}>
+                            {navigationData.contact.name}
                         </Link>
 
                         <button className={styles.searchBtn} onClick={() => setIsSearchOpen(true)}>
@@ -284,7 +131,7 @@ export default function Navbar() {
                     <div className={styles.tabContainer}>
                         {/* Left Tabs */}
                         <div className={styles.tabList}>
-                            {navigationData.services.megaMenu.map((category, index) => (
+                            {navigationData.services.mega_menu.map((category: any, index: any) => (
                                 <button
                                     key={index}
                                     className={`${styles.tab} ${activeServiceTab === index ? styles.activeTab : ''}`}
@@ -298,14 +145,14 @@ export default function Navbar() {
                         {/* Right Content */}
                         <div className={styles.tabContent}>
                             <Link
-                                href={navigationData.services.megaMenu[activeServiceTab].href}
+                                href={navigationData.services.mega_menu[activeServiceTab].link}
                                 className={styles.tabContentTitle}
                             >
-                                {navigationData.services.megaMenu[activeServiceTab].title}
+                                {navigationData.services.mega_menu[activeServiceTab].title}
                             </Link>
                             <ul className={styles.tabContentList}>
-                                {navigationData.services.megaMenu[activeServiceTab].items.map((item, idx) => (
-                                    <li key={idx}>{item}</li>
+                                {navigationData.services.mega_menu[activeServiceTab].menu_items.map((item: any, idx: any) => (
+                                    <li key={idx}>{item.name}</li>
                                 ))}
                             </ul>
                         </div>
@@ -323,7 +170,7 @@ export default function Navbar() {
                     <div className={styles.tabContainer}>
                         {/* Left Tabs */}
                         <div className={styles.tabList}>
-                            {navigationData.solutions.megaMenu.map((category, index) => (
+                            {navigationData.solutions.mega_menu.map((category: any, index: any) => (
                                 <button
                                     key={index}
                                     className={`${styles.tab} ${activeSolutionTab === index ? styles.activeTab : ''}`}
@@ -337,14 +184,14 @@ export default function Navbar() {
                         {/* Right Content */}
                         <div className={styles.tabContent}>
                             <Link
-                                href={navigationData.solutions.megaMenu[activeSolutionTab].href}
+                                href={navigationData.solutions.mega_menu[activeSolutionTab].link}
                                 className={styles.tabContentTitle}
                             >
-                                {navigationData.solutions.megaMenu[activeSolutionTab].title}
+                                {navigationData.solutions.mega_menu[activeSolutionTab].title}
                             </Link>
                             <ul className={styles.tabContentList}>
-                                {navigationData.solutions.megaMenu[activeSolutionTab].items.map((item, idx) => (
-                                    <li key={idx}>{item}</li>
+                                {navigationData.solutions.mega_menu[activeSolutionTab].menu_items.map((item: any, idx: any) => (
+                                    <li key={idx}>{item.name}</li>
                                 ))}
                             </ul>
                         </div>
