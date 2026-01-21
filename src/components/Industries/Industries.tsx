@@ -22,7 +22,9 @@ export default function Industries(industries: any) {
                                 className={styles.image}
                             />
                             <div className={styles.overlay}>
-                                <h3 className={styles.cardTitle}>{indus.title}</h3>
+                                {/* <h3 className={styles.cardTitle}>{indus.title}</h3> */}
+                                <h3 className={styles.cardTitle} style={{color: indus.text_color === 'light' ? '#ffffff' : undefined,}}> {indus.title} </h3>
+
                             </div>
                         </div>
                     ))}
