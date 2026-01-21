@@ -8,6 +8,8 @@ import { ReactNode } from "react";
 import { ApiService } from "../services/api.service";
 
 
+import Preloader from "@/components/Preloader/Preloader";
+
 const sora = Sora({ subsets: ["latin"] });
 
 export const metadata = {
@@ -20,17 +22,18 @@ interface RootLayoutProps {
 }
 
 export default async function RootLayout({ children }: RootLayoutProps) {
-     const baseUrl = new ApiService();
-    
-        const resFooter = await fetch(baseUrl.getBaseUrl() + "wp-json/wp/v2/footersection");
-        const resNav = await fetch(baseUrl.getBaseUrl() + "wp-json/wp/v2/navigationsection");
-    
-        const footer = await resFooter.json();
-        const nav = await resNav.json();
-        // console.log(footer);
+    const baseUrl = new ApiService();
+
+    const resFooter = await fetch(baseUrl.getBaseUrl() + "wp-json/wp/v2/footersection");
+    const resNav = await fetch(baseUrl.getBaseUrl() + "wp-json/wp/v2/navigationsection");
+
+    const footer = await resFooter.json();
+    const nav = await resNav.json();
+    // console.log(footer);
     return (
         <html lang="en">
             <body className={sora.className}>
+                <Preloader />
                 <Navbar nav={nav[0].acf} />
                 {children}
                 <Footer footer={footer[0].acf} />

@@ -1,5 +1,5 @@
 .section {
-    padding: 5rem 0;
+    padding: 2rem 0;
     background-color: var(--background);
 
     p {
@@ -70,6 +70,7 @@
     font-weight: 600;
     color: #fff;
     line-height: 1.2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .cardTitleDark {
@@ -77,12 +78,17 @@
     font-weight: 600;
     color: #1a1a1a;
     line-height: 1.2;
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
 }
 
 // Layout specifics
 .bigCard {
     flex: 1;
     height: 600px;
+
+    .cardTitle {
+        font-size: 2.5rem;
+    }
 }
 
 .rightColumn {
@@ -102,6 +108,7 @@
 
     .cardTitle {
         color: #1a1a1a;
+        text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
     }
 }
 
