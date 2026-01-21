@@ -13,8 +13,8 @@ export default function ClientLogos(client: any) {
                             <img
                                 src={client.logo}
                                 alt={client.name}
-                                width={110}
-                                height={60}
+                                width={200}
+                                height={100}
                                 className={styles.logo}
                             />
                         </div>

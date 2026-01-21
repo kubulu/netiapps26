@@ -20,7 +20,7 @@ export default function Footer(footer: any) {
                             {footer.footer.footer_top.title}
                         </h2>
                         <Link href={footer.footer.footer_top.link} className={styles.hireBtn}>
-                        {footer.footer.footer_top.button}
+                            {footer.footer.footer_top.button}
                         </Link>
                     </div>
                 </div>
@@ -28,17 +28,17 @@ export default function Footer(footer: any) {
                 {/* Main Footer Content */}
                 <div className={styles.footerContent}>
                     <div className="row">
-                            {footer.footer.menu.map((element: any, index: any)=>(
-                                <div className="col-lg-3 col-md-6 mb-4 mb-lg-0" key={index}>
-                                    <h3 className={styles.columnTitle}>{element.title}</h3>
-                                    {element.menu_list.map((ele: any, ind: any)=>(
+                        {footer.footer.menu.map((element: any, index: any) => (
+                            <div className="col-lg-3 col-md-6 mb-4 mb-lg-0" key={index}>
+                                <h3 className={styles.columnTitle}>{element.title}</h3>
+                                {element.menu_list.map((ele: any, ind: any) => (
                                     <ul className={styles.linkList} key={ind}>
                                         <li><Link href={ele.link}>{ele.name}</Link></li>
                                     </ul>
-                                    ))}
-                                    
-                                </div>
-                            ))}
+                                ))}
+
+                            </div>
+                        ))}
 
                         {/* Contact & Location */}
                         <div className="col-lg-3 col-md-6">
@@ -46,9 +46,8 @@ export default function Footer(footer: any) {
                                 {addresses.map((element: any, index: number) => (
                                     <button
                                         key={index}
-                                        className={`${styles.tabBtn} ${
-                                            activeCountry.country === element.country ? styles.active : ""
-                                        }`}
+                                        className={`${styles.tabBtn} ${activeCountry.country === element.country ? styles.active : ""
+                                            }`}
                                         onClick={() => setActiveCountry(element)}
                                     >
                                         {element.country}
@@ -67,10 +66,20 @@ export default function Footer(footer: any) {
                                     </a>
                                 </p>
                             </div>
-  
+
+                            <div className={styles.badgeWrapper}>
+                                <Image
+                                    src="/images/20YEARS.svg"
+                                    alt="20 Years of Excellence"
+                                    width={240}
+                                    height={100}
+                                    className={styles.badgeImage}
+                                />
+                            </div>
+
                             <div className={styles.certificates}>
-                                {footer.footer.certificates.map((element: any, index: any)=>(
-                                    <img key={index} src={element.img} alt={element.name} width={50} height={50} />  
+                                {footer.footer.certificates.map((element: any, index: any) => (
+                                    <img key={index} src={element.img} alt={element.name} width={50} height={50} />
                                 ))}
                             </div>
                         </div>

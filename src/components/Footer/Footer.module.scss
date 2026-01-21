@@ -123,6 +123,17 @@
     }
 }
 
+// Badge
+.badgeWrapper {
+    margin-top: 1.5rem;
+}
+
+.badgeImage {
+    width: 240px;
+    height: auto;
+    object-fit: contain;
+}
+
 // Certificates
 .certificates {
     display: flex;

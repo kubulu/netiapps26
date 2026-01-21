@@ -36,15 +36,7 @@ export default function Hero() {
                     </div>
                 </div>
 
-                <div className={styles.badgeWrapper}>
-                    <Image
-                        src="/images/20YEARS.svg"
-                        alt="20 Years of Excellence"
-                        width={340}
-                        height={140}
-                        className={styles.badgeImage}
-                    />
-                </div>
+
             </div>
         </section>
     );
