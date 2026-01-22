@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import styles from './Navbar.module.scss';
 import SearchOverlay from '@/components/SearchOverlay';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Menu, X } from 'lucide-react';
 
 // Navigation data structure
 
@@ -17,15 +17,47 @@ export default function Navbar(nav: any) {
     const [activeServiceTab, setActiveServiceTab] = useState(0);
     const [activeSolutionTab, setActiveSolutionTab] = useState(0);
 
+    // Mobile Menu State
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [expandedMobileMenu, setExpandedMobileMenu] = useState<string | null>(null);
+
+    // Language Dropdown State
+    const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
+    const languages = [
+        { code: 'EN', name: 'English', flag: '🇺🇸' },
+        { code: 'FR', name: 'French', flag: '🇫🇷' },
+        { code: 'DE', name: 'German', flag: '🇩🇪' },
+        { code: 'NL', name: 'Dutch', flag: '🇳🇱' },
+        { code: 'PT', name: 'Portuguese', flag: '🇵🇹' },
+        { code: 'IT', name: 'Italian', flag: '🇮🇹' },
+        { code: 'ES', name: 'Spanish', flag: '🇪🇸' },
+        { code: 'PL', name: 'Polish', flag: '🇵🇱' },
+        { code: 'SE', name: 'Swedish', flag: '🇸🇪' },
+        { code: 'FI', name: 'Finnish', flag: '🇫🇮' },
+    ];
+    const [selectedLanguage, setSelectedLanguage] = useState(languages[0]);
+
     const handleMouseEnter = (menu: string) => {
-        setActiveDropdown(menu);
-        // Reset tab to first item when opening dropdown
-        if (menu === 'services') setActiveServiceTab(0);
-        if (menu === 'solutions') setActiveSolutionTab(0);
+        if (window.innerWidth > 992) {
+            setActiveDropdown(menu);
+            if (menu === 'services') setActiveServiceTab(0);
+            if (menu === 'solutions') setActiveSolutionTab(0);
+        }
     };
 
     const handleMouseLeave = () => {
-        setActiveDropdown(null);
+        if (window.innerWidth > 992) {
+            setActiveDropdown(null);
+        }
+    };
+
+    const toggleMobileMenu = () => {
+        setIsMobileMenuOpen(!isMobileMenuOpen);
+        setExpandedMobileMenu(null); // Reset expanded on toggle
+    };
+
+    const toggleMobileAccordion = (menu: string) => {
+        setExpandedMobileMenu(expandedMobileMenu === menu ? null : menu);
     };
 
     return (
@@ -45,7 +77,7 @@ export default function Navbar(nav: any) {
                         </Link>
                     </div>
 
-                    {/* Center Links Section */}
+                    {/* Center Links Section (Desktop) */}
                     <div className={styles.navLinksWrapper}>
                         <ul className={styles.navLinks}>
                             <li>
@@ -104,10 +136,35 @@ export default function Navbar(nav: any) {
 
                     {/* Right Section Actions */}
                     <div className={styles.actionsSection}>
-                        <div className={styles.languageSelector}>
-                            <Image src="/images/solar_global-outline.svg" alt="Global" width={20} height={20} />
-                            <span className="ms-2">US-EN</span>
-                            <Image src="/images/down.svg" alt="Dropdown" width={12} height={12} className="ms-1" />
+                        <div
+                            className={styles.languageSelector}
+                            onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
+                            ref={(node) => {
+                                // Close dropdown when clicking outside logic could be added here or via a global click listener if needed
+                                // For simplicity we toggle on click
+                            }}
+                        >
+                            <span className="me-2 text-xl">{selectedLanguage.flag}</span>
+                            <span className="ms-1">{selectedLanguage.code}</span>
+                            <ChevronDown size={12} className="ms-1" />
+
+                            <div className={`${styles.languageDropdown} ${isLangDropdownOpen ? styles.open : ''}`}>
+                                <ul>
+                                    {languages.map((lang) => (
+                                        <li
+                                            key={lang.code}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setSelectedLanguage(lang);
+                                                setIsLangDropdownOpen(false);
+                                            }}
+                                        >
+                                            <span className="me-2">{lang.flag}</span>
+                                            {lang.name}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
                         </div>
 
                         <Link href={navigationData.contact.link} className={styles.contactBtn}>
@@ -117,11 +174,100 @@ export default function Navbar(nav: any) {
                         <button className={styles.searchBtn} onClick={() => setIsSearchOpen(true)}>
                             <Image src="/images/search.svg" alt="Search" width={18} height={18} />
                         </button>
+
+                        {/* Mobile Hamburger Toggle */}
+                        <button className={styles.mobileMenuToggle} onClick={toggleMobileMenu}>
+                            {isMobileMenuOpen ? <X size={24} color="#1a1a1a" /> : <Menu size={24} color="#1a1a1a" />}
+                        </button>
                     </div>
                 </div>
             </nav>
 
-            {/* Services Mega Menu Dropdown */}
+            {/* Mobile Menu Overlay */}
+            <div className={`${styles.mobileMenuOverlay} ${isMobileMenuOpen ? styles.open : ''}`}>
+                <div className="container">
+                    <ul className={styles.mobileNavList}>
+                        <li>
+                            <Link href={navigationData.home.link} onClick={toggleMobileMenu}>
+                                {navigationData.home.name}
+                            </Link>
+                        </li>
+
+                        {/* Mobile About */}
+                        <li className={styles.mobileNavItem}>
+                            <div className={styles.mobileNavHeader} onClick={() => toggleMobileAccordion('about')}>
+                                {navigationData.about.title}
+                                <ChevronDown size={16} className={expandedMobileMenu === 'about' ? styles.rotate : ''} />
+                            </div>
+                            <div className={`${styles.mobileSubMenu} ${expandedMobileMenu === 'about' ? styles.open : ''}`}>
+                                <ul>
+                                    {navigationData.about.menu_items.map((item: any, index: any) => (
+                                        <li key={index}>
+                                            <Link href={item.link} onClick={toggleMobileMenu}>{item.name}</Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </li>
+
+                        {/* Mobile Services */}
+                        <li className={styles.mobileNavItem}>
+                            <div className={styles.mobileNavHeader} onClick={() => toggleMobileAccordion('services')}>
+                                {navigationData.services.title}
+                                <ChevronDown size={16} className={expandedMobileMenu === 'services' ? styles.rotate : ''} />
+                            </div>
+                            <div className={`${styles.mobileSubMenu} ${expandedMobileMenu === 'services' ? styles.open : ''}`}>
+                                {navigationData.services.mega_menu.map((category: any, idx: number) => (
+                                    <div key={idx} className="mb-3">
+                                        <strong className="d-block text-dark mb-2">{category.title}</strong>
+                                        <ul className="list-unstyled ps-3">
+                                            {category.menu_items.map((item: any, i: number) => (
+                                                <li key={i} className="mb-1">
+                                                    <Link href={item.link || '#'} onClick={toggleMobileMenu} className="text-secondary text-decoration-none">
+                                                        {item.name}
+                                                    </Link>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                ))}
+                            </div>
+                        </li>
+
+                        {/* Mobile Solutions */}
+                        <li className={styles.mobileNavItem}>
+                            <div className={styles.mobileNavHeader} onClick={() => toggleMobileAccordion('solutions')}>
+                                {navigationData.solutions.title}
+                                <ChevronDown size={16} className={expandedMobileMenu === 'solutions' ? styles.rotate : ''} />
+                            </div>
+                            <div className={`${styles.mobileSubMenu} ${expandedMobileMenu === 'solutions' ? styles.open : ''}`}>
+                                {navigationData.solutions.mega_menu.map((category: any, idx: number) => (
+                                    <div key={idx} className="mb-3">
+                                        <strong className="d-block text-dark mb-2">{category.title}</strong>
+                                        <ul className="list-unstyled ps-3">
+                                            {category.menu_items.map((item: any, i: number) => (
+                                                <li key={i} className="mb-1">
+                                                    <Link href={item.link || '#'} onClick={toggleMobileMenu} className="text-secondary text-decoration-none">
+                                                        {item.name}
+                                                    </Link>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                ))}
+                            </div>
+                        </li>
+
+                        <li>
+                            <Link href={navigationData.career.link} onClick={toggleMobileMenu}>
+                                {navigationData.career.name}
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            {/* Desktop Services Mega Menu Dropdown */}
             {activeDropdown === 'services' && (
                 <div
                     className={`${styles.megaMenu} ${styles.servicesMenu}`}
@@ -160,7 +306,7 @@ export default function Navbar(nav: any) {
                 </div>
             )}
 
-            {/* Solutions Mega Menu Dropdown */}
+            {/* Desktop Solutions Mega Menu Dropdown */}
             {activeDropdown === 'solutions' && (
                 <div
                     className={`${styles.megaMenu} ${styles.solutionsMenu}`}
