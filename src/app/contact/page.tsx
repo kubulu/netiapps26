@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
     return (
         <main>
-            <InnerPageBanner
+            {/* <InnerPageBanner
                 tag="Contact Us"
                 title="Let's Build Something Amazing Together"
                 breadcrumbs={[
@@ -20,7 +20,7 @@ export default function ContactPage() {
                     { label: 'Contact Us' }
                 ]}
                 imageSrc="/images/contact-banner.png"
-            />
+            /> */}
 
 
             <OfficeLocations />

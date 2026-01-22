@@ -6,7 +6,7 @@ import Image from 'next/image';
 export default function CareersPage() {
     return (
         <main>
-            <InnerPageBanner
+            {/* <InnerPageBanner
                 tag="Careers"
                 title="Our people are our greatest asset."
                 breadcrumbs={[
@@ -14,7 +14,7 @@ export default function CareersPage() {
                     { label: 'Careers' }
                 ]}
                 imageSrc="/images/careers-banner.png"
-            />
+            /> */}
 
             <CareerCards />
 
@@ -31,7 +31,7 @@ export default function CareersPage() {
                 />
             </section>
 
-            <ConnectNow />
+            {/* <ConnectNow /> */}
         </main>
     );
 }

@@ -9,11 +9,12 @@ export const metadata: Metadata = {
     description: 'Trusted by leading companies across the globe. See who we have worked with.',
 };
 
-interface PageProps {
-    params: Promise<{ slug: string }>;
-}
+// interface PageProps {
+//     params: Promise<{ slug: string }>;
+// }
+export const dynamic = 'force-dynamic';
 
-export default async function ClientsPage({ params }: PageProps) {
+export default async function ClientsPage() {
     const baseUrl = new ApiService();
     let about: any[] = [];
 
