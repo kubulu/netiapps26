@@ -1,7 +1,6 @@
 .section {
     position: relative;
     min-height: 800px;
-    background-image: url('/images/whychoose.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -51,7 +50,6 @@
 
 @media (max-width: 991px) {
     .section {
-        background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/whychoose.png');
         min-height: auto;
         padding: 4rem 0;
     }

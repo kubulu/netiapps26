@@ -9,20 +9,52 @@ import { ApiService } from "../services/api.service";
 
 export default async function Home() {
     const baseUrl = new ApiService();
+    let home: any[] = [];
 
-    const resHome = await fetch(baseUrl.getBaseUrl() + "wp-json/wp/v2/homepagesection");
+    try {
+        const resHome = await fetch(
+            baseUrl.getBaseUrl() + "wp-json/wp/v2/homepagesection");
+        home = await resHome.json();
+    } catch (error) {
+        console.error("Home API error:", error);
+    }
 
-    const home = await resHome.json();
+    if (!home?.length || !home[0]?.acf) {
+        return (
+            <main style={{ textAlign: "center", padding: "150px 20px" }}>
+                <h2>Content not available</h2>
+                <p>Homepage content is not configured in the CMS.</p>
+            </main>
+        );
+    }
+
+    const acf = home[0].acf;
+
     return (
         <main>
-            <Hero />
-            <ClientLogos client={home[0].acf.client_logo} />
-            <Services services={home[0].acf.services} />
-            <Solutions solution={home[0].acf.solution}  />
-            <ClientSpeaks testimonials={home[0].acf.client} />
-            <Industries industries={home[0].acf.industry}/>
-            <LatestInsight />
-        </main>
+        <Hero />
+
+        {Array.isArray(acf.client_logo) && acf.client_logo.length > 0 && (
+            <ClientLogos client={acf.client_logo} />
+        )}
+
+        {acf.services && Object.keys(acf.services).length > 0 && (
+            <Services services={acf.services} />
+        )}
+
+        {acf.solution && Object.keys(acf.solution).length > 0 && (
+            <Solutions solution={acf.solution} />
+        )}
+
+        {acf.client?.feedback?.length > 0 && (
+            <ClientSpeaks testimonials={acf.client} />
+        )}
+
+        {acf.industry?.industry_section?.length > 0 && (
+            <Industries industries={acf.industry} />
+        )}
+
+        <LatestInsight />
+    </main>
     );
 }
-

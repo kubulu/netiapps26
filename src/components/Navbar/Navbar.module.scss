@@ -157,6 +157,7 @@
     z-index: 1001;
     width: 75%;
     margin: 0 auto;
+    pointer-events: auto;
 
     // Invisible bridge to prevent dropdown from closing
     &::before {
@@ -380,6 +381,9 @@
     &:hover {
         opacity: 0.8;
     }
+}
+.language{
+    border: none;
 }
 
 .contactBtn {

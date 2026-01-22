@@ -2,14 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from './ServiceHighlight.module.scss';
 
-export default function ServiceHighlight() {
-    const subServices = [
-        { label: "Digital Transformation Consulting", link: "/services/1" },
-        { label: "Product & Platform Strategy", link: "#" },
-        { label: "Business Process Analysis & Optimization", link: "#" },
-        { label: "Technology Road mapping", link: "#" },
-        { label: "AI Adoption & Readiness Assessment", link: "#" }
-    ];
+export default function ServiceHighlight(highlight: any) {
 
     return (
         <section className={styles.section}>
@@ -18,17 +11,15 @@ export default function ServiceHighlight() {
                     {/* Left Card */}
                     <div className="col-lg-6">
                         <div className={styles.leftCard}>
-                            <Link href="/services/1" className={styles.titleLink}>
                                 <h2 className={styles.title}>
-                                    Digital Strategy and<br /> Consulting
+                                    {highlight.highlight.title}
                                 </h2>
-                            </Link>
 
                             <ul className={styles.linkList}>
-                                {subServices.map((service, index) => (
+                                {highlight.highlight.sub_menu.map((service: any, index: any) => (
                                     <li key={index}>
                                         <Link href={service.link} className={styles.serviceLink}>
-                                            {service.label}
+                                            {service.lable}
                                             <span className={styles.arrow}>→</span>
                                         </Link>
                                     </li>
@@ -41,8 +32,8 @@ export default function ServiceHighlight() {
                     <div className="col-lg-6">
                         <div className={styles.rightCardWrapper}>
                             <div className={styles.imageOverlay}>
-                                <Image
-                                    src="/images/serviceImg.png"
+                                <img
+                                    src={highlight.highlight.image}
                                     alt="Service Illustration"
                                     width={500}
                                     height={400}
@@ -51,16 +42,7 @@ export default function ServiceHighlight() {
                             </div>
                             <div className={styles.rightCard}>
                                 <div className={styles.description}>
-                                    <p>
-                                        In a rapidly evolving digital landscape, technology alone is not enough.
-                                        Our Digital Strategy & Consulting services help organizations align
-                                        business goals with the right digital, AI, and automation
-                                        strategies—driving measurable impact, efficiency, and long-term growth.
-                                    </p>
-                                    <p>
-                                        We partner with enterprises to design, plan, and execute digital
-                                        transformation journeys that are practical, scalable, and future-ready.
-                                    </p>
+                                    <div dangerouslySetInnerHTML={{__html: highlight.highlight.description}} />
                                 </div>
                             </div>
                         </div>
