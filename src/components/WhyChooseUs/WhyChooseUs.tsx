@@ -30,7 +30,7 @@ const reasons = [
     }
 ];
 
-export default function WhyChooseUs() {
+export default function WhyChooseUs(why: any) {
     const scrollRef = useRef<HTMLDivElement>(null);
     const [isDragging, setIsDragging] = useState(false);
     const [startX, setStartX] = useState(0);
@@ -58,7 +58,7 @@ export default function WhyChooseUs() {
     return (
         <section className={styles.section}>
             <div className="container">
-                <h2 className={styles.title}>Why Choose Us</h2>
+                <h2 className={styles.title}>{why.why.title}</h2>
             </div>
 
             <div
@@ -70,10 +70,10 @@ export default function WhyChooseUs() {
                 onMouseMove={onMouseMove}
             >
                 <div className={styles.cardsRow}>
-                    {reasons.map((reason) => (
-                        <div key={reason.id} className={styles.card}>
+                    {why.why.reasons.map((reason: any, index: any) => (
+                        <div key={index} className={styles.card}>
                             <div className={styles.numberCircle}>
-                                {reason.id}
+                                {reason.number}
                             </div>
                             <p className={styles.content}>
                                 {reason.text}

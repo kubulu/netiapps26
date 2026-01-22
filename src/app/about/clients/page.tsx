@@ -1,65 +1,98 @@
 import type { Metadata } from 'next';
 import InnerPageBanner from '@/components/InnerPageBanner';
-import Image from 'next/image';
 import styles from './page.module.scss';
 import ClientSpeaks from '@/components/ClientSpeaks/ClientSpeaks';
+import { ApiService } from '@/services/api.service';
 
 export const metadata: Metadata = {
     title: 'Our Clients | NetiApps',
     description: 'Trusted by leading companies across the globe. See who we have worked with.',
 };
 
-const clients = [
-    { id: 1, name: 'Capgemini', logo: '/images/client1.png' },
-    { id: 4, name: 'Ujjivan', logo: '/images/client4.png' },
-    { id: 5, name: 'Frog', logo: '/images/client5.png' },
-    { id: 6, name: 'DTDC', logo: '/images/client6.png' },
-    { id: 2, name: 'Flipkart', logo: '/images/client2.png' },
-    { id: 3, name: 'Altran', logo: '/images/client3.png' },
-    { id: 7, name: 'Client 4', logo: '/images/client4.png' }, // Adding some duplicates to fill grid for demo
-    { id: 8, name: 'Client 1', logo: '/images/client1.png' },
-];
+// interface PageProps {
+//     params: Promise<{ slug: string }>;
+// }
+export const dynamic = 'force-dynamic';
 
-export default function ClientsPage() {
+export default async function ClientsPage() {
+    const baseUrl = new ApiService();
+    let about: any[] = [];
+
+    try {
+        const resAbout = await fetch(
+            baseUrl.getBaseUrl() + 'wp-json/wp/v2/about?slug=clients',
+            { cache: 'no-store' }
+        );
+        about = await resAbout.json();
+    } catch (error) {
+        console.error('Clients API error:', error);
+    }
+
+    // 🔴 Entire CMS data missing
+    if (!about?.length || !about[0]?.acf) {
+        return (
+            <main className={styles.emptyState}>
+                <h2>Content not available</h2>
+                <p>Clients page data is not configured in the CMS.</p>
+            </main>
+        );
+    }
+
+    const acf = about[0].acf;
+    const content = acf?.content?.[0];
+    const clientDetails = content?.client_details;
+
     return (
         <main>
-            <InnerPageBanner
-                tag="About Us"
-                title="Our Clients"
-                breadcrumbs={[
-                    { label: 'Home', link: '/' },
-                    { label: 'About', link: '#' },
-                    { label: 'Clients' }
-                ]}
-                imageSrc="/images/innerbanner.png"
-            />
+            {/* ✅ Banner */}
+            {acf?.banner && <InnerPageBanner banner={acf.banner} />}
 
-            <section className={styles.clientsSection}>
-                <div className="container">
-                    <div className={styles.description}>
-                        <p>
-                            We build long-term relationships with our clients by delivering exceptional value and quality.
-                            Our diverse portfolio spans across various industries, from startups to Fortune 500 companies.
-                        </p>
+            {/* ✅ Clients Section */}
+            {clientDetails && (
+                <section className={styles.clientsSection}>
+                    <div className="container">
+
+                        {/* Description */}
+                        {clientDetails?.description && (
+                            <div
+                                className={styles.description}
+                                dangerouslySetInnerHTML={{
+                                    __html: clientDetails.description,
+                                }}
+                            />
+                        )}
+
+                        {/* Logos */}
+                        {Array.isArray(clientDetails?.logo) &&
+                            clientDetails.logo.length > 0 && (
+                                <div className={styles.clientsGrid}>
+                                    {clientDetails.logo.map(
+                                        (client: any, index: number) => (
+                                            <div
+                                                key={index}
+                                                className={styles.clientCard}
+                                            >
+                                                <img
+                                                    src={client.image}
+                                                    alt={client.name || 'Client logo'}
+                                                    width={160}
+                                                    height={80}
+                                                    className={styles.logo}
+                                                />
+                                            </div>
+                                        )
+                                    )}
+                                </div>
+                            )}
                     </div>
+                </section>
+            )}
 
-                    <div className={styles.clientsGrid}>
-                        {clients.map((client) => (
-                            <div key={client.id} className={styles.clientCard}>
-                                <Image
-                                    src={client.logo}
-                                    alt={client.name}
-                                    width={160}
-                                    height={80}
-                                    className={styles.logo}
-                                />
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            <ClientSpeaks />
+            {/* ✅ Client Feedback */}
+            {Array.isArray(content?.feedback) &&
+                content.feedback.length > 0 && (
+                    <ClientSpeaks testimonials={content.feedback} />
+                )}
         </main>
     );
 }

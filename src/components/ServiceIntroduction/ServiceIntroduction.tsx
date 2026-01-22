@@ -1,3 +1,4 @@
+import { Inria_Sans } from 'next/font/google';
 import styles from './ServiceIntroduction.module.scss';
 
 interface ServiceIntroductionProps {
@@ -6,23 +7,20 @@ interface ServiceIntroductionProps {
     longDescription?: string;
 }
 
-export default function ServiceIntroduction({ title, description, longDescription }: ServiceIntroductionProps) {
+export default function ServiceIntroduction(intro: any) {
     return (
         <section className={styles.section}>
             <div className="container">
                 <div className="row align-items-center g-4">
                     <div className="col-lg-6">
                         <h2 className={styles.title}>
-                            {title}
+                            {intro.intro.title}
                         </h2>
                     </div>
                     <div className="col-lg-6">
                         <div className={styles.descriptionCard}>
                             <div className={styles.description}>
-                                <p>{description}</p>
-                                {longDescription && (
-                                    <div className={styles.longDesc} dangerouslySetInnerHTML={{ __html: longDescription }} />
-                                )}
+                               <div dangerouslySetInnerHTML={{__html: intro.intro.description}} />
                             </div>
                         </div>
                     </div>

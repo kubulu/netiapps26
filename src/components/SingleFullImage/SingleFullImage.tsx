@@ -5,11 +5,15 @@ import Image from 'next/image';
 import styles from './SingleFullImage.module.scss';
 
 interface SingleFullImageProps {
-    imageSrc?: string;
-    alt?: string;
-}
-
-export default function SingleFullImage({ imageSrc = '/images/singlefullimage.png', alt = 'Full Width Visual' }: SingleFullImageProps) {
+    image?: {
+      image: string;
+      text: string;
+    }[];
+  }
+  
+  export default function SingleFullImage({ image }: SingleFullImageProps) {
+  
+    console.log(image);
     const imageRef = useRef<HTMLImageElement>(null);
 
     useEffect(() => {
@@ -39,14 +43,11 @@ export default function SingleFullImage({ imageSrc = '/images/singlefullimage.pn
     return (
         <section className={styles.section}>
             <div className={styles.imageWrapper}>
-                <Image
-                    ref={imageRef}
-                    src={imageSrc}
-                    alt={alt}
-                    width={1920}
-                    height={1080}
-                    className={styles.mainImg}
-                />
+                {Array.isArray(image) && image.map((element, index) => (
+                    <div key={index}>
+                        <img ref={imageRef} src={element.image} alt={element.text} width={1920} height={1080} className={styles.mainImg} />
+                    </div>
+                ))}
             </div>
         </section>
     );

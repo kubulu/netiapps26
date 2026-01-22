@@ -105,7 +105,7 @@ function SearchResults() {
 
     return (
         <main>
-            <InnerPageBanner
+            {/* <InnerPageBanner
                 tag="Search"
                 title={query ? `Results for "${query}"` : "Search Our Site"}
                 breadcrumbs={[
@@ -113,7 +113,7 @@ function SearchResults() {
                     { label: 'Search' }
                 ]}
                 imageSrc="/images/innerbanner.png"
-            />
+            /> */}
 
             <section className={styles.container}>
                 <div className="container">

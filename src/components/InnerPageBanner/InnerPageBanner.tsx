@@ -10,14 +10,7 @@ interface Breadcrumb {
     link?: string;
 }
 
-interface InnerPageBannerProps {
-    tag: string;
-    title: string;
-    breadcrumbs: Breadcrumb[];
-    imageSrc: string;
-}
-
-export default function InnerPageBanner({ tag, title, breadcrumbs, imageSrc }: InnerPageBannerProps) {
+export default function InnerPageBanner(banner: any) {
     const containerRef = useRef<HTMLElement>(null);
     const imageWrapperRef = useRef<HTMLDivElement>(null);
 
@@ -53,23 +46,23 @@ export default function InnerPageBanner({ tag, title, breadcrumbs, imageSrc }: I
                 <div className={styles.headerRow}>
                     <div className={styles.leftCol}>
                         <div className={styles.tagPill}>
-                            {tag}
+                            {banner.banner.tag}
                         </div>
                         <h1 className={styles.title}>
-                            {title}
+                            {banner.banner.title}
                         </h1>
                     </div>
 
                     <div className={styles.rightCol}>
                         <nav className={styles.breadcrumbNav}>
-                            {breadcrumbs.map((item, index) => (
+                            {banner.banner.breadcrumbs.map((item: any, index: any) => (
                                 <span key={index} className={styles.breadcrumbItem}>
                                     {item.link ? (
                                         <Link href={item.link}>{item.label}</Link>
                                     ) : (
                                         <span className={styles.active}>{item.label}</span>
                                     )}
-                                    {index < breadcrumbs.length - 1 && (
+                                    {index < banner.banner.breadcrumbs.length - 1 && (
                                         <span className={styles.separator}>/</span>
                                     )}
                                 </span>
@@ -80,12 +73,11 @@ export default function InnerPageBanner({ tag, title, breadcrumbs, imageSrc }: I
 
                 {/* Banner Image Section */}
                 <div className={styles.imageWrapper} ref={imageWrapperRef}>
-                    <Image
-                        src={imageSrc}
-                        alt={title}
+                    <img
+                        src={banner.banner.image}
+                        alt={'banner'}
                         width={1400}
                         height={600}
-                        priority
                         className={styles.bannerImg}
                     />
                 </div>

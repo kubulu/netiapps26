@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from 'react';
+import { useLanguage } from "@/context/LanguageContext";
+import { useEffect, useState } from "react";
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from './Navbar.module.scss';
@@ -11,7 +12,34 @@ import { ChevronDown, Menu, X } from 'lucide-react';
 
 export default function Navbar(nav: any) {
     // console.log('Nav',nav);
-    const navigationData = nav.nav.navigation_data;
+    const { language, setLanguage, translate } = useLanguage();
+    const [translatedNav, setTranslatedNav] = useState<any>(null);
+    const navigationData = translatedNav || nav.nav.navigation_data;
+
+    useEffect(() => {
+        async function translateNav() {
+            if (!navigationData) return;
+
+            const translated = JSON.parse(JSON.stringify(navigationData));
+
+            translated.home.name = await translate(navigationData.home.name);
+            translated.about.title = await translate(navigationData.about.title);
+            translated.services.title = await translate(navigationData.services.title);
+            translated.solutions.title = await translate(navigationData.solutions.title);
+            translated.career.name = await translate(navigationData.career.name);
+            translated.contact.name = await translate(navigationData.contact.name);
+
+            for (const item of translated.about.menu_items) {
+                item.name = await translate(item.name);
+            }
+
+            setTranslatedNav(translated);
+        }
+
+        translateNav();
+    }, [language]);
+
+
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
     const [activeServiceTab, setActiveServiceTab] = useState(0);
@@ -167,6 +195,7 @@ export default function Navbar(nav: any) {
                             </div>
                         </div>
 
+
                         <Link href={navigationData.contact.link} className={styles.contactBtn}>
                             {navigationData.contact.name}
                         </Link>
@@ -283,7 +312,7 @@ export default function Navbar(nav: any) {
                                     className={`${styles.tab} ${activeServiceTab === index ? styles.activeTab : ''}`}
                                     onMouseEnter={() => setActiveServiceTab(index)}
                                 >
-                                    {category.title}
+                                    <a href={`/services/${category.link}`}> {category.title} </a>
                                 </button>
                             ))}
                         </div>
@@ -291,14 +320,14 @@ export default function Navbar(nav: any) {
                         {/* Right Content */}
                         <div className={styles.tabContent}>
                             <Link
-                                href={navigationData.services.mega_menu[activeServiceTab].link}
+                                href={`/services/${navigationData.services.mega_menu[activeServiceTab].link}`}
                                 className={styles.tabContentTitle}
                             >
                                 {navigationData.services.mega_menu[activeServiceTab].title}
                             </Link>
                             <ul className={styles.tabContentList}>
                                 {navigationData.services.mega_menu[activeServiceTab].menu_items.map((item: any, idx: any) => (
-                                    <li key={idx}>{item.name}</li>
+                                    <li key={idx}><a href={`/services/${item.link}`}>{item.name}</a></li>
                                 ))}
                             </ul>
                         </div>
@@ -322,7 +351,7 @@ export default function Navbar(nav: any) {
                                     className={`${styles.tab} ${activeSolutionTab === index ? styles.activeTab : ''}`}
                                     onMouseEnter={() => setActiveSolutionTab(index)}
                                 >
-                                    {category.title}
+                                    <a href={`/solutions/${category.link}`}> {category.title} </a>
                                 </button>
                             ))}
                         </div>
@@ -330,14 +359,14 @@ export default function Navbar(nav: any) {
                         {/* Right Content */}
                         <div className={styles.tabContent}>
                             <Link
-                                href={navigationData.solutions.mega_menu[activeSolutionTab].link}
+                                href={`/solutions/${navigationData.solutions.mega_menu[activeSolutionTab].link}`}
                                 className={styles.tabContentTitle}
                             >
                                 {navigationData.solutions.mega_menu[activeSolutionTab].title}
                             </Link>
                             <ul className={styles.tabContentList}>
                                 {navigationData.solutions.mega_menu[activeSolutionTab].menu_items.map((item: any, idx: any) => (
-                                    <li key={idx}>{item.name}</li>
+                                    <li key={idx}><a href={`/solutions/${item.link}`}>{item.name}</a></li>
                                 ))}
                             </ul>
                         </div>

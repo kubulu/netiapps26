@@ -1,0 +1,25 @@
+const API_KEY = 'AIzaSyAYkGhCPHcpmYGEgpyc1vFNoXt2Wc9SGzw';
+const ENDPOINT = "https://translation.googleapis.com/language/translate/v2";
+
+export async function translateText(
+  text: string,
+  targetLang: string
+): Promise<string> {
+  if (!text || targetLang === "en") return text;
+
+  const response = await fetch(
+    `${ENDPOINT}?key=${API_KEY}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        q: text,
+        target: targetLang,
+        format: "text",
+      }),
+    }
+  );
+
+  const data = await response.json();
+  return data.data.translations[0].translatedText;
+}

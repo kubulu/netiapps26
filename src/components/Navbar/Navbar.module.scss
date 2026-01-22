@@ -157,6 +157,7 @@
     z-index: 1001;
     width: 900px;
     margin: 0 auto;
+    pointer-events: auto;
     left: 50%;
     transform: translateX(-50%);
 
@@ -431,6 +432,9 @@
             }
         }
     }
+}
+.language{
+    border: none;
 }
 
 .contactBtn {

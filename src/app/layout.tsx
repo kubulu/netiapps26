@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ReactNode } from "react";
 import { ApiService } from "../services/api.service";
+import { LanguageProvider } from "@/context/LanguageContext";
 
 
 import Preloader from "@/components/Preloader/Preloader";
@@ -33,11 +34,12 @@ export default async function RootLayout({ children }: RootLayoutProps) {
     return (
         <html lang="en">
             <body className={sora.className}>
-                <Preloader />
-                <Navbar nav={nav[0].acf} />
-                {children}
-                <Footer footer={footer[0].acf} />
-                <BootstrapClient />
+                <LanguageProvider>
+                    <Navbar nav={nav[0].acf} />
+                    {children}
+                    <Footer footer={footer[0].acf} />
+                    <BootstrapClient />
+                </LanguageProvider>
             </body>
         </html>
     );

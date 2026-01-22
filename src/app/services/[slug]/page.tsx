@@ -1,0 +1,124 @@
+import InnerPageBanner from '@/components/InnerPageBanner';
+import styles from './page.module.scss';
+import Image from 'next/image';
+import Link from 'next/link';
+import LatestInsight from '@/components/LatestInsight';
+import ConnectNow from '@/components/ConnectNow';
+import CoreServices from '@/components/CoreServices';
+import WhyChooseUs from '@/components/WhyChooseUs';
+import WhatWeDo from '@/components/WhatWeDo';
+import ServiceHighlight from '@/components/ServiceHighlight';
+import ServiceIntroduction from '@/components/ServiceIntroduction';
+import ServiceDualList from '@/components/ServiceDualList';
+import SingleFullImage from '@/components/SingleFullImage';
+import SingleText from '@/components/SingleText';
+import WhyChoose from '@/components/WhyChoose';
+import { services } from '@/data/servicesData';
+import { ApiService } from '@/services/api.service';
+
+interface PageProps {
+    params: Promise<{ slug: string }>;
+}
+
+export default async function ServicesPage({ params }: PageProps) {
+    const baseUrl = new ApiService();
+    const { slug } = await params;
+
+    let Services: any[] = [];
+
+    try {
+        const resServices = await fetch(
+            baseUrl.getBaseUrl() + `wp-json/wp/v2/services?slug=${slug}`,
+            { cache: 'no-store' }
+        );
+
+        Services = await resServices.json();
+    } catch (error) {
+        console.error('Error fetching services:', error);
+    }
+
+    if (!Services?.length || !Services[0]?.acf) {
+        return (
+            <main className={styles.emptyState}>
+                <h2>Content not available</h2>
+                <p>Data is not available in your CMS for this service.</p>
+            </main>
+        );
+    }
+
+    const service = Services[0];
+
+    return (
+        <main>
+            {service?.acf?.banner && (
+                <InnerPageBanner banner={service.acf.banner} />
+            )}
+
+            {service?.acf?.content?.length > 0 ? (
+                service.acf.content.map((element: any, index: number) => (
+                    <div key={index}>
+                        {element.acf_fc_layout === 'main_page' && (
+                            <>
+                                {element.highlight && (
+                                    <ServiceHighlight highlight={element.highlight} />
+                                )}
+                                {element.what_we_do && (
+                                    <WhatWeDo content={element.what_we_do} />
+                                )}
+                                {element.why_choose_us && (
+                                    <WhyChooseUs why={element.why_choose_us} />
+                                )}
+                                {element.connect_now && (
+                                    <ConnectNow connect={element.connect_now} />
+                                )}
+                            </>
+                        )}
+
+                        {element.acf_fc_layout === 'inner_page' && (
+                            <>
+                                {element.introduction && (
+                                    <ServiceIntroduction intro={element.introduction} />
+                                )}
+
+                                {element.dual_list && (
+                                    <ServiceDualList data={element.dual_list} />
+                                )}
+
+                                {Array.isArray(element.single_image) &&
+                                    element.single_image.map((imgBlock: any, imgIndex: number) => (
+                                        <div key={imgIndex}>
+                                            <SingleFullImage image={[imgBlock]} />
+
+                                            {element.text_content?.[imgIndex] && (
+                                                <SingleText
+                                                    data={[element.text_content[imgIndex]]}
+                                                />
+                                            )}
+                                        </div>
+                                    ))}
+
+                                {element.why_choose && (
+                                    <WhyChoose data={element.why_choose} />
+                                )}
+
+                                {element.why_choose_us && (
+                                    <WhyChooseUs why={element.why_choose_us} />
+                                )}
+
+                                {element.connect_now && (
+                                    <ConnectNow connect={element.connect_now} />
+                                )}
+                            </>
+                        )}
+                    </div>
+                ))
+            ) : (
+                <div className={styles.emptyState}>
+                    <p>Content is not configured in your CMS.</p>
+                </div>
+            )}
+
+            <LatestInsight />
+        </main>
+    );
+}

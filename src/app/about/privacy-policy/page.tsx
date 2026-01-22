@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function PrivacyPolicy() {
     return (
         <main>
-            <InnerPageBanner
+            {/* <InnerPageBanner
                 tag="Legal"
                 title="Privacy Policy"
                 breadcrumbs={[
@@ -19,7 +19,7 @@ export default function PrivacyPolicy() {
                     { label: 'Privacy Policy' }
                 ]}
                 imageSrc="/images/innerbanner.png"
-            />
+            /> */}
 
             <section className={styles.container}>
                 <div className={styles.content}>

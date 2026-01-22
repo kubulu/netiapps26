@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function TermsOfUse() {
     return (
         <main>
-            <InnerPageBanner
+            {/* <InnerPageBanner
                 tag="Legal"
                 title="Terms of Use"
                 breadcrumbs={[
@@ -20,7 +20,7 @@ export default function TermsOfUse() {
                     { label: 'Terms of Use' }
                 ]}
                 imageSrc="/images/innerbanner.png"
-            />
+            /> */}
 
             <section className={styles.container}>
                 <div className={styles.content}>
