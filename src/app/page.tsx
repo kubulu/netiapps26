@@ -13,7 +13,7 @@ export default async function Home() {
 
     try {
         const resHome = await fetch(
-            baseUrl.getBaseUrl() + "wp-json/wp/v2/homepagesection");
+            baseUrl.getBaseUrl() + "wp-json/wp/v2/homepagesection", { cache: "no-store" });
         home = await resHome.json();
     } catch (error) {
         console.error("Home API error:", error);
@@ -32,7 +32,10 @@ export default async function Home() {
 
     return (
         <main>
-        <Hero />
+
+        {Array.isArray(acf.slides) && acf.slides.length > 0 && (
+            <Hero slides={acf.slides} />
+        )}
 
         {Array.isArray(acf.client_logo) && acf.client_logo.length > 0 && (
             <ClientLogos client={acf.client_logo} />

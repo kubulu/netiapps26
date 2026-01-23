@@ -1,15 +1,13 @@
 import { Sora } from "next/font/google";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.scss";
+
 import BootstrapClient from "@/components/BootstrapClient";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ReactNode } from "react";
 import { ApiService } from "../services/api.service";
 import { LanguageProvider } from "@/context/LanguageContext";
-
-
-import Preloader from "@/components/Preloader/Preloader";
 
 const sora = Sora({ subsets: ["latin"] });
 
@@ -22,22 +20,54 @@ interface RootLayoutProps {
     children: ReactNode;
 }
 
+
+async function safeFetch(url: string) {
+    try {
+        const res = await fetch(url, { cache: "no-store" });
+
+        if (!res.ok) {
+            console.error("CMS fetch failed:", url, res.status);
+            return null;
+        }
+
+        return await res.json();
+    } catch (error) {
+        console.error("CMS fetch error:", url, error);
+        return null;
+    }
+}
+
 export default async function RootLayout({ children }: RootLayoutProps) {
-    const baseUrl = new ApiService();
+    const baseUrl = new ApiService().getBaseUrl();
 
-    const resFooter = await fetch(baseUrl.getBaseUrl() + "wp-json/wp/v2/footersection");
-    const resNav = await fetch(baseUrl.getBaseUrl() + "wp-json/wp/v2/navigationsection");
+    const [footerRes, navRes] = await Promise.all([
+        safeFetch(`${baseUrl}wp-json/wp/v2/footersection`),
+        safeFetch(`${baseUrl}wp-json/wp/v2/navigationsection`),
+    ]);
 
-    const footer = await resFooter.json();
-    const nav = await resNav.json();
-    // console.log(footer);
+    const footerData = footerRes?.[0]?.acf ?? null;
+    const navData = navRes?.[0]?.acf ?? null;
+
     return (
         <html lang="en">
             <body className={sora.className}>
                 <LanguageProvider>
-                    <Navbar nav={nav[0].acf} />
+
+                    {navData ? (
+                        <Navbar nav={navData} />
+                    ) : (
+                        <div style={{ height: 80 }} /> 
+                    )}
+
                     {children}
-                    <Footer footer={footer[0].acf} />
+
+                    {footerData ? (
+                        <Footer footer={footerData} />
+                    ) : (
+                        <div className="text-center py-4 text-muted">
+                        </div>
+                    )}
+
                     <BootstrapClient />
                 </LanguageProvider>
             </body>

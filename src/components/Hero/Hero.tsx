@@ -9,24 +9,25 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
 
-const slides = [
-    {
-        id: 1,
-        title: <><strong>Empower</strong> Your<br /><strong>Enterprise</strong> with Next-<br />Gen <strong>Technology</strong></>,
-        description: "Empower Your Enterprise with Next-Gen Technology",
-        image: "/images/HERO1.png",
-        link: "/about"
-    },
-    {
-        id: 2,
-        title: <><strong>Transform</strong> Your<br /><strong>Business</strong> with Digital<br /><strong>Innovation</strong></>,
-        description: "Transform Your Business with Digital Innovation",
-        image: "/images/HERO1.png",
-        link: "/services"
-    }
-];
+// const slides = [
+//     {
+//         id: 1,
+//         title: <><strong>Empower</strong> Your<br /><strong>Enterprise</strong> with Next-<br />Gen <strong>Technology</strong></>,
+//         description: "Empower Your Enterprise with Next-Gen Technology",
+//         image: "/images/HERO1.png",
+//         link: "/about"
+//     },
+//     {
+//         id: 2,
+//         title: <><strong>Transform</strong> Your<br /><strong>Business</strong> with Digital<br /><strong>Innovation</strong></>,
+//         description: "Transform Your Business with Digital Innovation",
+//         image: "/images/HERO1.png",
+//         link: "/services"
+//     }
+// ];
 
-export default function Hero() {
+export default function Hero(slides: any) {
+    console.log(slides);
     return (
         <section className={styles.hero}>
             <Swiper
@@ -47,19 +48,19 @@ export default function Hero() {
                 }}
                 className={styles.swiperContainer}
             >
-                {slides.map((slide) => (
-                    <SwiperSlide key={slide.id}>
+                {slides.slides.map((slide: any, index: any) => (
+                    <SwiperSlide key={index}>
                         <div className="container h-100 position-relative">
                             <div className="row h-100 align-items-center">
                                 {/* Left Content */}
                                 <div className="col-lg-6">
                                     <div className={styles.content}>
-                                        <h1 className={styles.title}>
-                                            {slide.title}
-                                        </h1>
+                                        <div className={styles.title}>
+                                          <div dangerouslySetInnerHTML={{__html: slide.title}}/>
+                                        </div>
 
                                         <Link href={slide.link} className={styles.ctaBtn}>
-                                            Read More
+                                           {slide.button_name}
                                         </Link>
                                     </div>
                                 </div>
@@ -67,13 +68,7 @@ export default function Hero() {
                                 {/* Right Image/Illustration */}
                                 <div className="col-lg-6 position-relative h-100 d-none d-lg-block">
                                     <div className={styles.imageWrapper}>
-                                        <Image
-                                            src={slide.image}
-                                            alt={slide.description}
-                                            fill
-                                            priority
-                                            className={styles.heroImage}
-                                        />
+                                        <img src={slide.image} alt={slide.description} className={styles.heroImage} />
                                     </div>
                                 </div>
                             </div>

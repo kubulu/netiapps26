@@ -180,7 +180,7 @@ export default function Navbar(nav: any) {
                                     className={`${styles.tab} ${activeServiceTab === index ? styles.activeTab : ''}`}
                                     onMouseEnter={() => setActiveServiceTab(index)}
                                 >
-                                  <a href={`/services/${category.link}`}> {category.title} </a>
+                                  <a href={category.link}> {category.title} </a>
                                 </button>
                             ))}
                         </div>
@@ -188,14 +188,14 @@ export default function Navbar(nav: any) {
                         {/* Right Content */}
                         <div className={styles.tabContent}>
                             <Link
-                                href={`/services/${navigationData.services.mega_menu[activeServiceTab].link}`}
+                                href={navigationData.services.mega_menu[activeServiceTab].link}
                                 className={styles.tabContentTitle}
                             >
                                 {navigationData.services.mega_menu[activeServiceTab].title}
                             </Link>
                             <ul className={styles.tabContentList}>
                                 {navigationData.services.mega_menu[activeServiceTab].menu_items.map((item: any, idx: any) => (
-                                    <li key={idx}><a href={`/services/${item.link}`}>{item.name}</a></li>
+                                    <li key={idx}><a href={item.link}>{item.name}</a></li>
                                 ))}
                             </ul>
                         </div>
@@ -219,7 +219,7 @@ export default function Navbar(nav: any) {
                                     className={`${styles.tab} ${activeSolutionTab === index ? styles.activeTab : ''}`}
                                     onMouseEnter={() => setActiveSolutionTab(index)}
                                 >
-                                   <a href={`/solutions/${category.link}`}> {category.title} </a>
+                                   <a href={category.link}> {category.title} </a>
                                 </button>
                             ))}
                         </div>
@@ -227,14 +227,14 @@ export default function Navbar(nav: any) {
                         {/* Right Content */}
                         <div className={styles.tabContent}>
                             <Link
-                                href={`/solutions/${navigationData.solutions.mega_menu[activeSolutionTab].link}`}
+                                href={navigationData.solutions.mega_menu[activeSolutionTab].link}
                                 className={styles.tabContentTitle}
                             >
                                 {navigationData.solutions.mega_menu[activeSolutionTab].title}
                             </Link>
                             <ul className={styles.tabContentList}>
                                 {navigationData.solutions.mega_menu[activeSolutionTab].menu_items.map((item: any, idx: any) => (
-                                    <li key={idx}><a href={`/solutions/${item.link}`}>{item.name}</a></li>
+                                    <li key={idx}><a href={item.link}>{item.name}</a></li>
                                 ))}
                             </ul>
                         </div>
