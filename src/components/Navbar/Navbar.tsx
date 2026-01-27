@@ -1,12 +1,13 @@
 "use client";
 
-import { useLanguage } from "@/context/LanguageContext";
+import { cachedTranslate, useLanguage } from "@/context/LanguageContext";
 import { useEffect, useState } from "react";
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from './Navbar.module.scss';
 import SearchOverlay from '@/components/SearchOverlay';
 import { ChevronDown, Menu, X } from 'lucide-react';
+import { Language } from "@/types/language";
 
 // Navigation data structure
 
@@ -14,31 +15,61 @@ export default function Navbar(nav: any) {
     // console.log('Nav',nav);
     const { language, setLanguage, translate } = useLanguage();
     const [translatedNav, setTranslatedNav] = useState<any>(null);
-    const navigationData = translatedNav || nav.nav.navigation_data;
+
+    // const originalNav = nav.nav.navigation_data;
+    const [originalNav] = useState(nav.nav.navigation_data);
+
+    const navigationData = translatedNav || originalNav;
 
     useEffect(() => {
         async function translateNav() {
-            if (!navigationData) return;
-
-            const translated = JSON.parse(JSON.stringify(navigationData));
-
-            translated.home.name = await translate(navigationData.home.name);
-            translated.about.title = await translate(navigationData.about.title);
-            translated.services.title = await translate(navigationData.services.title);
-            translated.solutions.title = await translate(navigationData.solutions.title);
-            translated.career.name = await translate(navigationData.career.name);
-            translated.contact.name = await translate(navigationData.contact.name);
-
-            for (const item of translated.about.menu_items) {
-                item.name = await translate(item.name);
-            }
-
-            setTranslatedNav(translated);
+          if (!originalNav) return;
+      
+          if (language.toUpperCase() === "EN") {
+            setTranslatedNav(null);
+            return;
+          }
+      
+          const translated = JSON.parse(JSON.stringify(originalNav));
+          const tasks: Promise<any>[] = [];
+      
+          const t = (text: string) =>
+            cachedTranslate(text, language, translate);
+      
+          tasks.push(
+            t(originalNav.home.name).then((r: any) => translated.home.name = r),
+            t(originalNav.about.title).then((r: any) => translated.about.title = r),
+            t(originalNav.services.title).then((r: any) => translated.services.title = r),
+            t(originalNav.solutions.title).then((r: any) => translated.solutions.title = r),
+            t(originalNav.career.name).then((r: any) => translated.career.name = r),
+            t(originalNav.contact.name).then((r: any) => translated.contact.name = r)
+          );
+      
+          translated.about.menu_items.forEach((item: any) => {
+            tasks.push(t(item.name).then((r: any) => item.name = r));
+          });
+      
+          translated.services.mega_menu.forEach((cat: any) => {
+            tasks.push(t(cat.title).then((r: any) => cat.title = r));
+            cat.menu_items.forEach((item: any) => {
+              tasks.push(t(item.name).then((r: any) => item.name = r));
+            });
+          });
+      
+          translated.solutions.mega_menu.forEach((cat: any) => {
+            tasks.push(t(cat.title).then((r: any) => cat.title = r));
+            cat.menu_items.forEach((item: any) => {
+              tasks.push(t(item.name).then((r: any) => item.name = r));
+            });
+          });
+      
+          await Promise.all(tasks);
+          setTranslatedNav(translated);
         }
-
+      
         translateNav();
-    }, [language]);
-
+      }, [language]);
+      
 
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -51,19 +82,23 @@ export default function Navbar(nav: any) {
 
     // Language Dropdown State
     const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
-    const languages = [
-        { code: 'EN', name: 'English', flag: '🇺🇸' },
-        { code: 'FR', name: 'French', flag: '🇫🇷' },
-        { code: 'DE', name: 'German', flag: '🇩🇪' },
-        { code: 'NL', name: 'Dutch', flag: '🇳🇱' },
-        { code: 'PT', name: 'Portuguese', flag: '🇵🇹' },
-        { code: 'IT', name: 'Italian', flag: '🇮🇹' },
-        { code: 'ES', name: 'Spanish', flag: '🇪🇸' },
-        { code: 'PL', name: 'Polish', flag: '🇵🇱' },
-        { code: 'SE', name: 'Swedish', flag: '🇸🇪' },
-        { code: 'FI', name: 'Finnish', flag: '🇫🇮' },
-    ];
-    const [selectedLanguage, setSelectedLanguage] = useState(languages[0]);
+    
+    const languages: { code: Language; name: string; flag: string }[] = [
+        { code: "EN", name: "English", flag: "🇺🇸" },
+        { code: "FR", name: "French", flag: "🇫🇷" },
+        { code: "DE", name: "German", flag: "🇩🇪" },
+        { code: "NL", name: "Dutch", flag: "🇳🇱" },
+        { code: "PT", name: "Portuguese", flag: "🇵🇹" },
+        { code: "IT", name: "Italian", flag: "🇮🇹" },
+        { code: "ES", name: "Spanish", flag: "🇪🇸" },
+        { code: "PL", name: "Polish", flag: "🇵🇱" },
+        { code: "SE", name: "Swedish", flag: "🇸🇪" },
+        { code: "FI", name: "Finnish", flag: "🇫🇮" },
+      ];
+    
+    // const [selectedLanguage, setSelectedLanguage] = useState(languages[0]);
+    const selectedLanguage = languages.find((l) => l.code === language) || languages[0];
+
 
     const handleMouseEnter = (menu: string) => {
         if (window.innerWidth > 992) {
@@ -183,7 +218,8 @@ export default function Navbar(nav: any) {
                                             key={lang.code}
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                setSelectedLanguage(lang);
+                                                // setSelectedLanguage(lang);
+                                                setLanguage(lang.code);
                                                 setIsLangDropdownOpen(false);
                                             }}
                                         >

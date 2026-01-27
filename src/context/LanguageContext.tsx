@@ -1,40 +1,33 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { translateText } from "@/services/translate.service";
+import { Language } from "@/types/language";
 
-type Language = "en" | "ta" | "hi" | "fr";
-
-interface ContextType {
+type LanguageContextType = {
   language: Language;
   setLanguage: (lang: Language) => void;
   translate: (text: string) => Promise<string>;
-}
+};
 
-const LanguageContext = createContext<ContextType | null>(null);
+const LanguageContext = createContext<LanguageContextType | null>(null);
 
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguageState] = useState<Language>("en");
+export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
+  const [language, setLanguage] = useState<Language>("EN");
 
+  // persist language
   useEffect(() => {
-    const saved = localStorage.getItem("site_lang") as Language;
-    if (saved) setLanguageState(saved);
+    const storedLang = localStorage.getItem("lang") as Language;
+    if (storedLang) setLanguage(storedLang);
   }, []);
 
-  const setLanguage = (lang: Language) => {
-    localStorage.setItem("site_lang", lang);
-    setLanguageState(lang);
-  };
+  useEffect(() => {
+    localStorage.setItem("lang", language);
+  }, [language]);
 
   const translate = async (text: string) => {
-    const cacheKey = `${language}_${text}`;
-
-    const cached = localStorage.getItem(cacheKey);
-    if (cached) return cached;
-
-    const translated = await translateText(text, language);
-    localStorage.setItem(cacheKey, translated);
-    return translated;
+    const target = language.toLowerCase(); // EN → en
+    return translateText(text, target);
   };
 
   return (
@@ -42,8 +35,20 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       {children}
     </LanguageContext.Provider>
   );
-}
+};
+const translationCache = new Map<string, string>();
 
+export async function cachedTranslate(text: string, lang: string, translateFn: any) {
+  const key = `${lang}:${text}`;
+
+  if (translationCache.has(key)) {
+    return translationCache.get(key)!;
+  }
+
+  const result = await translateFn(text);
+  translationCache.set(key, result);
+  return result;
+}
 export const useLanguage = () => {
   const ctx = useContext(LanguageContext);
   if (!ctx) throw new Error("useLanguage must be used inside LanguageProvider");

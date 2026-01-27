@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "./Footer.module.scss";
 import { useEffect, useState } from "react";
-import { useLanguage } from "@/context/LanguageContext";
+import { cachedTranslate, useLanguage } from "@/context/LanguageContext";
 
 export default function Footer(footer: any) {
   const { language, translate } = useLanguage();
@@ -12,51 +12,45 @@ export default function Footer(footer: any) {
   const originalFooter = footer.footer;
   const [translatedFooter, setTranslatedFooter] = useState(originalFooter);
 
-  /* ---------------- TRANSLATION LOGIC ---------------- */
   useEffect(() => {
     async function translateFooter() {
-      if (language === "en") {
+      if (language.toUpperCase() === "EN") {
         setTranslatedFooter(originalFooter);
         return;
       }
-
+  
       const translated = JSON.parse(JSON.stringify(originalFooter));
-
-      // Hire CTA
-      translated.footer_top.title = await translate(
-        originalFooter.footer_top.title
+      const tasks: Promise<any>[] = [];
+      const t = (text: string) =>
+        cachedTranslate(text, language, translate);
+  
+      tasks.push(
+        t(originalFooter.footer_top.title).then(r => translated.footer_top.title = r),
+        t(originalFooter.footer_top.button).then(r => translated.footer_top.button = r),
+        t(originalFooter.copyright).then(r => translated.copyright = r)
       );
-      translated.footer_top.button = await translate(
-        originalFooter.footer_top.button
-      );
-
-      // Footer menu columns
-      for (let column of translated.menu) {
-        column.title = await translate(column.title);
-
-        for (let item of column.menu_list) {
-          item.name = await translate(item.name);
-        }
-      }
-
-      // Addresses
-      for (let addr of translated.address_field) {
-        addr.country = await translate(addr.country);
-        addr.address = await translate(addr.address);
-      }
-
-      // Copyright
-      translated.copyright = await translate(
-        originalFooter.copyright
-      );
-
+  
+      translated.menu.forEach((column: any) => {
+        tasks.push(t(column.title).then(r => column.title = r));
+        column.menu_list.forEach((item: any) => {
+          tasks.push(t(item.name).then(r => item.name = r));
+        });
+      });
+  
+      translated.address_field.forEach((addr: any) => {
+        tasks.push(
+          t(addr.country).then(r => addr.country = r),
+          t(addr.address).then(r => addr.address = r)
+        );
+      });
+  
+      await Promise.all(tasks);
       setTranslatedFooter(translated);
     }
-
+  
     translateFooter();
-  }, [language, originalFooter, translate]);
-  /* --------------------------------------------------- */
-
+  }, [language]);
+  
   const addresses = translatedFooter.address_field;
 
   // Default first country

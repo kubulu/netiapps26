@@ -9,25 +9,8 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
 
-// const slides = [
-//     {
-//         id: 1,
-//         title: <><strong>Empower</strong> Your<br /><strong>Enterprise</strong> with Next-<br />Gen <strong>Technology</strong></>,
-//         description: "Empower Your Enterprise with Next-Gen Technology",
-//         image: "/images/HERO1.png",
-//         link: "/about"
-//     },
-//     {
-//         id: 2,
-//         title: <><strong>Transform</strong> Your<br /><strong>Business</strong> with Digital<br /><strong>Innovation</strong></>,
-//         description: "Transform Your Business with Digital Innovation",
-//         image: "/images/HERO1.png",
-//         link: "/services"
-//     }
-// ];
-
 export default function Hero(slides: any) {
-    console.log(slides);
+    // console.log(slides);
     return (
         <section className={styles.hero}>
             <Swiper

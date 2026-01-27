@@ -40,7 +40,7 @@ export default async function AbtPage({ params }: PageProps) {
     const about = About[0];
     const content = about?.acf.content?.[0];
     const clientDetails = content?.client_details;
-console.log(about);
+    // console.log(about);
     return (
         <main>
             {about?.acf?.banner && (
@@ -52,42 +52,42 @@ console.log(about);
                     <div key={index}>
                         {element.acf_fc_layout === 'client' && (
                             <section className={styles.clientsSection}>
-                            <div className="container">
-        
-                                {/* Description */}
-                                {clientDetails?.description && (
-                                    <div
-                                        className={styles.description}
-                                        dangerouslySetInnerHTML={{
-                                            __html: clientDetails.description,
-                                        }}
-                                    />
-                                )}
-        
-                                {/* Logos */}
-                                {Array.isArray(clientDetails?.logo) &&
-                                    clientDetails.logo.length > 0 && (
-                                        <div className={styles.clientsGrid}>
-                                            {clientDetails.logo.map(
-                                                (client: any, index: number) => (
-                                                    <div
-                                                        key={index}
-                                                        className={styles.clientCard}
-                                                    >
-                                                        <img
-                                                            src={client.image}
-                                                            alt={client.name || 'Client logo'}
-                                                            width={160}
-                                                            height={80}
-                                                            className={styles.logo}
-                                                        />
-                                                    </div>
-                                                )
-                                            )}
-                                        </div>
+                                <div className="container">
+            
+                                    {/* Description */}
+                                    {clientDetails?.description && (
+                                        <div
+                                            className={styles.description}
+                                            dangerouslySetInnerHTML={{
+                                                __html: clientDetails.description,
+                                            }}
+                                        />
                                     )}
-                            </div>
-                        </section>
+            
+                                    {/* Logos */}
+                                    {Array.isArray(clientDetails?.logo) &&
+                                        clientDetails.logo.length > 0 && (
+                                            <div className={styles.clientsGrid}>
+                                                {clientDetails.logo.map(
+                                                    (client: any, index: number) => (
+                                                        <div
+                                                            key={index}
+                                                            className={styles.clientCard}
+                                                        >
+                                                            <img
+                                                                src={client.image}
+                                                                alt={client.name || 'Client logo'}
+                                                                width={160}
+                                                                height={80}
+                                                                className={styles.logo}
+                                                            />
+                                                        </div>
+                                                    )
+                                                )}
+                                            </div>
+                                        )}
+                                </div>
+                            </section>
                         )}
 
                         {element.acf_fc_layout === 'policy' && (
