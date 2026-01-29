@@ -20,7 +20,7 @@ export default function DottedWave({ color = "rgba(51, 51, 51, 0.3)" }: DottedWa
         let time = 0;
 
         // Grid configuration
-        const DOT_GAP = 10; // Wider gap for grid looks better
+        const DOT_GAP = 10; // Gap between dots
         const FIELD_OF_VIEW = 1900;
 
         // Canvas state
@@ -75,16 +75,9 @@ export default function DottedWave({ color = "rgba(51, 51, 51, 0.3)" }: DottedWa
 
         const draw = () => {
             ctx.clearRect(0, 0, width, height);
-            ctx.strokeStyle = color;
+            ctx.fillStyle = color;
 
             // Calculate all projected points first
-            // We store them in a 1D array for performance: p[r * cols + c]
-            // or just calculate "current" and "next" on the fly?
-            // For grid lines, we need (r, c) to connect to (r, c+1) and (r+1, c).
-
-            // Optimization: We can compute just the current row and the previous row to save memory?
-            // But grid is small enough (~50x30 points), full array is fine.
-
             const projected = new Array(rows * cols);
 
             for (let r = 0; r < rows; r++) {
@@ -100,27 +93,15 @@ export default function DottedWave({ color = "rgba(51, 51, 51, 0.3)" }: DottedWa
                     const curr = projected[r * cols + c];
                     if (curr.scale <= 0) continue; // Behind camera
 
-                    // Draw Horizontal Line (to right neighbor)
-                    if (c < cols - 1) {
-                        const right = projected[r * cols + c + 1];
-                        if (right.scale > 0) {
-                            ctx.moveTo(curr.x, curr.y);
-                            ctx.lineTo(right.x, right.y);
-                        }
-                    }
+                    const size = 1.5 * curr.scale;
 
-                    // Draw Vertical Line (to bottom neighbor)
-                    if (r < rows - 1) {
-                        const bottom = projected[(r + 1) * cols + c];
-                        if (bottom.scale > 0) {
-                            ctx.moveTo(curr.x, curr.y);
-                            ctx.lineTo(bottom.x, bottom.y);
-                        }
-                    }
+                    // Draw Dot
+                    ctx.moveTo(curr.x + size, curr.y);
+                    ctx.arc(curr.x, curr.y, size, 0, Math.PI * 2);
                 }
             }
 
-            ctx.stroke();
+            ctx.fill();
 
             time += 0.015;
             animationFrameId = requestAnimationFrame(draw);
