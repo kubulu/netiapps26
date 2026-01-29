@@ -1,51 +1,18 @@
 import Link from 'next/link';
 import styles from './CareerCards.module.scss';
 
-const jobListings = [
-    {
-        id: 1,
-        title: 'Sr. WordPress Developer',
-        location: 'Bangalore'
-    },
-    {
-        id: 2,
-        title: 'Senior PHP Laravel Developer',
-        location: 'Bangalore'
-    },
-    {
-        id: 3,
-        title: 'Sr. Full Stack/ Full Stack Developer',
-        location: 'Bangalore'
-    },
-    {
-        id: 4,
-        title: 'Business Analyst',
-        location: 'Bangalore'
-    },
-    {
-        id: 5,
-        title: 'PHP Developer',
-        location: 'Bangalore'
-    },
-    {
-        id: 6,
-        title: 'Sr. Designer',
-        location: 'Bangalore'
-    }
-];
-
-export default function CareerCards() {
+export default function CareerCards(jobList: any) {
     return (
         <section className={styles.section}>
             <div className="container">
                 <div className={styles.grid}>
-                    {jobListings.map((job) => (
-                        <div key={job.id} className={styles.card}>
+                    {jobList.jobList.map((job: any, index: any) => (
+                        <div key={index} className={styles.card}>
                             <div className={styles.cardContent}>
                                 <h3 className={styles.jobTitle}>{job.title}</h3>
                                 <p className={styles.location}>{job.location}</p>
                             </div>
-                            <Link href={`/careers/${job.id}`} className={styles.applyLink}>
+                            <Link href={job.link} className={styles.applyLink}>
                                 Apply Now
                                 <svg
                                     width="20"

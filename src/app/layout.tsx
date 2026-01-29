@@ -70,6 +70,9 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 
                     <BootstrapClient />
                 </LanguageProvider>
+                {/* <!-- Start of HubSpot Embed Code --> */}
+                <script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/245019687.js"></script>
+                {/* <!-- End of HubSpot Embed Code --> */}
             </body>
         </html>
     );
