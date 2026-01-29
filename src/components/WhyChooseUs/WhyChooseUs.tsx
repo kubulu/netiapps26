@@ -1,88 +1,43 @@
-"use client";
+import Image from "next/image";
+import styles from "./WhyChooseUs.module.scss";
 
-import { useRef, useState } from 'react';
-import styles from './WhyChooseUs.module.scss';
-
-const reasons = [
-    {
-        id: '01',
-        text: 'Strategy-led, execution-focused approach'
-    },
-    {
-        id: '02',
-        text: 'Deep expertise in web, mobile, AI, and automation'
-    },
-    {
-        id: '03',
-        text: 'Enterprise-grade delivery standards'
-    },
-    {
-        id: '04',
-        text: 'Client-centric solutions with a focus on ROI'
-    },
-    {
-        id: '05',
-        text: '24/7 support and proactive maintenance'
-    },
-    {
-        id: '06',
-        text: 'Scalable and future-proof technology stack'
-    }
-];
-
-export default function WhyChooseUs(why: any) {
-    const scrollRef = useRef<HTMLDivElement>(null);
-    const [isDragging, setIsDragging] = useState(false);
-    const [startX, setStartX] = useState(0);
-    const [scrollLeft, setScrollLeft] = useState(0);
-
-    const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!scrollRef.current) return;
-        setIsDragging(true);
-        setStartX(e.pageX - scrollRef.current.offsetLeft);
-        setScrollLeft(scrollRef.current.scrollLeft);
-    };
-
-    const onMouseUp = () => {
-        setIsDragging(false);
-    };
-
-    const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!isDragging || !scrollRef.current) return;
-        e.preventDefault();
-        const x = e.pageX - scrollRef.current.offsetLeft;
-        const walk = (x - startX) * 2; // Scroll speed
-        scrollRef.current.scrollLeft = scrollLeft - walk;
-    };
-
+export default function WhyChooseUs() {
     return (
         <section className={styles.section}>
-            <div className="container">
-                <h2 className={styles.title}>{why.why.title}</h2>
-            </div>
-
-            <div
-                className={styles.scrollWrapper}
-                ref={scrollRef}
-                onMouseDown={onMouseDown}
-                onMouseLeave={onMouseUp}
-                onMouseUp={onMouseUp}
-                onMouseMove={onMouseMove}
-            >
-                <div className={styles.cardsRow}>
-                    {why.why.reasons.map((reason: any, index: any) => (
-                        <div key={index} className={styles.card}>
-                            <div className={styles.numberCircle}>
-                                {reason.number}
-                            </div>
-                            <p className={styles.content}>
-                                {reason.text}
-                            </p>
+            <div className={styles.container}>
+                <div className={styles.contentWrapper}>
+                    <div className={styles.imageCol}>
+                        <div className={styles.imageContainer}>
+                            <Image
+                                src="/images/whychooseus.png"
+                                alt="Why Choose Us"
+                                fill
+                                quality={90}
+                                priority
+                            />
                         </div>
-                    ))}
+                    </div>
+                    <div className={styles.textCol}>
+                        <h2 className={styles.title}>Why Us</h2>
+                        <p className={styles.text}>
+                            NetiApps stands out for its precision and expertise, backed by a
+                            proven track record of delivering successful digital products across
+                            diverse industries. From concept to deployment, our team works
+                            closely with clients to create intuitive, creative, and
+                            high-performance solutions. With decades of development experience,
+                            we consistently deliver software on time and within budget, ensuring
+                            maximum value without compromising quality—whether the project is
+                            simple or complex.
+                        </p>
+                        <p className={styles.text}>
+                            Above all, our customer-first mindset drives everything we do. Our
+                            support teams bring deep domain knowledge and a strong focus on
+                            solving real business problems, ensuring every solution aligns with
+                            your goals and exceeds expectations.
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
     );
 }
-
