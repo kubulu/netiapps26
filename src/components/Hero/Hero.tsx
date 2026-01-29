@@ -8,6 +8,8 @@ import styles from "./Hero.module.scss";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
+import DottedWave from './DottedWave';
+
 
 import { useEffect, useState } from "react";
 import { cachedTranslate, useLanguage } from "@/context/LanguageContext";
@@ -17,6 +19,7 @@ export default function Hero(slides: any) {
 
   const originalSlides = slides.slides;
   const [translatedSlides, setTranslatedSlides] = useState(originalSlides);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     async function translateSlides() {
@@ -25,6 +28,7 @@ export default function Hero(slides: any) {
         setTranslatedSlides(originalSlides);
         return;
       }
+
 
       // Deep clone (same as Footer)
       const translated = JSON.parse(JSON.stringify(originalSlides));
@@ -62,24 +66,28 @@ export default function Hero(slides: any) {
 
   return (
     <section className={styles.hero}>
-      <Swiper
+    <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+        <DottedWave color="rgba(0, 0, 0, 0.1)" />
+    </div>
+    <Swiper
         modules={[Autoplay, Pagination, EffectFade]}
         effect="fade"
         fadeEffect={{ crossFade: true }}
         spaceBetween={0}
         slidesPerView={1}
         autoplay={{
-          delay: 5000,
-          disableOnInteraction: false,
+            delay: 5000,
+            disableOnInteraction: false,
         }}
         pagination={{
-          clickable: true,
-          el: ".custom-pagination",
-          bulletClass: `swiper-pagination-bullet ${styles.swiperBullet}`,
-          bulletActiveClass: `swiper-pagination-bullet-active ${styles.swiperBulletActive}`,
+            clickable: true,
+            el: '.custom-pagination',
+            bulletClass: `swiper-pagination-bullet ${styles.swiperBullet}`,
+            bulletActiveClass: `swiper-pagination-bullet-active ${styles.swiperBulletActive}`
         }}
         className={styles.swiperContainer}
-      >
+        onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
+    >
         {translatedSlides.map((slide: any, index: number) => (
           <SwiperSlide key={index}>
             <div className="container h-100 position-relative">
