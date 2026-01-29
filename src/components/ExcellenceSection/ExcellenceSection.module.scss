@@ -29,29 +29,30 @@
 .textCol {
     flex: 1;
     max-width: 600px;
-}
 
-.title {
-    font-size: 3.5rem;
-    font-weight: 500;
-    line-height: 1.2;
-    margin-bottom: 24px;
-
-    @media (max-width: 768px) {
-        font-size: 2.5rem;
+    h2 {
+        font-size: 3.5rem;
+        font-weight: 500;
+        line-height: 1.2;
+        margin-bottom: 24px;
+    
+        @media (max-width: 768px) {
+            font-size: 2.5rem;
+        }
+    }
+    
+    p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.8);
+        max-width: 500px;
+    
+        @media (max-width: 992px) {
+            margin: 0 auto;
+        }
     }
 }
 
-.description {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.8);
-    max-width: 500px;
-
-    @media (max-width: 992px) {
-        margin: 0 auto;
-    }
-}
 
 .imageCol {
     flex: 1;

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styles from "./MoreAboutCompany.module.scss";
 
-export default function MoreAboutCompany() {
+export default function MoreAboutCompany(about: any) {
     const items = [
         {
             title: "Scalable apps, made easy",
@@ -59,10 +59,10 @@ export default function MoreAboutCompany() {
         <section className={styles.section}>
             <div className={styles.container}>
                 <div className={styles.list}>
-                    {items.map((item, index) => (
+                    {about.about.map((item: any, index: any) => (
                         <div key={index} className={styles.item}>
                             <h3 className={styles.title}>{item.title}</h3>
-                            <div className={styles.description}>{item.description}</div>
+                            <div className={styles.description}><div dangerouslySetInnerHTML={{__html: item.description}} /></div>
                         </div>
                     ))}
                 </div>

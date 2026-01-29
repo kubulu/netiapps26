@@ -1,73 +1,135 @@
 "use client";
 
-import Image from 'next/image';
-import Link from 'next/link';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination, EffectFade } from 'swiper/modules';
-import styles from './Hero.module.scss';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/effect-fade';
+import Image from "next/image";
+import Link from "next/link";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination, EffectFade } from "swiper/modules";
+import styles from "./Hero.module.scss";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/effect-fade";
+
+import { useEffect, useState } from "react";
+import { cachedTranslate, useLanguage } from "@/context/LanguageContext";
 
 export default function Hero(slides: any) {
-    // console.log(slides);
-    return (
-        <section className={styles.hero}>
-            <Swiper
-                modules={[Autoplay, Pagination, EffectFade]}
-                effect="fade"
-                fadeEffect={{ crossFade: true }}
-                spaceBetween={0}
-                slidesPerView={1}
-                autoplay={{
-                    delay: 5000,
-                    disableOnInteraction: false,
-                }}
-                pagination={{
-                    clickable: true,
-                    el: '.custom-pagination',
-                    bulletClass: `swiper-pagination-bullet ${styles.swiperBullet}`,
-                    bulletActiveClass: `swiper-pagination-bullet-active ${styles.swiperBulletActive}`
-                }}
-                className={styles.swiperContainer}
-            >
-                {slides.slides.map((slide: any, index: any) => (
-                    <SwiperSlide key={index}>
-                        <div className="container h-100 position-relative">
-                            <div className="row h-100 align-items-center">
-                                {/* Left Content */}
-                                <div className="col-lg-6">
-                                    <div className={styles.content}>
-                                        <div className={styles.title}>
-                                          <div dangerouslySetInnerHTML={{__html: slide.title}}/>
-                                        </div>
+  const { language, translate } = useLanguage();
 
-                                        <Link href={slide.link} className={styles.ctaBtn}>
-                                           {slide.button_name}
-                                        </Link>
-                                    </div>
-                                </div>
+  const originalSlides = slides.slides;
+  const [translatedSlides, setTranslatedSlides] = useState(originalSlides);
 
-                                {/* Right Image/Illustration */}
-                                <div className="col-lg-6 position-relative h-100 d-none d-lg-block">
-                                    <div className={styles.imageWrapper}>
-                                        <img src={slide.image} alt={slide.description} className={styles.heroImage} />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </SwiperSlide>
-                ))}
+  useEffect(() => {
+    async function translateSlides() {
+      // If English → use original content
+      if (language.toUpperCase() === "EN") {
+        setTranslatedSlides(originalSlides);
+        return;
+      }
 
-                {/* Custom Pagination Container */}
-                <div className="container position-relative h-100 pointer-events-none">
-                    <div className="row h-100 align-items-center">
-                        <div className="col-lg-6">
-                            <div className={`${styles.paginationWrapper} custom-pagination`}></div>
-                        </div>
+      // Deep clone (same as Footer)
+      const translated = JSON.parse(JSON.stringify(originalSlides));
+      const tasks: Promise<any>[] = [];
+
+      const t = (text: string) =>
+        cachedTranslate(text, language, translate);
+
+      translated.forEach((slide: any) => {
+        if (slide.title) {
+          tasks.push(
+            t(slide.title).then((r) => (slide.title = r))
+          );
+        }
+
+        if (slide.button_name) {
+          tasks.push(
+            t(slide.button_name).then((r) => (slide.button_name = r))
+          );
+        }
+
+        if (slide.description) {
+          tasks.push(
+            t(slide.description).then((r) => (slide.description = r))
+          );
+        }
+      });
+
+      await Promise.all(tasks);
+      setTranslatedSlides(translated);
+    }
+
+    translateSlides();
+  }, [language, originalSlides]);
+
+  return (
+    <section className={styles.hero}>
+      <Swiper
+        modules={[Autoplay, Pagination, EffectFade]}
+        effect="fade"
+        fadeEffect={{ crossFade: true }}
+        spaceBetween={0}
+        slidesPerView={1}
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false,
+        }}
+        pagination={{
+          clickable: true,
+          el: ".custom-pagination",
+          bulletClass: `swiper-pagination-bullet ${styles.swiperBullet}`,
+          bulletActiveClass: `swiper-pagination-bullet-active ${styles.swiperBulletActive}`,
+        }}
+        className={styles.swiperContainer}
+      >
+        {translatedSlides.map((slide: any, index: number) => (
+          <SwiperSlide key={index}>
+            <div className="container h-100 position-relative">
+              <div className="row h-100 align-items-center">
+                {/* Left Content */}
+                <div className="col-lg-6">
+                  <div className={styles.content}>
+                    <div className={styles.title}>
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: slide.title,
+                        }}
+                      />
                     </div>
+
+                    <Link
+                      href={slide.link}
+                      className={styles.ctaBtn}
+                    >
+                      {slide.button_name}
+                    </Link>
+                  </div>
                 </div>
-            </Swiper>
-        </section>
-    );
+
+                {/* Right Image */}
+                <div className="col-lg-6 position-relative h-100 d-none d-lg-block">
+                  <div className={styles.imageWrapper}>
+                    <img
+                      src={slide.image}
+                      alt={slide.description}
+                      className={styles.heroImage}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </SwiperSlide>
+        ))}
+
+        {/* Custom Pagination */}
+        <div className="container position-relative h-100 pointer-events-none">
+          <div className="row h-100 align-items-center">
+            <div className="col-lg-6">
+              <div
+                className={`${styles.paginationWrapper} custom-pagination`}
+              ></div>
+            </div>
+          </div>
+        </div>
+      </Swiper>
+    </section>
+  );
 }

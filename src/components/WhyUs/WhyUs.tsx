@@ -1,23 +1,19 @@
 import Image from "next/image";
-import styles from "./Leadership.module.scss";
+import styles from "./WhyUs.module.scss";
 
-export default function Leadership(data: any) {
+export default function WhyUs(why: any) {
+    
     return (
         <section className={styles.section}>
             <div className={styles.container}>
                 <div className={styles.contentWrapper}>
                     <div className={styles.imageCol}>
                         <div className={styles.imageContainer}>
-                            {/* Replace with actual leadership image name */}
-                            <img
-                                src={data.data.image}
-                                alt="Leadership Vision"
-                                className={styles.image}
-                            />
+                            <img src={why.why.image} alt="Why Choose Us" />
                         </div>
                     </div>
                     <div className={styles.textCol}>
-                        <div dangerouslySetInnerHTML={{__html: data.data.text}} />
+                       <div dangerouslySetInnerHTML={{__html: why.why.text}} />
                     </div>
                 </div>
             </div>

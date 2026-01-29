@@ -3,6 +3,8 @@
 import { useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import styles from "./CareerApplyForm.module.scss";
+import { ApiService } from "../../services/api.service";
+
 
 const SITE_KEY = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"; // test key
 
@@ -12,6 +14,7 @@ export default function CareerApplyForm({ role }: { role: string }) {
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const [fileName, setFileName] = useState("");
+  const baseUrl = new ApiService();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,6 +43,7 @@ export default function CareerApplyForm({ role }: { role: string }) {
 
     try {
       const res = await fetch(
+        // baseUrl.getBaseUrl() + '/wp-json/career-form/v1/submit',
         "http://localhost/netiapps2026/wp-netiapps/wp-json/career-form/v1/submit",
         {
           method: "POST",
@@ -69,7 +73,15 @@ export default function CareerApplyForm({ role }: { role: string }) {
       setLoading(false);
     }
   };
-
+  const ALLOWED_TYPES = [
+    "application/pdf",
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  ];
+  
+  const ALLOWED_EXTENSIONS = ["pdf", "doc", "docx"];
+  const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
+  
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       <div className={styles.formGroup}>
@@ -105,8 +117,36 @@ export default function CareerApplyForm({ role }: { role: string }) {
           required
           onChange={(e) => {
             const file = e.target.files?.[0];
-            setFileName(file ? file.name : "");
+          
+            if (!file) return;
+          
+            const extension = file.name.split(".").pop()?.toLowerCase();
+          
+            if (!extension || !ALLOWED_EXTENSIONS.includes(extension)) {
+              setError("Only PDF or DOC/DOCX files are allowed");
+              e.target.value = "";
+              setFileName("");
+              return;
+            }
+          
+            if (!ALLOWED_TYPES.includes(file.type)) {
+              setError("Invalid file type");
+              e.target.value = "";
+              setFileName("");
+              return;
+            }
+          
+            if (file.size > MAX_FILE_SIZE) {
+              setError("File size must be less than 2MB");
+              e.target.value = "";
+              setFileName("");
+              return;
+            }
+          
+            setError("");
+            setFileName(file.name);
           }}
+          
         />
         <p className={styles.fileHint}>Please upload a PDF or DOC file</p>
 
