@@ -10,12 +10,6 @@ const nextConfig = {
     buildActivity: false,
     autoPrerender: false,
   },
-  // Optimize for development
-  experimental: {
-    turbo: {
-      // Turbopack optimizations
-    },
-  },
 };
 
 export default nextConfig;
