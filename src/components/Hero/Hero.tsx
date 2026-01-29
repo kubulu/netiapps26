@@ -1,6 +1,6 @@
 "use client";
 
-import Image from 'next/image';
+import { useState } from 'react';
 import Link from 'next/link';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, EffectFade } from 'swiper/modules';
@@ -8,11 +8,16 @@ import styles from './Hero.module.scss';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
+import DottedWave from './DottedWave';
 
 export default function Hero(slides: any) {
-    // console.log(slides);
+    const [activeIndex, setActiveIndex] = useState(0);
+
     return (
         <section className={styles.hero}>
+            <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+                <DottedWave color="rgba(0, 0, 0, 0.1)" />
+            </div>
             <Swiper
                 modules={[Autoplay, Pagination, EffectFade]}
                 effect="fade"
@@ -30,28 +35,22 @@ export default function Hero(slides: any) {
                     bulletActiveClass: `swiper-pagination-bullet-active ${styles.swiperBulletActive}`
                 }}
                 className={styles.swiperContainer}
+                onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
             >
                 {slides.slides.map((slide: any, index: any) => (
                     <SwiperSlide key={index}>
                         <div className="container h-100 position-relative">
                             <div className="row h-100 align-items-center">
                                 {/* Left Content */}
-                                <div className="col-lg-6">
+                                <div className="col-lg-12">
                                     <div className={styles.content}>
                                         <div className={styles.title}>
-                                          <div dangerouslySetInnerHTML={{__html: slide.title}}/>
+                                            <div dangerouslySetInnerHTML={{ __html: slide.title }} />
                                         </div>
 
                                         <Link href={slide.link} className={styles.ctaBtn}>
-                                           {slide.button_name}
+                                            {slide.button_name}
                                         </Link>
-                                    </div>
-                                </div>
-
-                                {/* Right Image/Illustration */}
-                                <div className="col-lg-6 position-relative h-100 d-none d-lg-block">
-                                    <div className={styles.imageWrapper}>
-                                        <img src={slide.image} alt={slide.description} className={styles.heroImage} />
                                     </div>
                                 </div>
                             </div>

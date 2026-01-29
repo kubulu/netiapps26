@@ -1,0 +1,39 @@
+.container {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+    mask-image: linear-gradient(to bottom, white, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, white, transparent);
+}
+
+.circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    background-color: rgba(0, 0, 0, 0.01);
+    /* Very subtle fill */
+    box-shadow: 0 0 40px -10px rgba(0, 0, 0, 0.05);
+    animation: ripple 3s ease-in-out infinite;
+}
+
+@keyframes ripple {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(0.95);
+        /* Subtle pulse */
+    }
+}
