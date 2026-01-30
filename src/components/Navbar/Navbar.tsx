@@ -23,53 +23,53 @@ export default function Navbar(nav: any) {
 
     useEffect(() => {
         async function translateNav() {
-          if (!originalNav) return;
-      
-          if (language.toUpperCase() === "EN") {
-            setTranslatedNav(null);
-            return;
-          }
-      
-          const translated = JSON.parse(JSON.stringify(originalNav));
-          const tasks: Promise<any>[] = [];
-      
-          const t = (text: string) =>
-            cachedTranslate(text, language, translate);
-      
-          tasks.push(
-            t(originalNav.home.name).then((r: any) => translated.home.name = r),
-            t(originalNav.about.title).then((r: any) => translated.about.title = r),
-            t(originalNav.services.title).then((r: any) => translated.services.title = r),
-            t(originalNav.solutions.title).then((r: any) => translated.solutions.title = r),
-            t(originalNav.career.name).then((r: any) => translated.career.name = r),
-            t(originalNav.contact.name).then((r: any) => translated.contact.name = r)
-          );
-      
-          translated.about.menu_items.forEach((item: any) => {
-            tasks.push(t(item.name).then((r: any) => item.name = r));
-          });
-      
-          translated.services.mega_menu.forEach((cat: any) => {
-            tasks.push(t(cat.title).then((r: any) => cat.title = r));
-            cat.menu_items.forEach((item: any) => {
-              tasks.push(t(item.name).then((r: any) => item.name = r));
+            if (!originalNav) return;
+
+            if (language.toUpperCase() === "EN") {
+                setTranslatedNav(null);
+                return;
+            }
+
+            const translated = JSON.parse(JSON.stringify(originalNav));
+            const tasks: Promise<any>[] = [];
+
+            const t = (text: string) =>
+                cachedTranslate(text, language, translate);
+
+            tasks.push(
+                t(originalNav.home.name).then((r: any) => translated.home.name = r),
+                t(originalNav.about.title).then((r: any) => translated.about.title = r),
+                t(originalNav.services.title).then((r: any) => translated.services.title = r),
+                t(originalNav.solutions.title).then((r: any) => translated.solutions.title = r),
+                t(originalNav.career.name).then((r: any) => translated.career.name = r),
+                t(originalNav.contact.name).then((r: any) => translated.contact.name = r)
+            );
+
+            translated.about.menu_items.forEach((item: any) => {
+                tasks.push(t(item.name).then((r: any) => item.name = r));
             });
-          });
-      
-          translated.solutions.mega_menu.forEach((cat: any) => {
-            tasks.push(t(cat.title).then((r: any) => cat.title = r));
-            cat.menu_items.forEach((item: any) => {
-              tasks.push(t(item.name).then((r: any) => item.name = r));
+
+            translated.services.mega_menu.forEach((cat: any) => {
+                tasks.push(t(cat.title).then((r: any) => cat.title = r));
+                cat.menu_items.forEach((item: any) => {
+                    tasks.push(t(item.name).then((r: any) => item.name = r));
+                });
             });
-          });
-      
-          await Promise.all(tasks);
-          setTranslatedNav(translated);
+
+            translated.solutions.mega_menu.forEach((cat: any) => {
+                tasks.push(t(cat.title).then((r: any) => cat.title = r));
+                cat.menu_items.forEach((item: any) => {
+                    tasks.push(t(item.name).then((r: any) => item.name = r));
+                });
+            });
+
+            await Promise.all(tasks);
+            setTranslatedNav(translated);
         }
-      
+
         translateNav();
-      }, [language]);
-      
+    }, [language]);
+
 
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -82,7 +82,7 @@ export default function Navbar(nav: any) {
 
     // Language Dropdown State
     const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
-    
+
     const languages: { code: Language; name: string; flag: string }[] = [
         { code: "EN", name: "English", flag: "🇺🇸" },
         { code: "FR", name: "French", flag: "🇫🇷" },
@@ -94,8 +94,8 @@ export default function Navbar(nav: any) {
         { code: "PL", name: "Polish", flag: "🇵🇱" },
         { code: "SE", name: "Swedish", flag: "🇸🇪" },
         { code: "FI", name: "Finnish", flag: "🇫🇮" },
-      ];
-    
+    ];
+
     // const [selectedLanguage, setSelectedLanguage] = useState(languages[0]);
     const selectedLanguage = languages.find((l) => l.code === language) || languages[0];
 
@@ -237,7 +237,7 @@ export default function Navbar(nav: any) {
                         </Link>
 
                         <button className={styles.searchBtn} onClick={() => setIsSearchOpen(true)}>
-                            <Image src="/images/search.svg" alt="Search" width={18} height={18} />
+                            <Image src="/images/search.svg" alt="Search" width={22} height={22} />
                         </button>
 
                         {/* Mobile Hamburger Toggle */}
@@ -348,7 +348,7 @@ export default function Navbar(nav: any) {
                                     className={`${styles.tab} ${activeServiceTab === index ? styles.activeTab : ''}`}
                                     onMouseEnter={() => setActiveServiceTab(index)}
                                 >
-                                  <a href={category.link}> {category.title} </a>
+                                    <a href={category.link}> {category.title} </a>
                                 </button>
                             ))}
                         </div>
@@ -387,7 +387,7 @@ export default function Navbar(nav: any) {
                                     className={`${styles.tab} ${activeSolutionTab === index ? styles.activeTab : ''}`}
                                     onMouseEnter={() => setActiveSolutionTab(index)}
                                 >
-                                   <a href={category.link}> {category.title} </a>
+                                    <a href={category.link}> {category.title} </a>
                                 </button>
                             ))}
                         </div>
