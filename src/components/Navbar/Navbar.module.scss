@@ -87,7 +87,7 @@
     transition: all 0.3s ease;
 
     &:hover {
-        color: #E30613;
+        color: #000;
     }
 
     svg {
@@ -126,17 +126,35 @@
 
         li {
             a {
-                display: block;
-                padding: 0.75rem 1.5rem;
+                display: block; // Change to block to allow full width interaction
+                width: max-content; // Width based on content for the underline to match text
+                padding: 0.75rem 0; // Remove side padding for animation to look right on text
+                margin: 0 1.5rem; // Add margin instead of padding to position
                 color: #333;
                 text-decoration: none;
                 font-size: 0.9rem;
                 transition: all 0.2s ease;
+                position: relative;
+
+                &::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 0;
+                    height: 2px;
+                    background-color: #000;
+                    transition: width 0.3s ease;
+                }
 
                 &:hover {
-                    background: #f8f9fa;
-                    color: #E30613;
-                    padding-left: 2rem;
+                    color: #333; // Keep text color
+                    // background: #f8f9fa; // Remove background change
+                    // padding-left: 2rem; // Remove padding shift
+
+                    &::after {
+                        width: 100%;
+                    }
                 }
             }
         }
@@ -207,7 +225,7 @@
 
     &:hover {
         background: #f8f9fa;
-        color: #E30613;
+        color: #000;
         padding-left: 1.5rem;
     }
 
@@ -219,7 +237,7 @@
         transform: translateY(-50%);
         width: 3px;
         height: 0;
-        background: #E30613;
+        background: #000;
         transition: height 0.3s ease;
         border-radius: 0 3px 3px 0;
     }
@@ -227,7 +245,7 @@
 
 .activeTab {
     background: #f8f9fa;
-    color: #E30613;
+    color: #000;
     padding-left: 1.5rem;
 
     &::before {
@@ -264,7 +282,36 @@
     padding: 0;
 
     li {
-        padding: 0.6rem 0;
+        margin-bottom: 14px;
+
+        a {
+            color: #1a1a1a;
+            text-decoration: none;
+            position: relative;
+            transition: color 0.2s ease;
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: -2px;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background-color: #000;
+                transition: width 0.3s ease;
+            }
+
+            &:hover {
+                color: #1a1a1a; // Keep text color if we rely on border
+
+                &::after {
+                    width: 100%;
+                }
+            }
+        }
+
+        // Removed default li hover effects in favor of anchor tag effects
+        // padding: 0.6rem 0; 
         color: #1a1a1a;
         font-size: 1rem;
         font-weight: 500;
@@ -275,14 +322,11 @@
         gap: 0.5rem;
         transition: color 0.2s ease;
 
-        &:after {
-            content: '→';
-            color: inherit; // Follows the text color
-            font-weight: 400;
-        }
+        // &:after { ... } // Replaced by a tag ::after for underline
 
         &:hover {
-            color: #E30613;
+            // color: #E30613; 
+            // Moving hover effect to anchor tag itself
         }
     }
 }
@@ -433,7 +477,8 @@
         }
     }
 }
-.language{
+
+.language {
     border: none;
 }
 
