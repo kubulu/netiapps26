@@ -125,9 +125,26 @@
             display: flex;
             align-items: center;
             transition: color 0.3s ease;
+            position: relative;
+            width: fit-content;
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: -2px;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background-color: #000;
+                transition: width 0.3s ease;
+            }
 
             &:hover {
-                color: #E30613;
+                color: #333;
+
+                &::after {
+                    width: 100%;
+                }
 
                 img {
                     transform: translateX(5px);

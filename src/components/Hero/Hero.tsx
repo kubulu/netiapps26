@@ -8,125 +8,147 @@ import styles from "./Hero.module.scss";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
-import DottedWave from './DottedWave';
+
 
 
 import { useEffect, useState } from "react";
 import { cachedTranslate, useLanguage } from "@/context/LanguageContext";
 
 export default function Hero(slides: any) {
-  const { language, translate } = useLanguage();
+    const { language, translate } = useLanguage();
 
-  const originalSlides = slides.slides;
-  const [translatedSlides, setTranslatedSlides] = useState(originalSlides);
-  const [activeIndex, setActiveIndex] = useState(0);
+    const originalSlides = slides.slides;
+    const [translatedSlides, setTranslatedSlides] = useState(originalSlides);
+    const [activeIndex, setActiveIndex] = useState(0);
 
-  useEffect(() => {
-    async function translateSlides() {
-      // If English → use original content
-      if (language.toUpperCase() === "EN") {
-        setTranslatedSlides(originalSlides);
-        return;
-      }
+    useEffect(() => {
+        async function translateSlides() {
+            // If English → use original content
+            if (language.toUpperCase() === "EN") {
+                setTranslatedSlides(originalSlides);
+                return;
+            }
 
 
-      // Deep clone (same as Footer)
-      const translated = JSON.parse(JSON.stringify(originalSlides));
-      const tasks: Promise<any>[] = [];
+            // Deep clone (same as Footer)
+            const translated = JSON.parse(JSON.stringify(originalSlides));
+            const tasks: Promise<any>[] = [];
 
-      const t = (text: string) =>
-        cachedTranslate(text, language, translate);
+            const t = (text: string) =>
+                cachedTranslate(text, language, translate);
 
-      translated.forEach((slide: any) => {
-        if (slide.title) {
-          tasks.push(
-            t(slide.title).then((r) => (slide.title = r))
-          );
+            translated.forEach((slide: any) => {
+                if (slide.title) {
+                    tasks.push(
+                        t(slide.title).then((r) => (slide.title = r))
+                    );
+                }
+
+                if (slide.button_name) {
+                    tasks.push(
+                        t(slide.button_name).then((r) => (slide.button_name = r))
+                    );
+                }
+
+                if (slide.description) {
+                    tasks.push(
+                        t(slide.description).then((r) => (slide.description = r))
+                    );
+                }
+            });
+
+            await Promise.all(tasks);
+            setTranslatedSlides(translated);
         }
 
-        if (slide.button_name) {
-          tasks.push(
-            t(slide.button_name).then((r) => (slide.button_name = r))
-          );
-        }
+        translateSlides();
+    }, [language, originalSlides]);
 
-        if (slide.description) {
-          tasks.push(
-            t(slide.description).then((r) => (slide.description = r))
-          );
-        }
-      });
+    const videos = [
+        "/images/herovideo1.mp4",
+        "/images/herovideo3.mp4",
+        "/images/herovideo4.mp4",
 
-      await Promise.all(tasks);
-      setTranslatedSlides(translated);
-    }
+    ];
 
-    translateSlides();
-  }, [language, originalSlides]);
+    return (
+        <section className={styles.hero}>
+            <div className="container h-100">
+                <Swiper
+                    modules={[Autoplay, Pagination, EffectFade]}
+                    effect="fade"
+                    fadeEffect={{ crossFade: true }}
+                    spaceBetween={0}
+                    slidesPerView={1}
+                    loop={true}
+                    autoplay={{
+                        delay: 5000,
+                        disableOnInteraction: false,
+                    }}
+                    pagination={{
+                        clickable: true,
+                        el: '.custom-pagination',
+                        bulletClass: `swiper-pagination-bullet ${styles.swiperBullet}`,
+                        bulletActiveClass: `swiper-pagination-bullet-active ${styles.swiperBulletActive}`
+                    }}
+                    className={styles.swiperContainer}
+                    onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
+                >
+                    {translatedSlides.map((slide: any, index: number) => (
+                        <SwiperSlide key={index}>
+                            <div className="row h-100 align-items-center">
+                                {/* Left Side: Content Slider */}
+                                <div className="col-lg-6">
+                                    <div className={styles.content}>
+                                        <div className={styles.title}>
+                                            <div
+                                                dangerouslySetInnerHTML={{
+                                                    __html: slide.title,
+                                                }}
+                                            />
+                                        </div>
 
-  return (
-    <section className={styles.hero}>
-    <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-        <DottedWave color="rgba(0, 0, 0, 0.4)" />
-    </div>
-    <Swiper
-        modules={[Autoplay, Pagination, EffectFade]}
-        effect="fade"
-        fadeEffect={{ crossFade: true }}
-        spaceBetween={0}
-        slidesPerView={1}
-        autoplay={{
-            delay: 5000,
-            disableOnInteraction: false,
-        }}
-        pagination={{
-            clickable: true,
-            el: '.custom-pagination',
-            bulletClass: `swiper-pagination-bullet ${styles.swiperBullet}`,
-            bulletActiveClass: `swiper-pagination-bullet-active ${styles.swiperBulletActive}`
-        }}
-        className={styles.swiperContainer}
-        onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
-    >
-        {translatedSlides.map((slide: any, index: number) => (
-          <SwiperSlide key={index}>
-           <div className="container h-100 position-relative">
-           <div className="row h-100 align-items-center">
-                {/* Left Content */}
-                <div className="col-lg-12">
-                  <div className={styles.content}>
-                    <div className={styles.title}>
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html: slide.title,
-                        }}
-                      />
+                                        <Link
+                                            href={slide.link}
+                                            className={styles.ctaBtn}
+                                        >
+                                            {slide.button_name}
+                                        </Link>
+                                    </div>
+                                </div>
+
+                                {/* Right Side: Video */}
+                                <div className="col-lg-6 h-100 position-relative d-flex align-items-center overflow-hidden" style={{ backgroundColor: '#ffffff', zIndex: 1, paddingTop: '80px' }}>
+                                    <video
+                                        autoPlay
+                                        loop
+                                        muted
+                                        playsInline
+                                        poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover',
+                                            backgroundColor: '#ffffff',
+                                            opacity: 0.999, // Force software composition in Chrome to fix color shift
+                                            display: 'block',
+                                            filter: 'contrast(1)',
+                                        }}
+                                    >
+                                        <source src={videos[index % videos.length]} type="video/mp4" />
+                                        Your browser does not support the video tag.
+                                    </video>
+                                </div>
+                            </div>
+                        </SwiperSlide>
+                    ))}
+                    <div className="row">
+                        <div className="col-lg-6">
+                            <div className={`${styles.paginationWrapper} custom-pagination`}></div>
+                        </div>
                     </div>
-
-                    <Link
-                      href={slide.link}
-                      className={styles.ctaBtn}
-                    >
-                      {slide.button_name}
-                    </Link>
-                  </div>
-                </div>
-              </div>
+                </Swiper>
             </div>
-          </SwiperSlide>
-        ))}
-
-        {/* Custom Pagination */}
-        <div className="container position-relative h-100 pointer-events-none">
-          <div className="row h-100 align-items-center">
-            <div className="col-lg-6">
-              <div
-                className={`${styles.paginationWrapper} custom-pagination`}
-              ></div>
-            </div>
-          </div>
-        </div>
-      </Swiper>
-    </section>
-  );
+        </section>
+    );
 }
