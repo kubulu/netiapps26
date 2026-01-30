@@ -16,7 +16,7 @@ export default function Hero(slides: any) {
     return (
         <section className={styles.hero}>
             <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-                <DottedWave color="rgba(0, 0, 0, 0.1)" />
+                <DottedWave color="rgba(0, 0, 0, 0.4)" />
             </div>
             <Swiper
                 modules={[Autoplay, Pagination, EffectFade]}
