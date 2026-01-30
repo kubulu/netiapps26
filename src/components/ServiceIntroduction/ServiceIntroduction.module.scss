@@ -22,7 +22,6 @@
 }
 
 .description {
-    p {
         font-size: 1rem;
         line-height: 1.6;
         color: rgba(255, 255, 255, 0.9);
@@ -31,7 +30,6 @@
         &:last-child {
             margin-bottom: 0;
         }
-    }
 }
 
 .longDesc {

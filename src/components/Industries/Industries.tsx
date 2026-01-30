@@ -1,35 +1,97 @@
-import Image from 'next/image';
-import styles from './Industries.module.scss';
+"use client";
 
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import styles from "./Industries.module.scss";
+import { cachedTranslate, useLanguage } from "@/context/LanguageContext";
 
 export default function Industries(industries: any) {
-    return (
-        <section className={styles.section}>
-            <div className="container">
-                <h2 className={styles.sectionTitle}>{industries.industries.title}</h2>
-            </div>
+  const { language, translate } = useLanguage();
 
-            <div className={styles.scrollWrapper}>
-                <div className={styles.scrollContent}>
-                    {industries.industries.industry_section.map((indus: any, index: any) => (
-                        <div
-                            key={index}
-                            className={`${styles.card}`}
-                        >
-                            <img
-                                src={indus.image}
-                                alt={indus.title}
-                                className={styles.image}
-                            />
-                            <div className={styles.overlay}>
-                                {/* <h3 className={styles.cardTitle}>{indus.title}</h3> */}
-                                <h3 className={styles.cardTitle} style={{color: indus.text_color === 'light' ? '#ffffff' : undefined,}}> {indus.title} </h3>
+  const originalIndustries = industries.industries;
+  const [translatedIndustries, setTranslatedIndustries] =
+    useState(originalIndustries);
 
-                            </div>
-                        </div>
-                    ))}
+  /* ---------- TRANSLATION ---------- */
+
+  useEffect(() => {
+    async function translateIndustries() {
+      // EN → no translation
+      if (language.toUpperCase() === "EN") {
+        setTranslatedIndustries(originalIndustries);
+        return;
+      }
+
+      const translated = JSON.parse(
+        JSON.stringify(originalIndustries)
+      );
+
+      const tasks: Promise<any>[] = [];
+      const t = (text: string) =>
+        cachedTranslate(text, language, translate);
+
+      // Section title
+      if (translated.title) {
+        tasks.push(
+          t(translated.title).then((r) => (translated.title = r))
+        );
+      }
+
+      // Industry card titles
+      translated.industry_section?.forEach((item: any) => {
+        if (item.title) {
+          tasks.push(
+            t(item.title).then((r) => (item.title = r))
+          );
+        }
+      });
+
+      await Promise.all(tasks);
+      setTranslatedIndustries(translated);
+    }
+
+    translateIndustries();
+  }, [language, originalIndustries]);
+
+  if (!translatedIndustries) return null;
+
+  return (
+    <section className={styles.section}>
+      <div className="container">
+        <h2 className={styles.sectionTitle}>
+          {translatedIndustries.title}
+        </h2>
+      </div>
+
+      <div className={styles.scrollWrapper}>
+        <div className={styles.scrollContent}>
+          {translatedIndustries.industry_section.map(
+            (indus: any, index: number) => (
+              <div key={index} className={styles.card}>
+                <img
+                  src={indus.image}
+                  alt={indus.title}
+                  className={styles.image}
+                />
+
+                <div className={styles.overlay}>
+                  <h3
+                    className={styles.cardTitle}
+                    style={{
+                      color:
+                        indus.text_color === "light"
+                          ? "#ffffff"
+                          : undefined,
+                    }}
+                  >
+                    {indus.title}
+                  </h3>
                 </div>
-            </div>
-        </section>
-    );
+              </div>
+            )
+          )}
+        </div>
+      </div>
+    </section>
+  );
 }
