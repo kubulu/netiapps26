@@ -6,7 +6,7 @@ interface DottedWaveProps {
     color?: string;
 }
 
-export default function DottedWave({ color = "rgba(51, 51, 51, 0.3)" }: DottedWaveProps) {
+export default function DottedWave({ color = "rgba(0, 0, 0, 1)" }: DottedWaveProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {

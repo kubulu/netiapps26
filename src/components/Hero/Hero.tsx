@@ -67,7 +67,7 @@ export default function Hero(slides: any) {
   return (
     <section className={styles.hero}>
     <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-        <DottedWave color="rgba(0, 0, 0, 0.1)" />
+        <DottedWave color="rgba(0, 0, 0, 0.4)" />
     </div>
     <Swiper
         modules={[Autoplay, Pagination, EffectFade]}
@@ -90,10 +90,10 @@ export default function Hero(slides: any) {
     >
         {translatedSlides.map((slide: any, index: number) => (
           <SwiperSlide key={index}>
-            <div className="container h-100 position-relative">
-              <div className="row h-100 align-items-center">
+           <div className="container h-100 position-relative">
+           <div className="row h-100 align-items-center">
                 {/* Left Content */}
-                <div className="col-lg-6">
+                <div className="col-lg-12">
                   <div className={styles.content}>
                     <div className={styles.title}>
                       <div
@@ -109,17 +109,6 @@ export default function Hero(slides: any) {
                     >
                       {slide.button_name}
                     </Link>
-                  </div>
-                </div>
-
-                {/* Right Image */}
-                <div className="col-lg-6 position-relative h-100 d-none d-lg-block">
-                  <div className={styles.imageWrapper}>
-                    <img
-                      src={slide.image}
-                      alt={slide.description}
-                      className={styles.heroImage}
-                    />
                   </div>
                 </div>
               </div>
