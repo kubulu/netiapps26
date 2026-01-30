@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
 import styles from "./Footer.module.scss";
 import { useEffect, useState } from "react";
 import { cachedTranslate, useLanguage } from "@/context/LanguageContext";
@@ -18,39 +19,39 @@ export default function Footer(footer: any) {
         setTranslatedFooter(originalFooter);
         return;
       }
-  
+
       const translated = JSON.parse(JSON.stringify(originalFooter));
       const tasks: Promise<any>[] = [];
       const t = (text: string) =>
         cachedTranslate(text, language, translate);
-  
+
       tasks.push(
         t(originalFooter.footer_top.title).then(r => translated.footer_top.title = r),
         t(originalFooter.footer_top.button).then(r => translated.footer_top.button = r),
         t(originalFooter.copyright).then(r => translated.copyright = r)
       );
-  
+
       translated.menu.forEach((column: any) => {
         tasks.push(t(column.title).then(r => column.title = r));
         column.menu_list.forEach((item: any) => {
           tasks.push(t(item.name).then(r => item.name = r));
         });
       });
-  
+
       translated.address_field.forEach((addr: any) => {
         tasks.push(
           t(addr.country).then(r => addr.country = r),
           t(addr.address).then(r => addr.address = r)
         );
       });
-  
+
       await Promise.all(tasks);
       setTranslatedFooter(translated);
     }
-  
+
     translateFooter();
   }, [language]);
-  
+
   const addresses = translatedFooter.address_field;
 
   // Default first country
@@ -106,11 +107,10 @@ export default function Footer(footer: any) {
                 {addresses.map((element: any, index: number) => (
                   <button
                     key={index}
-                    className={`${styles.tabBtn} ${
-                      activeCountry.country === element.country
-                        ? styles.active
-                        : ""
-                    }`}
+                    className={`${styles.tabBtn} ${activeCountry.country === element.country
+                      ? styles.active
+                      : ""
+                      }`}
                     onClick={() => setActiveCountry(element)}
                   >
                     {element.country}
@@ -141,6 +141,13 @@ export default function Footer(footer: any) {
                     />
                   )
                 )}
+              </div>
+
+              <div className={styles.socialLinks}>
+                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><Facebook size={20} /></a>
+                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"><Twitter size={20} /></a>
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"><Linkedin size={20} /></a>
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"><Instagram size={20} /></a>
               </div>
             </div>
           </div>

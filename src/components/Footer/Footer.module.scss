@@ -154,6 +154,21 @@
     }
 }
 
+.socialLinks {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+
+    a {
+        color: #555;
+        transition: color 0.3s;
+
+        &:hover {
+            color: #E30613;
+        }
+    }
+}
+
 // Copyright Bar
 .copyrightBar {
     padding: 1rem 0;
