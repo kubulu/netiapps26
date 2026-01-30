@@ -107,13 +107,10 @@ export default async function AbtPage({ params }: PageProps) {
 
                         {element.acf_fc_layout === 'about' && (
                             <>
-                                <div className="container" style={{ padding: "50px 20px", minHeight: "40vh" }}>
-                                    <Counter counter={element.counter} />
-                                </div>
-                                <WhyUs why={element.whyus}/>
-                                <ExcellenceSection data={element.excellence} />
-                                <Leadership data={element.leadership}/>
-                                <MoreAboutCompany about={element.about} />
+                                {element.whyus && ( <WhyUs why={element.whyus}/> )}
+                                {element.excellence && ( <ExcellenceSection data={element.excellence} /> )}
+                                {element.leadership && ( <Leadership data={element.leadership}/> )}
+                                {element.about && ( <MoreAboutCompany about={element.about} /> )}
                             </>
                         )}
                     </div>
