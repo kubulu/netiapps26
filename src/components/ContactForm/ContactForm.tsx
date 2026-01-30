@@ -3,8 +3,10 @@
 import { useState } from 'react';
 import { Send, User, Mail, Phone, Building2, MessageSquare } from 'lucide-react';
 import styles from './ContactForm.module.scss';
+import { ApiService } from "../../services/api.service";
 
 export default function ContactForm() {
+    const baseUrl = new ApiService();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -28,11 +30,37 @@ export default function ContactForm() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
-
-        // Simulate API call
-        setTimeout(() => {
-            setIsSubmitting(false);
+        setSubmitStatus('idle');
+    
+        try {
+            const response = await fetch(
+                baseUrl.getBaseUrl() + '/wp-json/contact-form/v1/submit',
+                // 'http://localhost/netiapps2026/wp-netiapps/wp-json/contact-form/v1/submit',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: formData.name,
+                        email: formData.email,
+                        phone: formData.phone,
+                        company: formData.company,
+                        subject: formData.subject,
+                        message: formData.message,
+                    }),
+                }
+            );
+    
+            const result = await response.json();
+    
+            if (!response.ok || result.status !== 'success') {
+                throw new Error(result.message || 'Form submission failed');
+            }
+    
+            // ✅ SUCCESS
             setSubmitStatus('success');
+    
             setFormData({
                 name: '',
                 email: '',
@@ -41,11 +69,20 @@ export default function ContactForm() {
                 subject: '',
                 message: ''
             });
-
-            // Reset success message after 5 seconds
-            setTimeout(() => setSubmitStatus('idle'), 5000);
-        }, 1500);
+    
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                setSubmitStatus('idle');
+            }, 5000);
+    
+        } catch (error) {
+            console.error('Contact form error:', error);
+            setSubmitStatus('error');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
+    
 
     return (
         <section className={styles.contactForm}>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import styles from "./Solutions.module.scss";
+import { cachedTranslate, useLanguage } from "@/context/LanguageContext";
 
 /* ---------- TYPES ---------- */
 
@@ -9,7 +10,7 @@ type BackendItem = {
   img: string | false;
   title?: string;
   text_color?: "light" | "dark";
-  link?: string; // ✅ link from backend
+  link?: string;
 };
 
 type CardItem = {
@@ -27,34 +28,90 @@ const shuffle = (arr: CardItem[]) =>
 /* ---------- COMPONENT ---------- */
 
 export default function Solutions({ solution }: any) {
+  const { language, translate } = useLanguage();
+
+  const originalSolution = solution;
+  const [translatedSolution, setTranslatedSolution] =
+    useState(originalSolution);
+
   const [cards, setCards] = useState<CardItem[]>([]);
 
-  useEffect(() => {
-    if (!solution?.image_content) return;
+  /* ---------- TRANSLATION ---------- */
 
-    const normalized: CardItem[] = solution.image_content
-      .map((item: BackendItem) => ({
-        img: typeof item.img === "string" ? item.img : undefined,
-        title: item.title,
-        text_color: item.text_color || "light",
-        link: item.link, // ✅ map link
-      }))
-      .filter((item: CardItem) => item.img || item.title);
+  useEffect(() => {
+    async function translateSolution() {
+      // EN → no translation
+      if (language.toUpperCase() === "EN") {
+        setTranslatedSolution(originalSolution);
+        return;
+      }
+
+      const translated = JSON.parse(
+        JSON.stringify(originalSolution)
+      );
+
+      const tasks: Promise<any>[] = [];
+      const t = (text: string) =>
+        cachedTranslate(text, language, translate);
+
+      // Section title (HTML)
+      if (translated?.title) {
+        tasks.push(
+          t(translated.title).then(
+            (r) => (translated.title = r)
+          )
+        );
+      }
+
+      // Card titles
+      translated?.image_content?.forEach(
+        (item: BackendItem) => {
+          if (item.title) {
+            tasks.push(
+              t(item.title).then((r) => (item.title = r))
+            );
+          }
+        }
+      );
+
+      await Promise.all(tasks);
+      setTranslatedSolution(translated);
+    }
+
+    translateSolution();
+  }, [language, originalSolution]);
+
+  /* ---------- CARD NORMALIZATION ---------- */
+
+  useEffect(() => {
+    if (!translatedSolution?.image_content) return;
+
+    const normalized: CardItem[] =
+      translatedSolution.image_content
+        .map((item: BackendItem) => ({
+          img: typeof item.img === "string" ? item.img : undefined,
+          title: item.title,
+          text_color: item.text_color || "light",
+          link: item.link,
+        }))
+        .filter((item: CardItem) => item.img || item.title);
 
     if (!normalized.length) return;
 
     setCards(shuffle(normalized).slice(0, 4));
-  }, [solution]);
+  }, [translatedSolution]);
 
   if (cards.length < 4) return null;
 
   return (
     <section className={styles.section}>
       {/* SECTION TITLE */}
-      {solution?.title && (
+      {translatedSolution?.title && (
         <div
           className="container text-center mb-5"
-          dangerouslySetInnerHTML={{ __html: solution.title }}
+          dangerouslySetInnerHTML={{
+            __html: translatedSolution.title,
+          }}
         />
       )}
 
@@ -102,7 +159,6 @@ function CardWrapper({
   item: CardItem;
   className: string;
 }) {
-  // If link exists → clickable card
   if (item.link) {
     return (
       <a
@@ -117,7 +173,6 @@ function CardWrapper({
     );
   }
 
-  // No link → normal card
   return (
     <div className={className}>
       <Card item={item} />
@@ -132,12 +187,10 @@ function Card({ item }: { item: CardItem }) {
 
   return (
     <>
-      {/* IMAGE */}
       {item.img && (
         <img src={item.img} alt="" className={styles.image} />
       )}
 
-      {/* TEXT */}
       {item.title && (
         <div
           className={`${styles.cardContent} ${

@@ -1,90 +1,116 @@
 "use client";
 
-import { useRef, useState } from 'react';
-import styles from './WhyChooseUs.module.scss';
-
-const reasons = [
-    {
-        id: '01',
-        text: 'Strategy-led, execution-focused approach'
-    },
-    {
-        id: '02',
-        text: 'Deep expertise in web, mobile, AI, and automation'
-    },
-    {
-        id: '03',
-        text: 'Enterprise-grade delivery standards'
-    },
-    {
-        id: '04',
-        text: 'Client-centric solutions with a focus on ROI'
-    },
-    {
-        id: '05',
-        text: '24/7 support and proactive maintenance'
-    },
-    {
-        id: '06',
-        text: 'Scalable and future-proof technology stack'
-    }
-];
+import { useRef, useState, useEffect } from "react";
+import styles from "./WhyChooseUs.module.scss";
+import { cachedTranslate, useLanguage } from "@/context/LanguageContext";
 
 export default function WhyChooseUs(why: any) {
-    const scrollRef = useRef<HTMLDivElement>(null);
-    const [isDragging, setIsDragging] = useState(false);
-    const [startX, setStartX] = useState(0);
-    const [scrollLeft, setScrollLeft] = useState(0);
+  const { language, translate } = useLanguage();
 
+  const originalWhy = why.why;
+  const [translatedWhy, setTranslatedWhy] =
+    useState(originalWhy);
 
-    const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!scrollRef.current) return;
-        setIsDragging(true);
-        setStartX(e.pageX - scrollRef.current.offsetLeft);
-        setScrollLeft(scrollRef.current.scrollLeft);
-    };
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
 
-    const onMouseUp = () => {
-        setIsDragging(false);
-    };
+  /* ---------- TRANSLATION ---------- */
 
-    const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!isDragging || !scrollRef.current) return;
-        e.preventDefault();
-        const x = e.pageX - scrollRef.current.offsetLeft;
-        const walk = (x - startX) * 2; // Scroll speed
-        scrollRef.current.scrollLeft = scrollLeft - walk;
-    };
+  useEffect(() => {
+    async function translateWhy() {
+      // EN → no translation
+      if (language.toUpperCase() === "EN") {
+        setTranslatedWhy(originalWhy);
+        return;
+      }
 
-    return (
-        <section className={styles.section}>
-            <div className="container">
-                <h2 className={styles.title}>{why.why.title}</h2>
-            </div>
+      const translated = JSON.parse(
+        JSON.stringify(originalWhy)
+      );
 
-            <div
-                className={styles.scrollWrapper}
-                ref={scrollRef}
-                onMouseDown={onMouseDown}
-                onMouseLeave={onMouseUp}
-                onMouseUp={onMouseUp}
-                onMouseMove={onMouseMove}
-            >
-           <div className={styles.cardsRow}>
-                    {why.why.reasons.map((reason: any, index: any) => (
-                        <div key={index} className={styles.card}>
-                            <div className={styles.numberCircle}>
-                                {reason.number}
-                            </div>
-                            <p className={styles.content}>
-                                {reason.text}
-                            </p>
-                        </div>
-                    ))}
+      const tasks: Promise<any>[] = [];
+      const t = (text: string) =>
+        cachedTranslate(text, language, translate);
+
+      // Title
+      if (translated.title) {
+        tasks.push(
+          t(translated.title).then((r) => (translated.title = r))
+        );
+      }
+
+      // Reason texts
+      translated.reasons?.forEach((reason: any) => {
+        if (reason.text) {
+          tasks.push(
+            t(reason.text).then((r) => (reason.text = r))
+          );
+        }
+      });
+
+      await Promise.all(tasks);
+      setTranslatedWhy(translated);
+    }
+
+    translateWhy();
+  }, [language, originalWhy]);
+
+  if (!translatedWhy) return null;
+
+  /* ---------- DRAG SCROLL ---------- */
+
+  const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!scrollRef.current) return;
+    setIsDragging(true);
+    setStartX(e.pageX - scrollRef.current.offsetLeft);
+    setScrollLeft(scrollRef.current.scrollLeft);
+  };
+
+  const onMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isDragging || !scrollRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX) * 2;
+    scrollRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  return (
+    <section className={styles.section}>
+      <div className="container">
+        <h2 className={styles.title}>
+          {translatedWhy.title}
+        </h2>
+      </div>
+
+      <div
+        className={styles.scrollWrapper}
+        ref={scrollRef}
+        onMouseDown={onMouseDown}
+        onMouseLeave={onMouseUp}
+        onMouseUp={onMouseUp}
+        onMouseMove={onMouseMove}
+      >
+        <div className={styles.cardsRow}>
+          {translatedWhy.reasons.map(
+            (reason: any, index: number) => (
+              <div key={index} className={styles.card}>
+                <div className={styles.numberCircle}>
+                  {reason.number}
                 </div>
-            </div>
-        </section>
-    );
+                <p className={styles.content}>
+                  {reason.text}
+                </p>
+              </div>
+            )
+          )}
+        </div>
+      </div>
+    </section>
+  );
 }
-
-

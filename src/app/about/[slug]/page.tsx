@@ -1,15 +1,22 @@
 import InnerPageBanner from '@/components/InnerPageBanner';
 import styles from './page.module.scss';
-import Image from 'next/image';
-import Link from 'next/link';
 import LatestInsight from '@/components/LatestInsight';
 import type { Metadata } from 'next';
-import ClientSpeaks from '@/components/ClientSpeaks/ClientSpeaks';
+import Counter from "@/components/Counter/Counter";
+import WhyUs from "@/components/WhyUs/WhyUs";
+import ExcellenceSection from "@/components/ExcellenceSection/ExcellenceSection";
+import Leadership from "@/components/Leadership/Leadership";
+import MoreAboutCompany from "@/components/MoreAboutCompany/MoreAboutCompany";
 import { ApiService } from '@/services/api.service';
 
 interface PageProps {
     params: Promise<{ slug: string }>;
 }
+
+export const metadata: Metadata = {
+    title: "About Us",
+    description: "Learn more about our company",
+};
 
 export default async function AbtPage({ params }: PageProps) {
     const baseUrl = new ApiService();
@@ -40,7 +47,7 @@ export default async function AbtPage({ params }: PageProps) {
     const about = About[0];
     const content = about?.acf.content?.[0];
     const clientDetails = content?.client_details;
-    // console.log(about);
+    console.log(about);
     return (
         <main>
             {about?.acf?.banner && (
@@ -96,6 +103,18 @@ export default async function AbtPage({ params }: PageProps) {
                                     <div dangerouslySetInnerHTML={{__html: element.content}} />
                                 </div>
                             </section>
+                        )}
+
+                        {element.acf_fc_layout === 'about' && (
+                            <>
+                                <div className="container" style={{ padding: "50px 20px", minHeight: "40vh" }}>
+                                    <Counter counter={element.counter} />
+                                </div>
+                                <WhyUs why={element.whyus}/>
+                                <ExcellenceSection data={element.excellence} />
+                                <Leadership data={element.leadership}/>
+                                <MoreAboutCompany about={element.about} />
+                            </>
                         )}
                     </div>
                 ))

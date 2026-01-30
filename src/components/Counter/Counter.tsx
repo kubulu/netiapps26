@@ -73,36 +73,25 @@ const CounterItem = ({ end, suffix = "", label, isDark, duration = 2000 }: Count
     );
 };
 
-export default function Counter() {
-    const data = [
-        { end: 350, suffix: "+", label: "Clients Served", isDark: true },
-        { end: 21, suffix: "", label: "Countries" },
-        { end: 80, suffix: "+", label: "Project Completed" },
-        { end: 2014, suffix: "", label: "Established" },
-    ];
-
+export default function Counter(counter: any) {
+  
     return (
         <section className={styles.section}>
             <div className="container">
                 <div className={styles.counterGrid}>
-                    {data.map((item, index) => (
+                    {counter.counter.data.map((item: any, index: any) => (
                         <CounterItem
                             key={index}
-                            end={item.end}
+                            end={item.count}
                             suffix={item.suffix}
                             label={item.label}
-                            isDark={item.isDark}
+                            isDark={item.isdark}
                         />
                     ))}
                 </div>
 
                 <div className={styles.description}>
-                    <p>
-                        NetiApps is a leading provider of software development services. We build
-                        enterprise-level Java, Python and IOT applications for clients Worldwide. It is the
-                        process of creating a piece of software that is designed to accomplish a specific
-                        task. It encompasses all phases of the software development life cycle.
-                    </p>
+                    <div dangerouslySetInnerHTML={{__html: counter.counter.description}} />
                 </div>
             </div>
         </section>
