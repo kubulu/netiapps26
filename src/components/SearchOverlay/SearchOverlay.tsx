@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import styles from './SearchOverlay.module.scss';
 import { X } from 'lucide-react';
+import { getMediaUrl } from '@/lib/media';
 
 interface SearchOverlayProps {
     isOpen: boolean;
@@ -52,7 +53,7 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
                 <div className={styles.searchWrapper}>
                     <div className={styles.inputGroup}>
                         <Image
-                            src="/images/search.svg"
+                            src={getMediaUrl("/images/search.svg")}
                             alt="Search"
                             width={24}
                             height={24}

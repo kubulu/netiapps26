@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import styles from './Preloader.module.scss';
+import { getMediaUrl } from '@/lib/media';
 
 export default function Preloader() {
     const [isLoading, setIsLoading] = useState(true);
@@ -38,7 +39,7 @@ export default function Preloader() {
         <div className={`${styles.preloader} ${!isLoading ? styles.hidden : ''}`}>
             <div className={styles.logoWrapper}>
                 <Image
-                    src="/images/logo.svg"
+                    src={getMediaUrl("/images/logo.svg")}
                     alt="Netiapps"
                     width={200}
                     height={60}

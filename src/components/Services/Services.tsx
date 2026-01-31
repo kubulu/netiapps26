@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./Services.module.scss";
 import { cachedTranslate, useLanguage } from "@/context/LanguageContext";
+import { getMediaUrl } from "@/lib/media";
 
 export default function Services(services: any) {
   const { language, translate } = useLanguage();
@@ -93,8 +94,8 @@ export default function Services(services: any) {
                       <Image
                         src={
                           isActive
-                            ? "/images/minus.svg"
-                            : "/images/add.svg"
+                            ? getMediaUrl("/images/minus.svg")
+                            : getMediaUrl("/images/add.svg")
                         }
                         alt="Toggle"
                         width={16}
@@ -127,7 +128,7 @@ export default function Services(services: any) {
                                 <Link href={item.link}>
                                   {item.item}
                                   <img
-                                    src="/images/arrow.svg"
+                                    src={getMediaUrl("/images/arrow.svg")}
                                     alt="Arrow"
                                     width={16}
                                     height={16}
