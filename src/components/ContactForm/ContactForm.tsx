@@ -152,7 +152,7 @@ function injectStylesIntoIframe(container: HTMLElement) {
 
 function loadHubSpotForm() {
     if (typeof window !== 'undefined' && (window as Window & { hbspt?: { forms: { create: (opts: Record<string, unknown>) => void } } }).hbspt?.forms?.create) {
-        (window as Window & { hbspt: { forms: { create: (opts: Record<string, unknown>) => void } } }).hbspt.forms.create({
+        (window as unknown as Window & { hbspt: { forms: { create: (opts: Record<string, unknown>) => void } } }).hbspt.forms.create({
             portalId: '245019687',
             formId: '8f5f717c-be11-4c73-be5c-1f4828371f10',
             region: 'na2',
