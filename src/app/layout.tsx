@@ -1,6 +1,7 @@
 import { Sora } from "next/font/google";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.scss";
+import "./hubspot-form-overrides.css";
 
 import BootstrapClient from "@/components/BootstrapClient";
 import Navbar from "@/components/Navbar";
