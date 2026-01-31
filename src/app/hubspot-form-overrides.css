@@ -1,0 +1,326 @@
+/* Global HubSpot form overrides - lighter touch so we don't break HubSpot's layout.
+   If form is in a cross-origin iframe, use HubSpot form Styling tab instead. */
+
+/* Single-column flow by default - avoids breaking name fields, reset link, checkbox */
+#hubspot-form-container .hs-form,
+#hubspot-form-container form {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1.25rem !important;
+  align-items: stretch !important;
+}
+
+/* Two-column row only where HubSpot uses .form-columns-2 (e.g. First + Last name) */
+#hubspot-form-container .form-columns-2 {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 1rem !important;
+  align-items: start !important;
+}
+
+/* If a 2-col row contains consent/legal fields, force single column so they stack */
+#hubspot-form-container .form-columns-2:has(.hs-form-field:has(.legal-consent-container)),
+#hubspot-form-container .form-columns-2:has(.hs-form-field:has(.hs-consent-container)),
+#hubspot-form-container .form-columns-2:has(.hs-form-field:has(.hs-richtext)) {
+  grid-template-columns: 1fr !important;
+}
+
+#hubspot-form-container .form-columns-1 {
+  width: 100% !important;
+}
+
+/* Field wrapper - column for normal fields, row for checkbox so label aligns */
+#hubspot-form-container .hs-form-field {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.5rem !important;
+  width: 100% !important;
+}
+
+/* Checkbox field: HubSpot uses .hs-form-booleancheckbox - checkbox and label side by side, aligned */
+#hubspot-form-container .hs-form-booleancheckbox,
+#hubspot-form-container .hs-form-field .inputs ul,
+#hubspot-form-container .hs-form-field:has(input[type="checkbox"]) {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  flex-wrap: wrap !important;
+}
+
+#hubspot-form-container .hs-form-booleancheckbox label {
+  display: flex !important;
+  align-items: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+}
+
+#hubspot-form-container .hs-form-booleancheckbox input,
+#hubspot-form-container .hs-form-field input[type="checkbox"] {
+  width: 1.25rem !important;
+  min-width: 1.25rem !important;
+  height: 1.25rem !important;
+  margin: 0 0.5rem 0 0 !important;
+  flex-shrink: 0 !important;
+  vertical-align: middle !important;
+}
+
+#hubspot-form-container .hs-form-field:has(input[type="checkbox"]) .inputs {
+  margin: 0 !important;
+}
+
+#hubspot-form-container .hs-form-field:has(input[type="checkbox"]) label {
+  margin-bottom: 0 !important;
+  order: 1 !important;
+}
+
+/* Hide "Not you? Click here to reset" - user does not want pre-populated/cached entries */
+#hubspot-form-container .hs-form-field .hs-reset-link,
+#hubspot-form-container .hs-form a[href*="reset"] {
+  display: none !important;
+}
+
+#hubspot-form-container .hs-label,
+#hubspot-form-container label {
+  font-weight: 600 !important;
+  color: #333 !important;
+  font-size: 0.95rem !important;
+}
+
+#hubspot-form-container input[type="text"],
+#hubspot-form-container input[type="email"],
+#hubspot-form-container input[type="tel"],
+#hubspot-form-container input[type="number"],
+#hubspot-form-container select,
+#hubspot-form-container textarea,
+#hubspot-form-container .hs-input {
+  padding: 1rem 1.25rem !important;
+  border: 2px solid #e5e7eb !important;
+  border-radius: 12px !important;
+  font-size: 1rem !important;
+  line-height: 1.5 !important;
+  background: #fff !important;
+  color: #333 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+#hubspot-form-container input[type="text"],
+#hubspot-form-container input[type="email"],
+#hubspot-form-container input[type="tel"],
+#hubspot-form-container input[type="number"],
+#hubspot-form-container select,
+#hubspot-form-container .hs-input {
+  min-height: 3.25rem !important;
+}
+
+#hubspot-form-container input:focus,
+#hubspot-form-container select:focus,
+#hubspot-form-container textarea:focus {
+  outline: none !important;
+  border-color: #000 !important;
+  box-shadow: 0 0 0 4px rgba(227, 6, 19, 0.1) !important;
+}
+
+#hubspot-form-container select {
+  cursor: pointer !important;
+  appearance: none !important;
+  padding-right: 3rem !important;
+  height: auto !important;
+}
+
+/* Message textarea - taller default height */
+#hubspot-form-container textarea {
+  min-height: 220px !important;
+  resize: vertical !important;
+  line-height: 1.6 !important;
+}
+
+/* Red submit button - override HubSpot orange */
+#hubspot-form-container .hs-button,
+#hubspot-form-container input[type="submit"],
+#hubspot-form-container .hs_submit .hs-button,
+#hubspot-form-container .hs_submit input,
+#hubspot-form-container .actions input[type="submit"] {
+  background: linear-gradient(135deg, #E30613 0%, #ff4757 100%) !important;
+  background-color: #E30613 !important;
+  color: #fff !important;
+  padding: 1.25rem 3rem !important;
+  border: none !important;
+  border-radius: 12px !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 20px rgba(227, 6, 19, 0.3) !important;
+  width: 100% !important;
+}
+
+#hubspot-form-container .hs-button:hover,
+#hubspot-form-container input[type="submit"]:hover {
+  background: linear-gradient(135deg, #c80510 0%, #e63d4d 100%) !important;
+  background-color: #c80510 !important;
+  color: #fff !important;
+  box-shadow: 0 8px 30px rgba(227, 6, 19, 0.4) !important;
+}
+
+#hubspot-form-container .hs_submit {
+  margin-top: 0.5rem !important;
+  width: 100% !important;
+}
+
+#hubspot-form-container a {
+  font-size: 0.85rem !important;
+  color: #666 !important;
+}
+
+#hubspot-form-container input[type="checkbox"] {
+  accent-color: #E30613 !important;
+}
+
+/* Legal/consent block - align checkbox row with paragraphs (same left edge), equal spacing above/below */
+#hubspot-form-container .legal-consent-container,
+#hubspot-form-container .hs-consent-container {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  gap: 0.5rem !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
+}
+
+#hubspot-form-container .legal-consent-container input[type="checkbox"],
+#hubspot-form-container .hs-consent-container input[type="checkbox"] {
+  margin-top: 0.25rem !important;
+  margin-left: 0 !important;
+  flex-shrink: 0 !important;
+}
+
+/* Align consent label/text with paragraphs - no extra indent */
+#hubspot-form-container .legal-consent-container label,
+#hubspot-form-container .legal-consent-container p,
+#hubspot-form-container .hs-consent-container label,
+#hubspot-form-container .hs-consent-container p {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+
+/* Remove left indent from any wrapper around consent (lists, .inputs, etc.) */
+#hubspot-form-container .hs-form-field:has(.legal-consent-container) .inputs,
+#hubspot-form-container .hs-form-field:has(.legal-consent-container) .input,
+#hubspot-form-container .hs-form-field:has(.hs-consent-container) .inputs,
+#hubspot-form-container .hs-form-field:has(.hs-consent-container) .input,
+#hubspot-form-container .hs-form-field:has(.legal-consent-container) ul,
+#hubspot-form-container .hs-form-field:has(.legal-consent-container) ol,
+#hubspot-form-container .hs-form-field:has(.hs-consent-container) ul,
+#hubspot-form-container .hs-form-field:has(.hs-consent-container) ol,
+#hubspot-form-container .hs-form-field:has(.legal-consent-container) li,
+#hubspot-form-container .hs-form-field:has(.hs-consent-container) li {
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+  list-style: none !important;
+}
+
+/* Terms section: stack privacy text, checkbox, unsubscribe, submit consent one after the other */
+/* Force each consent/legal field to take full row so they stack (not side-by-side in a 2-col grid) */
+#hubspot-form-container .hs-form-field:has(.legal-consent-container),
+#hubspot-form-container .hs-form-field:has(.hs-consent-container),
+#hubspot-form-container .hs-form-field:has(.hs-richtext) {
+  grid-column: 1 / -1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1rem !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+}
+
+#hubspot-form-container .hs-form-field:has(.legal-consent-container) > *,
+#hubspot-form-container .hs-form-field:has(.hs-consent-container) > *,
+#hubspot-form-container .hs-form-field:has(.hs-richtext) > * {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1rem !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: none !important;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* Break any grid inside consent/terms - force single column */
+#hubspot-form-container .hs-form-field:has(.legal-consent-container) *,
+#hubspot-form-container .hs-form-field:has(.hs-consent-container) *,
+#hubspot-form-container .hs-form-field:has(.hs-richtext) * {
+  grid-column: 1 / -1 !important;
+  box-sizing: border-box !important;
+}
+
+#hubspot-form-container .hs-form-field:has(.legal-consent-container) div,
+#hubspot-form-container .hs-form-field:has(.hs-consent-container) div,
+#hubspot-form-container .hs-form-field:has(.hs-richtext) div {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+}
+
+/* Keep checkbox row inline and aligned with paragraphs */
+#hubspot-form-container .hs-form-field:has(.legal-consent-container) .legal-consent-container,
+#hubspot-form-container .hs-form-field:has(.legal-consent-container) .hs-consent-container,
+#hubspot-form-container .hs-form-field:has(.hs-consent-container) .legal-consent-container,
+#hubspot-form-container .hs-form-field:has(.hs-consent-container) .hs-consent-container {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  gap: 0.5rem !important;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+}
+
+#hubspot-form-container .hs-form-field:has(.legal-consent-container) .hs-richtext,
+#hubspot-form-container .hs-form-field:has(.hs-consent-container) .hs-richtext {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* Same space below checkbox as above: remove extra top margin from the block after the checkbox row */
+#hubspot-form-container .legal-consent-container + *,
+#hubspot-form-container .hs-consent-container + * {
+  margin-top: 0 !important;
+}
+
+#hubspot-form-container .hs-richtext {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Nuclear: force any consent/legal/richtext block to stack (catch-all for different HubSpot markup) */
+#hubspot-form-container [class*="consent"],
+#hubspot-form-container [class*="legal"],
+#hubspot-form-container [class*="richtext"] {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+#hubspot-form-container [class*="consent"] *,
+#hubspot-form-container [class*="legal"] * {
+  max-width: 100% !important;
+}
+
+@media (max-width: 768px) {
+  #hubspot-form-container .form-columns-2 {
+    grid-template-columns: 1fr !important;
+  }
+}

@@ -1,6 +1,55 @@
 :root {
   --background: #F1F0EE;
   --foreground: #1a1a1a;
+
+  /* HubSpot embedded form styling - matches NetiApps contact form design */
+  --hsf-global__font-family: inherit;
+  --hsf-global__font-size: 1rem;
+  --hsf-global__color: #333;
+  --hsf-heading__font-family: inherit;
+  --hsf-heading__color: #1a1a1a;
+  --hsf-richtext__font-family: inherit;
+  --hsf-richtext__font-size: 1rem;
+  --hsf-richtext__color: #666;
+  --hsf-background__background-color: transparent;
+  --hsf-background__border-radius: 0;
+  --hsf-background__padding: 0;
+  --hsf-field-label__font-family: inherit;
+  --hsf-field-label__font-size: 0.95rem;
+  --hsf-field-label__color: #333;
+  --hsf-field-label-requiredindicator__color: #E30613;
+  --hsf-field-input__font-family: inherit;
+  --hsf-field-input__font-size: 1rem;
+  --hsf-field-input__color: #333;
+  --hsf-field-input__background-color: #fff;
+  --hsf-field-input__placeholder-color: #999;
+  --hsf-field-input__border-color: #e5e7eb;
+  --hsf-field-input__border-width: 2px;
+  --hsf-field-input__border-style: solid;
+  --hsf-field-input__border-radius: 12px;
+  --hsf-field-input__padding: 1rem 1.25rem;
+  --hsf-field-textarea__font-family: inherit;
+  --hsf-field-textarea__color: #333;
+  --hsf-field-textarea__background-color: #fff;
+  --hsf-field-textarea__placeholder-color: #999;
+  --hsf-field-textarea__border-color: #e5e7eb;
+  --hsf-field-textarea__border-width: 2px;
+  --hsf-field-textarea__border-style: solid;
+  --hsf-field-textarea__border-radius: 12px;
+  --hsf-field-textarea__padding: 1rem 1.25rem;
+  --hsf-button__font-family: inherit;
+  --hsf-button__font-size: 1.1rem;
+  --hsf-button__color: #fff;
+  --hsf-button__background-color: #E30613;
+  --hsf-button__background-image: linear-gradient(135deg, #E30613 0%, #ff4757 100%);
+  --hsf-button__border-radius: 12px;
+  --hsf-button__padding: 1.25rem 3rem;
+  --hsf-button__box-shadow: 0 4px 20px rgba(227, 6, 19, 0.3);
+  --hsf-progressbar-text__color: #666;
+  --hsf-progressbar-progressLine__background-color: #E30613;
+  --hsf-progressbar-trackLine__background-color: #e5e7eb;
+  --hsf-row__vertical-spacing: 1.5rem;
+  --hsf-row__horizontal-spacing: 1.5rem;
 }
 
 html,
