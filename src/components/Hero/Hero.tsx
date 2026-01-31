@@ -13,6 +13,7 @@ import "swiper/css/effect-fade";
 
 import { useEffect, useState } from "react";
 import { cachedTranslate, useLanguage } from "@/context/LanguageContext";
+import { getMediaUrl } from "@/lib/media";
 
 export default function Hero(slides: any) {
     const { language, translate } = useLanguage();
@@ -65,10 +66,9 @@ export default function Hero(slides: any) {
     }, [language, originalSlides]);
 
     const videos = [
-        "/images/herovideo1.mp4",
-        "/images/herovideo3.mp4",
-        "/images/herovideo4.mp4",
-
+        getMediaUrl("/images/herovideo1.mp4"),
+        getMediaUrl("/images/herovideo3.mp4"),
+        getMediaUrl("/images/herovideo4.mp4"),
     ];
 
     return (

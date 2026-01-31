@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import styles from "./WhyChoose.module.scss";
 import { cachedTranslate, useLanguage } from "@/context/LanguageContext";
+import { getMediaUrl } from "@/lib/media";
 
 export default function WhyChoose(data: any) {
   const { language, translate } = useLanguage();
@@ -55,7 +56,7 @@ export default function WhyChoose(data: any) {
   return (
     <section
       className={styles.section}
-      style={{ backgroundImage: "url('/images/whychoose.png')" }}
+      style={{ backgroundImage: `url('${getMediaUrl("/images/whychoose.png")}')` }}
     >
       <div className="container">
         <div className="row">

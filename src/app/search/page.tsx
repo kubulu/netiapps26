@@ -7,7 +7,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Search, ArrowRight } from 'lucide-react';
 import styles from './page.module.scss';
-import Navbar from '@/components/Navbar/Navbar'; // Assuming we might need context or just standard layout
+import Navbar from '@/components/Navbar/Navbar';
+import { getMediaUrl } from '@/lib/media';
 
 // Mock Data for Search
 const SITE_CONTENT = [
@@ -112,7 +113,7 @@ function SearchResults() {
                     { label: 'Home', link: '/' },
                     { label: 'Search' }
                 ]}
-                imageSrc="/images/innerbanner.png"
+                imageSrc={getMediaUrl("/images/innerbanner.png")}
             /> */}
 
             <section className={styles.container}>

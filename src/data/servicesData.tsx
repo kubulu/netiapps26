@@ -1,3 +1,5 @@
+import { getMediaUrl } from "@/lib/media";
+
 export const services = [
     {
         id: "1",
@@ -6,8 +8,8 @@ export const services = [
         title: "Driving Growth with Innovative Digital Solutions",
         description: "We help businesses navigate the digital landscape with expert consulting and strategic planning for sustainable growth. In a rapidly evolving digital landscape, technology alone is not enough. Our Digital Strategy & Consulting services help organizations align business goals with the right digital, AI, and automation strategies—driving measurable impact, efficiency, and long-term growth.",
         longDescription: "Our consulting approach combines business insight, technology expertise, and AI-driven thinking to deliver transformation that works in the real world. We partner with enterprises to design, plan, and execute digital transformation journeys that are practical, scalable, and future-ready. Whether you are looking to modernize your legacy systems, adopt AI, or optimize your business processes, our team of experts is here to guide you every step of the way.",
-        icon: "/images/service1.png",
-        image: "/images/innerbanner.png",
+        icon: getMediaUrl("/images/service1.png"),
+        image: getMediaUrl("/images/innerbanner.png"),
         subServices: [
             "Digital Transformation Consulting",
             "Product & Platform Strategy",
@@ -37,8 +39,8 @@ export const services = [
         title: "Building Scalable and High-Performance Web Applications",
         description: "Custom web applications designed for performance, scalability, and exceptional user experiences across all devices.",
         longDescription: "We specialize in creating robust, scalable, and secure web applications using the latest technologies. Our development process is focused on delivering a seamless user experience while ensuring high performance and security. From e-commerce platforms to enterprise portals, we build solutions that drive business growth and user engagement.",
-        icon: "/images/service1.png",
-        image: "/images/innerbanner.png",
+        icon: getMediaUrl("/images/service1.png"),
+        image: getMediaUrl("/images/innerbanner.png"),
         subServices: ["Frontend Development", "Backend Systems", "Full Stack Solutions", "E-commerce Development"],
         details: [
             {
@@ -62,8 +64,8 @@ export const services = [
         title: "Innovative Mobile Solutions for Modern Enterprises",
         description: "Innovative iOS and Android applications that engage users and drive business value through intuitive design.",
         longDescription: "Our mobile development team creates high-quality native and cross-platform applications that provide an exceptional user experience. We focus on performance, security, and intuitive design to ensure your app stands out in the crowded marketplace. From concept to launch, we handle every aspect of the mobile app lifecycle.",
-        icon: "/images/service1.png",
-        image: "/images/innerbanner.png",
+        icon: getMediaUrl("/images/service1.png"),
+        image: getMediaUrl("/images/innerbanner.png"),
         subServices: ["iOS Development", "Android Development", "React Native", "Flutter"],
         details: [
             {

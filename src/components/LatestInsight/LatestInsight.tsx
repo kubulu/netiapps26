@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './LatestInsight.module.scss';
+import { getMediaUrl } from '@/lib/media';
 
 const insights = [
     {
@@ -37,7 +38,7 @@ export default function LatestInsight() {
                             <Link href={insight.link} className={styles.card}>
                                 <div className={styles.imageWrapper}>
                                     <Image
-                                        src={insight.image}
+                                        src={getMediaUrl(insight.image)}
                                         alt={insight.title}
                                         fill
                                         className={styles.image}
