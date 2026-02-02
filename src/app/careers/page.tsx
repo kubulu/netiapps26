@@ -42,7 +42,7 @@ export default async function CareersPage() {
             {acf?.job_list && (
                 <CareerCards jobList={acf.job_list} />
             )}
-            {acf?.image && (
+            {/* {acf?.image && (
             <section style={{ padding: '4rem 0' }}>
                 <img
                     src={acf.image}
@@ -52,7 +52,7 @@ export default async function CareersPage() {
                     style={{ width: '100%', height: 'auto', display: 'block' }}
                 />
             </section>
-            )}
+            )} */}
             {acf?.connect_now && (
             <ConnectNow connect={acf.connect_now}  />
             )}

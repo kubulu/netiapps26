@@ -7,6 +7,7 @@ import WhyUs from "@/components/WhyUs/WhyUs";
 import ExcellenceSection from "@/components/ExcellenceSection/ExcellenceSection";
 import Leadership from "@/components/Leadership/Leadership";
 import MoreAboutCompany from "@/components/MoreAboutCompany/MoreAboutCompany";
+import ConnectNow from '@/components/ConnectNow';
 import { ApiService } from '@/services/api.service';
 
 interface PageProps {
@@ -111,6 +112,7 @@ export default async function AbtPage({ params }: PageProps) {
                                 {element.excellence && ( <ExcellenceSection data={element.excellence} /> )}
                                 {element.leadership && ( <Leadership data={element.leadership}/> )}
                                 {element.about && ( <MoreAboutCompany about={element.about} /> )}
+                                {element.connect_now && ( <ConnectNow connect={element.connect_now} /> )}
                             </>
                         )}
                     </div>

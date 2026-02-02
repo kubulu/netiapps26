@@ -5,14 +5,14 @@
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     gap: 2rem;
 }
 
 .card {
     border: 2px solid #ffffff;
     border-radius: 30px;
-    padding: 1.25rem;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     transition: all 0.3s ease;
@@ -29,8 +29,8 @@
 .cardContent {
     background: #ffffff;
     border-radius: 20px;
-    padding: 2.5rem 2rem;
-    min-height: 260px;
+    padding: 1rem;
+    // min-height: 260px;
     display: flex;
     flex-direction: column;
     margin-bottom: 1.25rem;
