@@ -17,7 +17,17 @@ import { cachedTranslate, useLanguage } from "@/context/LanguageContext";
 export default function Hero(slides: any) {
     const { language, translate } = useLanguage();
 
-    const originalSlides = slides.slides;
+    // Dummy slides to append
+    const dummySlides = [
+        {
+            title: "<strong>Scale Your Business</strong><br>With Advanced Technology",
+            button_name: "Discover More",
+            link: "/services",
+            description: "Empowering your enterprise with cutting-edge solutions."
+        },
+    ];
+
+    const originalSlides = [...slides.slides, ...dummySlides];
     const [translatedSlides, setTranslatedSlides] = useState(originalSlides);
     const [activeIndex, setActiveIndex] = useState(0);
 
@@ -66,9 +76,8 @@ export default function Hero(slides: any) {
 
     const videos = [
         "/images/herovideo1.mp4",
-        "/images/herovideo3.mp4",
-        "/images/herovideo4.mp4",
-
+        "/images/herobanner11.mp4",
+        "/images/herobanner7.mp4",
     ];
 
     return (
@@ -118,7 +127,7 @@ export default function Hero(slides: any) {
                                 </div>
 
                                 {/* Right Side: Video */}
-                                <div className="col-lg-6 h-100 position-relative d-flex align-items-center overflow-hidden" style={{ backgroundColor: '#ffffff', zIndex: 1, paddingTop: '80px' }}>
+                                <div className="col-lg-6 h-100 position-relative d-flex align-items-center overflow-hidden" style={{ backgroundColor: '#ffffff', zIndex: 1 }}>
                                     <video
                                         autoPlay
                                         loop

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
+import { Twitter, Linkedin } from "lucide-react";
 import styles from "./Footer.module.scss";
 import { useEffect, useState } from "react";
 import { cachedTranslate, useLanguage } from "@/context/LanguageContext";
@@ -144,10 +144,8 @@ export default function Footer(footer: any) {
               </div>
 
               <div className={styles.socialLinks}>
-                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><Facebook size={20} /></a>
                 <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"><Twitter size={20} /></a>
                 <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"><Linkedin size={20} /></a>
-                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"><Instagram size={20} /></a>
               </div>
             </div>
           </div>
