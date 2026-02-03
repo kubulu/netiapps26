@@ -3,10 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, EffectFade } from "swiper/modules";
+import { Autoplay, EffectFade } from "swiper/modules";
 import styles from "./Hero.module.scss";
 import "swiper/css";
-import "swiper/css/pagination";
+
 import "swiper/css/effect-fade";
 
 
@@ -77,15 +77,15 @@ export default function Hero(slides: any) {
 
     const videos = [
         getMediaUrl("/images/herovideo1.mp4"),
-        getMediaUrl("/images/herovideo3.mp4"),
-        getMediaUrl("/images/herovideo4.mp4"),
+        getMediaUrl("/images/videobanner2.mp4"),
+        getMediaUrl("/images/videobanner4.mp4"),
     ];
 
     return (
         <section className={styles.hero}>
-            <div className="container h-100">
+            <div className="w-100 h-100">
                 <Swiper
-                    modules={[Autoplay, Pagination, EffectFade]}
+                    modules={[Autoplay, EffectFade]}
                     effect="fade"
                     fadeEffect={{ crossFade: true }}
                     spaceBetween={0}
@@ -95,40 +95,19 @@ export default function Hero(slides: any) {
                         delay: 5000,
                         disableOnInteraction: false,
                     }}
-                    pagination={{
-                        clickable: true,
-                        el: '.custom-pagination',
-                        bulletClass: `swiper-pagination-bullet ${styles.swiperBullet}`,
-                        bulletActiveClass: `swiper-pagination-bullet-active ${styles.swiperBulletActive}`
-                    }}
+
                     className={styles.swiperContainer}
                     onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
                 >
                     {translatedSlides.map((slide: any, index: number) => (
                         <SwiperSlide key={index}>
-                            <div className="row h-100 align-items-center">
-                                {/* Left Side: Content Slider */}
-                                <div className="col-lg-6">
-                                    <div className={styles.content}>
-                                        <div className={styles.title}>
-                                            <div
-                                                dangerouslySetInnerHTML={{
-                                                    __html: slide.title,
-                                                }}
-                                            />
-                                        </div>
-
-                                        <Link
-                                            href={slide.link}
-                                            className={styles.ctaBtn}
-                                        >
-                                            {slide.button_name}
-                                        </Link>
-                                    </div>
-                                </div>
-
-                                {/* Right Side: Video */}
-                                <div className="col-lg-6 h-100 position-relative d-flex align-items-center overflow-hidden" style={{ backgroundColor: '#ffffff', zIndex: 1 }}>
+                            <div className="d-flex flex-column flex-lg-row h-100 position-relative">
+                                {/* Desktop/Mobile Video Wrapper */}
+                                {/* On Desktop: Absolute right half. On Mobile: Relative, Stacked (order 2?) */}
+                                <div
+                                    className="d-none d-lg-block position-absolute top-0 end-0 w-50 h-100"
+                                    style={{ zIndex: 1, backgroundColor: '#ffffff' }}
+                                >
                                     <video
                                         autoPlay
                                         loop
@@ -140,7 +119,7 @@ export default function Hero(slides: any) {
                                             height: '100%',
                                             objectFit: 'cover',
                                             backgroundColor: '#ffffff',
-                                            opacity: 0.999, // Force software composition in Chrome to fix color shift
+                                            opacity: 0.999,
                                             display: 'block',
                                             filter: 'contrast(1)',
                                         }}
@@ -149,14 +128,54 @@ export default function Hero(slides: any) {
                                         Your browser does not support the video tag.
                                     </video>
                                 </div>
+
+                                {/* Text Content Area */}
+                                <div className="container h-100 position-relative d-flex align-items-center" style={{ zIndex: 2 }}>
+                                    <div className="row w-100">
+                                        <div className="col-lg-6">
+                                            <div className={styles.content}>
+                                                <div className={styles.title}>
+                                                    <div
+                                                        dangerouslySetInnerHTML={{
+                                                            __html: slide.title,
+                                                        }}
+                                                    />
+                                                </div>
+
+                                                <Link
+                                                    href={slide.link}
+                                                    className={styles.ctaBtn}
+                                                >
+                                                    {slide.button_name}
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Mobile Video (Visible only on mobile) */}
+                                <div
+                                    className="d-lg-none w-100 position-relative"
+                                    style={{ height: '300px', backgroundColor: '#ffffff' }}
+                                >
+                                    <video
+                                        autoPlay
+                                        loop
+                                        muted
+                                        playsInline
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover',
+                                        }}
+                                    >
+                                        <source src={videos[index % videos.length]} type="video/mp4" />
+                                    </video>
+                                </div>
                             </div>
                         </SwiperSlide>
                     ))}
-                    <div className="row">
-                        <div className="col-lg-6">
-                            <div className={`${styles.paginationWrapper} custom-pagination`}></div>
-                        </div>
-                    </div>
+
                 </Swiper>
             </div>
         </section>
