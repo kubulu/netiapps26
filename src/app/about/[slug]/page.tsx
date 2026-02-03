@@ -9,6 +9,7 @@ import Leadership from "@/components/Leadership/Leadership";
 import MoreAboutCompany from "@/components/MoreAboutCompany/MoreAboutCompany";
 import ConnectNow from '@/components/ConnectNow';
 import { ApiService } from '@/services/api.service';
+import { hasContent } from "@/utils/hasContent";
 
 interface PageProps {
     params: Promise<{ slug: string }>;
@@ -48,12 +49,14 @@ export default async function AbtPage({ params }: PageProps) {
     const about = About[0];
     const content = about?.acf.content?.[0];
     const clientDetails = content?.client_details;
-    console.log(about);
+    // console.log(about);
+    
     return (
         <main>
-            {about?.acf?.banner && (
-                <InnerPageBanner banner={about.acf.banner} />
-            )}
+           {hasContent(about?.acf?.banner) && (
+                 <InnerPageBanner banner={about.acf.banner} />
+           )}
+
 
             {about?.acf?.content?.length > 0 ? (
                 about.acf.content.map((element: any, index: number) => (
@@ -106,15 +109,24 @@ export default async function AbtPage({ params }: PageProps) {
                             </section>
                         )}
 
-                        {element.acf_fc_layout === 'about' && (
-                            <>
-                                {element.whyus && ( <WhyUs why={element.whyus}/> )}
-                                {element.excellence && ( <ExcellenceSection data={element.excellence} /> )}
-                                {element.leadership && ( <Leadership data={element.leadership}/> )}
-                                {element.about && ( <MoreAboutCompany about={element.about} /> )}
-                                {element.connect_now && ( <ConnectNow connect={element.connect_now} /> )}
-                            </>
+                        {element.acf_fc_layout === "about" && (
+                        <>
+                            {hasContent(element.whyus) && <WhyUs why={element.whyus} />}
+                            {hasContent(element.excellence) && (
+                            <ExcellenceSection data={element.excellence} />
+                            )}
+                            {hasContent(element.leadership) && (
+                            <Leadership data={element.leadership} />
+                            )}
+                            {hasContent(element.about) && (
+                            <MoreAboutCompany about={element.about} />
+                            )}
+                            {hasContent(element.connect_now) && (
+                            <ConnectNow connect={element.connect_now} />
+                            )}
+                        </>
                         )}
+
                     </div>
                 ))
             ) : (

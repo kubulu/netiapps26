@@ -3,6 +3,7 @@ import ConnectNow from '@/components/ConnectNow';
 import CareerCards from '@/components/CareerCards';
 import Image from 'next/image';
 import { ApiService } from "../../services/api.service";
+import { hasContent } from '@/utils/hasContent';
 
 export default async function CareersPage() {
     const baseUrl = new ApiService();
@@ -33,16 +34,17 @@ export default async function CareersPage() {
     }
 
     const acf = careers[0].acf;
-    console.log(acf);
+    // console.log(acf);
     return (
         <main>
-            {acf?.banner && (
-                <InnerPageBanner banner={acf.banner} />
-            )}
-            {acf?.job_list && (
+            {hasContent(acf?.banner) && (
+                 <InnerPageBanner banner={acf.banner} />
+             )}
+
+            {hasContent(acf?.job_list) && (
                 <CareerCards jobList={acf.job_list} />
             )}
-            {/* {acf?.image && (
+            {hasContent(acf?.image) && (
             <section style={{ padding: '4rem 0' }}>
                 <img
                     src={acf.image}
@@ -52,8 +54,8 @@ export default async function CareersPage() {
                     style={{ width: '100%', height: 'auto', display: 'block' }}
                 />
             </section>
-            )} */}
-            {acf?.connect_now && (
+            )}
+            {hasContent(acf?.connect_now) && (
             <ConnectNow connect={acf.connect_now}  />
             )}
         </main>

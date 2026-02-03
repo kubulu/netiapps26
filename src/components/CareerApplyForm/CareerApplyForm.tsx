@@ -6,7 +6,7 @@ import styles from "./CareerApplyForm.module.scss";
 import { ApiService } from "../../services/api.service";
 
 
-const SITE_KEY = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"; // test key
+const SITE_KEY = "6LcoXl8sAAAAAHvVR6_sWc0eiX20fMpBJuOnrgNh"; // test key
 
 export default function CareerApplyForm({ role }: { role: string }) {
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
@@ -43,8 +43,8 @@ export default function CareerApplyForm({ role }: { role: string }) {
 
     try {
       const res = await fetch(
-        // baseUrl.getBaseUrl() + '/wp-json/career-form/v1/submit',
-        "http://localhost/netiapps2026/wp-netiapps/wp-json/career-form/v1/submit",
+        baseUrl.getBaseUrl() + '/wp-json/career-form/v1/submit',
+        // "http://localhost/netiapps2026/wp-netiapps/wp-json/career-form/v1/submit",
         {
           method: "POST",
           body: formData,

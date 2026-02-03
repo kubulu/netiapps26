@@ -15,6 +15,7 @@ import SingleText from '@/components/SingleText';
 import WhyChoose from '@/components/WhyChoose';
 import { services } from '@/data/servicesData';
 import { ApiService } from '@/services/api.service';
+import { hasContent } from "@/utils/hasContent";
 
 interface PageProps {
     params: Promise<{ slug: string }>;
@@ -50,73 +51,81 @@ export default async function ServicesPage({ params }: PageProps) {
 
     return (
         <main>
-            {solution?.acf?.banner && (
+
+            {hasContent(solution?.acf?.banner) && (
                 <InnerPageBanner banner={solution.acf.banner} />
             )}
+
 
             {solution?.acf?.content?.length > 0 ? (
                 solution.acf.content.map((element: any, index: number) => (
                     <div key={index}>
-                        {element.acf_fc_layout === 'main_page' && (
-                            <>
-                                {element.highlight && (
-                                    <ServiceHighlight highlight={element.highlight} />
-                                )}
-                                {element.what_we_do && (
-                                    <WhatWeDo content={element.what_we_do} />
-                                )}
-                                {element.why_choose_us && (
-                                    <WhyChooseUs why={element.why_choose_us} />
-                                )}
-                                {element.connect_now && (
-                                    <ConnectNow connect={element.connect_now} />
-                                )}
-                            </>
+                    {element.acf_fc_layout === "main_page" && (
+                        <>
+                        {hasContent(element.highlight) && (
+                            <ServiceHighlight highlight={element.highlight} />
                         )}
 
-                        {element.acf_fc_layout === 'inner_page' && (
-                            <>
-                                {element.introduction && (
-                                    <ServiceIntroduction intro={element.introduction} />
-                                )}
-
-                                {element.dual_list && (
-                                    <ServiceDualList data={element.dual_list} />
-                                )}
-
-                                {Array.isArray(element.single_image) &&
-                                    element.single_image.map((imgBlock: any, imgIndex: number) => (
-                                        <div key={imgIndex}>
-                                            <SingleFullImage image={[imgBlock]} />
-
-                                            {element.text_content?.[imgIndex] && (
-                                                <SingleText
-                                                    data={[element.text_content[imgIndex]]}
-                                                />
-                                            )}
-                                        </div>
-                                    ))}
-
-                                {element.why_choose && (
-                                    <WhyChoose data={element.why_choose} />
-                                )}
-
-                                {element.why_choose_us && (
-                                    <WhyChooseUs why={element.why_choose_us} />
-                                )}
-
-                                {element.connect_now && (
-                                    <ConnectNow connect={element.connect_now} />
-                                )}
-                            </>
+                        {hasContent(element.what_we_do) && (
+                            <WhatWeDo content={element.what_we_do} />
                         )}
+
+                        {hasContent(element.why_choose_us) && (
+                            <WhyChooseUs why={element.why_choose_us} />
+                        )}
+
+                        {hasContent(element.connect_now) && (
+                            <ConnectNow connect={element.connect_now} />
+                        )}
+                        </>
+                    )}
+
+                    {element.acf_fc_layout === "inner_page" && (
+                        <>
+                        {hasContent(element.introduction) && (
+                            <ServiceIntroduction intro={element.introduction} />
+                        )}
+
+                        {hasContent(element.dual_list) && (
+                            <ServiceDualList data={element.dual_list} />
+                        )}
+
+                        {Array.isArray(element.single_image) &&
+                            element.single_image.map((imgBlock: any, imgIndex: number) => (
+                            <div key={imgIndex}>
+                                {hasContent(imgBlock) && (
+                                <SingleFullImage image={[imgBlock]} />
+                                )}
+
+                                {hasContent(element.text_content?.[imgIndex]) && (
+                                <SingleText
+                                    data={[element.text_content[imgIndex]]}
+                                />
+                                )}
+                            </div>
+                            ))}
+
+                        {hasContent(element.why_choose) && (
+                            <WhyChoose data={element.why_choose} />
+                        )}
+
+                        {hasContent(element.why_choose_us) && (
+                            <WhyChooseUs why={element.why_choose_us} />
+                        )}
+
+                        {hasContent(element.connect_now) && (
+                            <ConnectNow connect={element.connect_now} />
+                        )}
+                        </>
+                    )}
                     </div>
                 ))
             ) : (
-                <div className={styles.emptyState}>
-                    <p>Content is not configured in your CMS.</p>
-                </div>
+            <div className={styles.emptyState}>
+                <p>Content is not configured in your CMS.</p>
+            </div>
             )}
+
 
             <LatestInsight />
         </main>
