@@ -33,6 +33,297 @@
     padding-bottom: 10px;
 }
 
+// Wrapper for HubSpot embed - matches original design (two-column layout, white inputs, red button)
+.hubspotFormWrap {
+    // Container for v2 embed - no extra background
+    #hubspot-form-container {
+        background: transparent;
+    }
+    // HubSpot CSS variable overrides (see developers.hubspot.com forms reference)
+    --hsf-global__font-family: inherit;
+    --hsf-global__font-size: 1rem;
+    --hsf-global__color: #333;
+    --hsf-heading__font-family: inherit;
+    --hsf-heading__color: #1a1a1a;
+    --hsf-richtext__font-family: inherit;
+    --hsf-richtext__font-size: 1rem;
+    --hsf-richtext__color: #666;
+    --hsf-background__background-color: transparent;
+    --hsf-background__border-radius: 0;
+    --hsf-background__padding: 0;
+    --hsf-field-label__font-family: inherit;
+    --hsf-field-label__font-size: 0.95rem;
+    --hsf-field-label__color: #333;
+    --hsf-field-label-requiredindicator__color: #E30613;
+    --hsf-field-input__font-family: inherit;
+    --hsf-field-input__font-size: 1rem;
+    --hsf-field-input__color: #333;
+    --hsf-field-input__background-color: #fff;
+    --hsf-field-input__placeholder-color: #999;
+    --hsf-field-input__border-color: #e5e7eb;
+    --hsf-field-input__border-width: 2px;
+    --hsf-field-input__border-style: solid;
+    --hsf-field-input__border-radius: 12px;
+    --hsf-field-input__padding: 1rem 1.25rem;
+    --hsf-field-textarea__font-family: inherit;
+    --hsf-field-textarea__color: #333;
+    --hsf-field-textarea__background-color: #fff;
+    --hsf-field-textarea__placeholder-color: #999;
+    --hsf-field-textarea__border-color: #e5e7eb;
+    --hsf-field-textarea__border-width: 2px;
+    --hsf-field-textarea__border-style: solid;
+    --hsf-field-textarea__border-radius: 12px;
+    --hsf-field-textarea__padding: 1rem 1.25rem;
+    --hsf-button__font-family: inherit;
+    --hsf-button__font-size: 1.1rem;
+    --hsf-button__color: #fff;
+    --hsf-button__background-color: #E30613;
+    --hsf-button__background-image: linear-gradient(135deg, #E30613 0%, #ff4757 100%);
+    --hsf-button__border-radius: 12px;
+    --hsf-button__padding: 1.25rem 3rem;
+    --hsf-button__box-shadow: 0 4px 20px rgba(227, 6, 19, 0.3);
+    --hsf-progressbar-text__color: #666;
+    --hsf-progressbar-progressLine__background-color: #E30613;
+    --hsf-progressbar-trackLine__background-color: #e5e7eb;
+    --hsf-row__vertical-spacing: 1.5rem;
+    --hsf-row__horizontal-spacing: 1.5rem;
+
+    // Lighter layout - flex column so name fields, checkbox, reset link don't get messed up
+    :global(.hs-form) {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1.25rem !important;
+        align-items: stretch !important;
+    }
+
+    :global(.hs-form .form-columns-2) {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 1rem !important;
+        align-items: start !important;
+    }
+
+    :global(.hs-form .form-columns-1) {
+        width: 100% !important;
+    }
+
+    :global(.hs-form-field) {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+        width: 100% !important;
+    }
+
+    // Checkbox field: HubSpot uses .hs-form-booleancheckbox - align checkbox and label
+    :global(.hs-form-booleancheckbox),
+    :global(.hs-form-field .inputs ul),
+    :global(.hs-form-field:has(input[type="checkbox"])) {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 0.5rem !important;
+        flex-wrap: wrap !important;
+    }
+
+    :global(.hs-form-booleancheckbox label) {
+        display: flex !important;
+        align-items: center !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        font-weight: 500 !important;
+        cursor: pointer !important;
+    }
+
+    :global(.hs-form-booleancheckbox input),
+    :global(.hs-form-field input[type="checkbox"]) {
+        width: 1.25rem !important;
+        min-width: 1.25rem !important;
+        height: 1.25rem !important;
+        margin: 0 0.5rem 0 0 !important;
+        flex-shrink: 0 !important;
+        vertical-align: middle !important;
+    }
+
+    :global(.hs-form-field:has(input[type="checkbox"]) .inputs) {
+        margin: 0 !important;
+    }
+
+    :global(.hs-form-field:has(input[type="checkbox"]) label) {
+        margin-bottom: 0 !important;
+        order: 1 !important;
+    }
+
+    // Hide "Not you? Click here to reset"
+    :global(.hs-form-field .hs-reset-link),
+    :global(.hs-form a[href*="reset"]) {
+        display: none !important;
+    }
+
+    // Terms section: stack privacy text, checkbox, unsubscribe, submit consent vertically
+    :global(.hs-form-field:has(.legal-consent-container)),
+    :global(.hs-form-field:has(.hs-consent-container)) {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1rem !important;
+        width: 100% !important;
+    }
+
+    :global(.hs-form-field:has(.legal-consent-container) > *),
+    :global(.hs-form-field:has(.hs-consent-container) > *) {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1rem !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    :global(div:has(.legal-consent-container):has(.hs-richtext)),
+    :global(div:has(.hs-consent-container):has(.hs-richtext)) {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1rem !important;
+        width: 100% !important;
+    }
+
+    :global(.hs-richtext) {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    // Labels - match original (dark grey, semibold, with space for icon)
+    :global(.hs-form .hs-label),
+    :global(.hs-form label) {
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.5rem !important;
+        font-weight: 600 !important;
+        color: #333 !important;
+        font-size: 0.95rem !important;
+        margin-bottom: 0.25rem !important;
+    }
+
+    // Inputs / select - match original form height (same as main branch before HubSpot)
+    :global(.hs-input),
+    :global(.hs-form input[type="text"]),
+    :global(.hs-form input[type="email"]),
+    :global(.hs-form input[type="tel"]),
+    :global(.hs-form input[type="number"]),
+    :global(.hs-form select),
+    :global(.hs-form textarea) {
+        padding: 1rem 1.25rem !important;
+        border: 2px solid #e5e7eb !important;
+        border-radius: 12px !important;
+        font-size: 1rem !important;
+        line-height: 1.5 !important;
+        font-family: inherit !important;
+        transition: all 0.3s ease !important;
+        background: white !important;
+        color: #333 !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+
+        &:focus {
+            outline: none !important;
+            border-color: #000000 !important;
+            box-shadow: 0 0 0 4px rgba(227, 6, 19, 0.1) !important;
+            transform: translateY(-2px);
+        }
+
+        &::placeholder {
+            color: #999 !important;
+        }
+    }
+
+    :global(.hs-form input[type="text"]),
+    :global(.hs-form input[type="email"]),
+    :global(.hs-form input[type="tel"]),
+    :global(.hs-form input[type="number"]),
+    :global(.hs-form select),
+    :global(.hs-input) {
+        min-height: 3.25rem !important;
+    }
+
+    :global(.hs-form select) {
+        cursor: pointer;
+        appearance: none;
+        height: auto !important;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23E30613' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        background-size: 20px;
+        padding-right: 3rem !important;
+    }
+
+    // Message textarea - taller default height
+    :global(.hs-form textarea) {
+        padding: 1rem 1.25rem !important;
+        min-height: 220px !important;
+        resize: vertical;
+        line-height: 1.6;
+    }
+
+    // Submit button - red like original (override HubSpot orange)
+    :global(.hs-button),
+    :global(.hs-form input[type="submit"]),
+    :global(.hs_submit .hs-button),
+    :global(.hs_submit input[type="submit"]),
+    :global(.hs-form .actions input[type="submit"]) {
+        background: linear-gradient(135deg, #E30613 0%, #ff4757 100%) !important;
+        background-color: #E30613 !important;
+        color: white !important;
+        padding: 1.25rem 3rem !important;
+        border: none !important;
+        border-radius: 12px !important;
+        font-size: 1.1rem !important;
+        font-weight: 600 !important;
+        cursor: pointer !important;
+        transition: all 0.3s ease !important;
+        margin-top: 1rem !important;
+        box-shadow: 0 4px 20px rgba(227, 6, 19, 0.3) !important;
+        width: 100% !important;
+
+        &:hover {
+            background: linear-gradient(135deg, #c80510 0%, #e63d4d 100%) !important;
+            background-color: #c80510 !important;
+            color: white !important;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(227, 6, 19, 0.4) !important;
+        }
+    }
+
+    // Submit container
+    :global(.hs_submit) {
+        grid-column: 1 / -1;
+        margin-top: 0.5rem;
+    }
+
+    // "Not you? Click here to reset" - subtle so it matches clean design
+    :global(.hs-form a) {
+        font-size: 0.85rem !important;
+        color: #666 !important;
+    }
+
+    // Checkbox - red accent to match brand
+    :global(.hs-form input[type="checkbox"]) {
+        accent-color: #E30613;
+    }
+
+    // Consent / privacy / legal text - match original typography
+    :global(.hs-form .legal-consent-container),
+    :global(.hs-form .hs-richtext),
+    :global(.hs-form .hs-form-field .hs-field-desc),
+    :global(.hs-form .submitted-message) {
+        font-size: 0.9rem !important;
+        color: #666 !important;
+        line-height: 1.5 !important;
+    }
+
+    // Hide HubSpot's default required asterisk styling if needed; we keep required indicators
+    :global(.hs-required) {
+        color: inherit;
+    }
+}
+
 .form {
     display: flex;
     flex-direction: column;
@@ -219,5 +510,16 @@
     .submitBtn {
         padding: 1rem 2rem;
         font-size: 1rem;
+    }
+
+    // HubSpot form: single column on mobile
+    .hubspotFormWrap :global(.hs-form) {
+        grid-template-columns: 1fr;
+    }
+
+    .hubspotFormWrap :global(.hs-form input[type="submit"]),
+    .hubspotFormWrap :global(.hs-button) {
+        padding: 1rem 2rem !important;
+        font-size: 1rem !important;
     }
 }

@@ -1,6 +1,7 @@
 import { Sora } from "next/font/google";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.scss";
+import "./hubspot-form-overrides.css";
 
 import BootstrapClient from "@/components/BootstrapClient";
 import Navbar from "@/components/Navbar";
@@ -23,7 +24,7 @@ interface RootLayoutProps {
 
 async function safeFetch(url: string) {
     try {
-        const res = await fetch(url, { cache: "no-store" });
+        const res = await fetch(url, { next: { revalidate: 3600 } });
 
         if (!res.ok) {
             console.error("CMS fetch failed:", url, res.status);
@@ -56,7 +57,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
                     {navData ? (
                         <Navbar nav={navData} />
                     ) : (
-                        <div style={{ height: 80 }} /> 
+                        <div style={{ height: 80 }} />
                     )}
 
                     {children}

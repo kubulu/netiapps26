@@ -10,6 +10,20 @@ const nextConfig = {
     buildActivity: false,
     autoPrerender: false,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "*.cdn.digitaloceanspaces.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "*.digitaloceanspaces.com",
+        pathname: "/**",
+      },
+    ],
+  },
 };
 
 export default nextConfig;

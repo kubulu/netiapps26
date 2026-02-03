@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "./ClientSpeaks.module.scss";
 import { cachedTranslate, useLanguage } from "@/context/LanguageContext";
+import { getMediaUrl } from "@/lib/media";
 
 type FeedbackItem = {
   rating: string;
@@ -129,7 +130,7 @@ export default function ClientSpeaks({ testimonials }: ClientSpeaksProps) {
                         {[...Array(Number(item.rating))].map((_, i) => (
                           <Image
                             key={i}
-                            src="/images/star.png"
+                            src={getMediaUrl("/images/star.png")}
                             alt="Star"
                             width={18}
                             height={18}
@@ -148,7 +149,7 @@ export default function ClientSpeaks({ testimonials }: ClientSpeaksProps) {
                     <div className={styles.quoteContent}>
                       <div className={styles.quoteIcon}>
                         <Image
-                          src="/images/quote.svg"
+                          src={getMediaUrl("/images/quote.svg")}
                           alt="Quote"
                           width={48}
                           height={38}

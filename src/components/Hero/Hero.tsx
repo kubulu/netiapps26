@@ -11,23 +11,24 @@ import "swiper/css/effect-fade";
 
 
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { cachedTranslate, useLanguage } from "@/context/LanguageContext";
+import { getMediaUrl } from "@/lib/media";
 
 export default function Hero(slides: any) {
     const { language, translate } = useLanguage();
 
-    // Dummy slides to append
-    const dummySlides = [
-        {
-            title: "<strong>Scale Your Business</strong><br>With Advanced Technology",
-            button_name: "Discover More",
-            link: "/services",
-            description: "Empowering your enterprise with cutting-edge solutions."
-        },
-    ];
-
-    const originalSlides = [...slides.slides, ...dummySlides];
+    const originalSlides = useMemo(() => {
+        const dummySlides = [
+            {
+                title: "<strong>Scale Your Business</strong><br>With Advanced Technology",
+                button_name: "Discover More",
+                link: "/services",
+                description: "Empowering your enterprise with cutting-edge solutions."
+            },
+        ];
+        return [...(slides.slides || []), ...dummySlides];
+    }, [slides.slides]);
     const [translatedSlides, setTranslatedSlides] = useState(originalSlides);
     const [activeIndex, setActiveIndex] = useState(0);
 
@@ -75,9 +76,9 @@ export default function Hero(slides: any) {
     }, [language, originalSlides]);
 
     const videos = [
-        "/images/herovideo1.mp4",
-        "/images/herobanner11.mp4",
-        "/images/herobanner7.mp4",
+        getMediaUrl("/images/herovideo1.mp4"),
+        getMediaUrl("/images/herovideo3.mp4"),
+        getMediaUrl("/images/herovideo4.mp4"),
     ];
 
     return (

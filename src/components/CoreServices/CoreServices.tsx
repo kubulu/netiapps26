@@ -1,37 +1,14 @@
 import Image from 'next/image';
 import styles from './CoreServices.module.scss';
+import { getMediaUrl } from '@/lib/media';
 
 const coreServices = [
-    {
-        id: 1,
-        title: "Digital Transformation Consulting",
-        icon: "/images/core1.svg"
-    },
-    {
-        id: 2,
-        title: "Product & Platform Strategy",
-        icon: "/images/core2.svg"
-    },
-    {
-        id: 3,
-        title: "Business Process Analysis & Optimization",
-        icon: "/images/core3.svg"
-    },
-    {
-        id: 4,
-        title: "Artificial Intelligence and Machine Learning",
-        icon: "/images/core4.svg"
-    },
-    {
-        id: 5,
-        title: "Technology Road mapping",
-        icon: "/images/core5.svg"
-    },
-    {
-        id: 6,
-        title: "AI Adoption & Readiness Assessment",
-        icon: "/images/core6.svg"
-    }
+    { id: 1, title: "Digital Transformation Consulting", icon: "/images/core1.svg" },
+    { id: 2, title: "Product & Platform Strategy", icon: "/images/core2.svg" },
+    { id: 3, title: "Business Process Analysis & Optimization", icon: "/images/core3.svg" },
+    { id: 4, title: "Artificial Intelligence and Machine Learning", icon: "/images/core4.svg" },
+    { id: 5, title: "Technology Road mapping", icon: "/images/core5.svg" },
+    { id: 6, title: "AI Adoption & Readiness Assessment", icon: "/images/core6.svg" },
 ];
 
 export default function CoreServices() {
@@ -58,7 +35,7 @@ export default function CoreServices() {
                                 <div key={service.id} className={styles.gridItem}>
                                     <div className={styles.iconWrapper}>
                                         <Image
-                                            src={service.icon}
+                                            src={getMediaUrl(service.icon)}
                                             alt={service.title}
                                             width={60}
                                             height={60}

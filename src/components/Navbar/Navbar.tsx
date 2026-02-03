@@ -8,6 +8,7 @@ import styles from './Navbar.module.scss';
 import SearchOverlay from '@/components/SearchOverlay';
 import { ChevronDown, Menu, X } from 'lucide-react';
 import { Language } from "@/types/language";
+import { getMediaUrl } from "@/lib/media";
 
 // Navigation data structure
 
@@ -237,7 +238,7 @@ export default function Navbar(nav: any) {
                         </Link>
 
                         <button className={styles.searchBtn} onClick={() => setIsSearchOpen(true)}>
-                            <Image src="/images/search.svg" alt="Search" width={22} height={22} />
+                            <Image src={getMediaUrl("/images/search.svg")} alt="Search" width={22} height={22} />
                         </button>
 
                         {/* Mobile Hamburger Toggle */}
