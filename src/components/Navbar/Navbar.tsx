@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import styles from './Navbar.module.scss';
 import SearchOverlay from '@/components/SearchOverlay';
-import { ChevronDown, Menu, X } from 'lucide-react';
+import { ChevronDown, Menu, X, Phone } from 'lucide-react';
 import { Language } from "@/types/language";
 import { getMediaUrl } from "@/lib/media";
 
@@ -234,7 +234,8 @@ export default function Navbar(nav: any) {
 
 
                         <Link href={navigationData.contact.link} className={styles.contactBtn}>
-                            {navigationData.contact.name}
+                            <span className="d-none d-lg-block">{navigationData.contact.name}</span>
+                            <span className="d-lg-none"><Phone size={20} /></span>
                         </Link>
 
                         <button className={styles.searchBtn} onClick={() => setIsSearchOpen(true)}>
