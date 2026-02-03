@@ -7,7 +7,7 @@ export default function CareerCards(jobList: any) {
             <div className="container">
                 <div className={styles.grid}>
                     {jobList.jobList.map((job: any, index: any) => (
-                        <div key={index} className={styles.card}>
+                        <div key={index} className={`${styles.card} col-md-12`}>
                             <div className={styles.cardContent}>
                                 <h3 className={styles.jobTitle}>{job.title}</h3>
                                 <p className={styles.location}>{job.location}</p>
