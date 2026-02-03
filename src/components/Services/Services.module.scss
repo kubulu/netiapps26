@@ -195,7 +195,7 @@
         flex: none;
         width: 100%;
         height: 60px;
-        flex-direction: row;
+        flex-direction: column;
 
         &.active {
             height: auto;
@@ -220,6 +220,8 @@
         writing-mode: horizontal-tb;
         transform: none;
         white-space: normal;
+        margin-top: 0;
+        font-size: 1rem;
     }
 
     .expandedWrapper {

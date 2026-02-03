@@ -102,11 +102,30 @@ export default function Hero(slides: any) {
                     {translatedSlides.map((slide: any, index: number) => (
                         <SwiperSlide key={index}>
                             <div className="d-flex flex-column flex-lg-row h-100 position-relative">
-                                {/* Desktop/Mobile Video Wrapper */}
-                                {/* On Desktop: Absolute right half. On Mobile: Relative, Stacked (order 2?) */}
+                                {/* Mobile Video (Visible only on mobile, moved to top) */}
                                 <div
-                                    className="d-none d-lg-block position-absolute top-0 end-0 w-50 h-100"
-                                    style={{ zIndex: 1, backgroundColor: '#ffffff' }}
+                                    className="d-lg-none w-100 position-relative"
+                                    style={{ height: '300px', backgroundColor: '#ffffff', order: 1 }}
+                                >
+                                    <video
+                                        autoPlay
+                                        loop
+                                        muted
+                                        playsInline
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover',
+                                        }}
+                                    >
+                                        <source src={videos[index % videos.length]} type="video/mp4" />
+                                    </video>
+                                </div>
+
+                                {/* Desktop Video Wrapper (Hidden on mobile) */}
+                                <div
+                                    className="d-none d-lg-block position-absolute bottom-0"
+                                    style={{ zIndex: 1, backgroundColor: '#ffffff', width: '35%', height: '85%', right: '5%' }}
                                 >
                                     <video
                                         autoPlay
@@ -129,8 +148,8 @@ export default function Hero(slides: any) {
                                     </video>
                                 </div>
 
-                                {/* Text Content Area */}
-                                <div className="container h-100 position-relative d-flex align-items-center" style={{ zIndex: 2 }}>
+                                {/* Text Content Area (Visible on all, order 2 on mobile) */}
+                                <div className="container h-100 position-relative d-flex align-items-center" style={{ zIndex: 2, order: 2 }}>
                                     <div className="row w-100">
                                         <div className="col-lg-6">
                                             <div className={styles.content}>
@@ -151,26 +170,6 @@ export default function Hero(slides: any) {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                {/* Mobile Video (Visible only on mobile) */}
-                                <div
-                                    className="d-lg-none w-100 position-relative"
-                                    style={{ height: '300px', backgroundColor: '#ffffff' }}
-                                >
-                                    <video
-                                        autoPlay
-                                        loop
-                                        muted
-                                        playsInline
-                                        style={{
-                                            width: '100%',
-                                            height: '100%',
-                                            objectFit: 'cover',
-                                        }}
-                                    >
-                                        <source src={videos[index % videos.length]} type="video/mp4" />
-                                    </video>
                                 </div>
                             </div>
                         </SwiperSlide>
