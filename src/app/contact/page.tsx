@@ -4,6 +4,7 @@ import ContactForm from '@/components/ContactForm';
 import ContactInfo from '@/components/ContactInfo';
 import OfficeLocations from '@/components/OfficeLocations/OfficeLocations';
 import { ApiService } from "../../services/api.service";
+import { hasContent } from '@/utils/hasContent';
 
 async function getContactPageData() {
     const baseUrl = new ApiService();
@@ -62,7 +63,10 @@ async function getContactPageData() {
   
     return (
       <main>
-        {acf?.banner && <InnerPageBanner banner={acf.banner} />}
+        {hasContent(acf?.banner) && (
+            <InnerPageBanner banner={acf.banner} />
+        )}
+
         {acf?.locations && <OfficeLocations locations={acf.locations} />}
         <ContactForm />
       </main>

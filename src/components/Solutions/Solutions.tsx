@@ -164,7 +164,6 @@ function CardWrapper({
       <a
         href={item.link}
         className={className}
-        target="_blank"
         rel="noopener noreferrer"
         style={{ cursor: "pointer" }}
       >
