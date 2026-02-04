@@ -11,7 +11,9 @@ import { ReactNode } from "react";
 import { ApiService } from "../services/api.service";
 import { LanguageProvider } from "@/context/LanguageContext";
 
-const sora = Sora({ subsets: ["latin"] });
+import Script from "next/script";
+
+const sora = Sora({ subsets: ["latin"], display: 'swap' });
 
 export const metadata = {
     title: "Netiapps",
@@ -74,7 +76,12 @@ export default async function RootLayout({ children }: RootLayoutProps) {
                     <CookieConsent />
                 </LanguageProvider>
                 {/* <!-- Start of HubSpot Embed Code --> */}
-                <script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/245019687.js"></script>
+                <Script
+                    type="text/javascript"
+                    id="hs-script-loader"
+                    strategy="afterInteractive"
+                    src="//js-na2.hs-scripts.com/245019687.js"
+                />
                 {/* <!-- End of HubSpot Embed Code --> */}
             </body>
         </html>
