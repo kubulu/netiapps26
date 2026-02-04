@@ -13,7 +13,7 @@ async function getHomePageData() {
   
     const res = await fetch(
         baseUrl.getBaseUrl() + "wp-json/wp/v2/homepagesection", 
-      { next: { revalidate: 60 } }
+      { next: { revalidate: 10 } }
     );
   
     if (!res.ok) return null;
