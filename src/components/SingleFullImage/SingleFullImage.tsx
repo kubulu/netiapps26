@@ -13,7 +13,6 @@ interface SingleFullImageProps {
   
   export default function SingleFullImage({ image }: SingleFullImageProps) {
   
-    console.log(image);
     const imageRef = useRef<HTMLImageElement>(null);
 
     useEffect(() => {
