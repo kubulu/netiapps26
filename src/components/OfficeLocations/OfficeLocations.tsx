@@ -23,12 +23,7 @@ export default function OfficeLocations(locations: any) {
                                     <span className={styles.text}>{loc.address}</span>
                                 </div>
 
-                                <div className={styles.divider}></div>
 
-                                <a href={`tel:${loc.phone}`} className={styles.phoneLink}>
-                                    <Phone size={18} className={styles.icon} />
-                                    {loc.phone}
-                                </a>
                             </div>
                         </div>
                     ))}
