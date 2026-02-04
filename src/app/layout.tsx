@@ -25,7 +25,7 @@ interface RootLayoutProps {
 
 async function safeFetch(url: string) {
     try {
-        const res = await fetch(url, { next: { revalidate: 3600 } });
+        const res = await fetch(url, { next: { revalidate: 60 } });
 
         if (!res.ok) {
             console.error("CMS fetch failed:", url, res.status);
