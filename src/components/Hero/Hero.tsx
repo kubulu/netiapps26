@@ -65,8 +65,8 @@ export default function Hero(slides: any) {
 
     const videos = [
         getMediaUrl("/images/herovideo1.mp4"),
-        getMediaUrl("/images/videobanner2.mp4"),
-        getMediaUrl("/images/videobanner4.mp4"),
+        getMediaUrl("/images/videobanner6.mp4"),
+        getMediaUrl("/images/videobanner5.mp4"),
     ];
 
     return (
