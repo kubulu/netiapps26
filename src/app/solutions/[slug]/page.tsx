@@ -35,18 +35,20 @@ async function getSolutionPageData(slug: string) {
     return data?.[0] ?? null;
   }
   
-export async function generateMetadata(
-    { params }: { params: { slug: string } }
+  export async function generateMetadata(
+    { params }: { params: Promise<{ slug: string }> }
   ): Promise<Metadata> {
   
-    const service = await getSolutionPageData(params.slug);
+    const { slug } = await params; // ✅ REQUIRED
+  
+    const service = await getSolutionPageData(slug);
     const seo = service?.yoast_head_json;
   
     if (!seo) {
       return {
-        title: service?.title?.rendered || "Solutions | NetiApps",
+        title: service?.title?.rendered || "Solution | NetiApps",
         description:
-          "Explore our Solutions and discover how NetiApps helps businesses grow with technology.",
+          "Explore our solution and discover how NetiApps helps businesses grow with technology.",
       };
     }
   
@@ -64,8 +66,15 @@ export async function generateMetadata(
           url: img.url,
         })),
       },
+      twitter: {
+        card: "summary_large_image",
+        title: seo.og_title || seo.title,
+        description: seo.og_description || seo.description,
+        images: seo.og_image?.[0]?.url,
+      },
     };
   }
+  
 export default async function ServicesPage({ params }: PageProps) {
     const { slug } = await params;
     const solution = await getSolutionPageData(slug);

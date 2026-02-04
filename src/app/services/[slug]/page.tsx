@@ -17,7 +17,6 @@ import { services } from '@/data/servicesData';
 import { ApiService } from '@/services/api.service';
 import { hasContent } from "@/utils/hasContent";
 import type { Metadata } from "next";
-export const dynamic = "force-dynamic";
 
 interface PageProps {
     params: Promise<{ slug: string }>;
@@ -27,7 +26,7 @@ async function getServicePageData(slug: string) {
   
     const res = await fetch(
       baseUrl.getBaseUrl() + `wp-json/wp/v2/services?slug=${slug}`,
-      {  cache: "no-store" }
+      { next: { revalidate: 60 } }
     );
   
     if (!res.ok) return null;
@@ -36,11 +35,13 @@ async function getServicePageData(slug: string) {
     return data?.[0] ?? null;
   }
   
-export async function generateMetadata(
-    { params }: { params: { slug: string } }
+  export async function generateMetadata(
+    { params }: { params: Promise<{ slug: string }> }
   ): Promise<Metadata> {
   
-    const service = await getServicePageData(params.slug);
+    const { slug } = await params; // ✅ REQUIRED
+  
+    const service = await getServicePageData(slug);
     const seo = service?.yoast_head_json;
   
     if (!seo) {
@@ -65,8 +66,15 @@ export async function generateMetadata(
           url: img.url,
         })),
       },
+      twitter: {
+        card: "summary_large_image",
+        title: seo.og_title || seo.title,
+        description: seo.og_description || seo.description,
+        images: seo.og_image?.[0]?.url,
+      },
     };
   }
+  
 export default async function ServicesPage({ params }: PageProps) {
     const { slug } = await params;
     const service = await getServicePageData(slug);

@@ -32,7 +32,6 @@ export default async function CareerDetailPage({   params, }: { params: Promise<
     );
   }
   const job = Jobs[0].acf
-console.log(job);
   return (
     <CareerDetailClient acf={Jobs[0].acf} />
   );

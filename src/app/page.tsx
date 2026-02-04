@@ -46,6 +46,12 @@ async function getHomePageData() {
           url: img.url,
         })),
       },
+      twitter: {
+        card: "summary_large_image",
+        title: seo.og_title || seo.title,
+        description: seo.og_description || seo.description,
+        images: seo.og_image?.[0]?.url,
+      },
     };
   }
  export default async function Home() {
