@@ -25,7 +25,7 @@ async function getSolutionPageData(slug: string) {
     const baseUrl = new ApiService();
   
     const res = await fetch(
-      baseUrl.getBaseUrl() + `wp-json/wp/v2/services?slug=${slug}`,
+      baseUrl.getBaseUrl() + `wp-json/wp/v2/solutions?slug=${slug}`,
       { next: { revalidate: 60 } }
     );
   
