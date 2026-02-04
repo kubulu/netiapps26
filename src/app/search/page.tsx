@@ -1,180 +1,131 @@
 "use client";
 
-import { useState, useEffect, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
-import InnerPageBanner from '@/components/InnerPageBanner'; // Assuming this component exists
-import Link from 'next/link';
-import Image from 'next/image';
-import { Search, ArrowRight } from 'lucide-react';
-import styles from './page.module.scss';
-import Navbar from '@/components/Navbar/Navbar';
-import { getMediaUrl } from '@/lib/media';
+import { useEffect, useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { Search, ArrowRight } from "lucide-react";
+import styles from "./page.module.scss";
+import { ApiService } from "@/services/api.service";
 
-// Mock Data for Search
-const SITE_CONTENT = [
-    {
-        title: "About NetiApps",
-        description: "Learn about NetiApps, our vision, mission, and the team driving digital transformation.",
-        link: "/about",
-        category: "Company"
-    },
-    {
-        title: "Contact Us",
-        description: "Get in touch with our team for inquiries, support, or partnership opportunities.",
-        link: "/contact",
-        category: "Contact"
-    },
-    {
-        title: "Services",
-        description: "Explore our wide range of services including Web Development, Mobile Apps, and AI Solutions.",
-        link: "/services",
-        category: "Services"
-    },
-    {
-        title: "Digital Strategy & Consulting",
-        description: "Strategic consulting to help your business navigate the digital landscape.",
-        link: "/services/digital-strategy",
-        category: "Services"
-    },
-    {
-        title: "Web Development",
-        description: "Custom web development services using the latest technologies like Next.js and React.",
-        link: "/services/web-development",
-        category: "Services"
-    },
-    {
-        title: "Mobile App Development",
-        description: "Native and cross-platform mobile application development for iOS and Android.",
-        link: "/services/mobile-development",
-        category: "Services"
-    },
-    {
-        title: "Our Clients",
-        description: "See the trusted companies and partners we have worked with over the years.",
-        link: "/about/clients",
-        category: "Company"
-    },
-    {
-        title: "Privacy Policy",
-        description: "Read our privacy policy to understand how we handle your data.",
-        link: "/about/privacy-policy",
-        category: "Legal"
-    },
-    {
-        title: "Terms of Use",
-        description: "Terms and conditions for using the NetiApps website and services.",
-        link: "/about/terms-of-use",
-        category: "Legal"
-    },
-    {
-        title: "Careers",
-        description: "Join our team! Explore current job openings and career opportunities.",
-        link: "/careers",
-        category: "Company"
-    }
-];
+interface SearchItem {
+  id: number;
+  title: string;
+  url: string;
+  type: string;
+}
 
 function SearchResults() {
-    const searchParams = useSearchParams();
-    const initialQuery = searchParams.get('q') || '';
-    const [query, setQuery] = useState(initialQuery);
-    const [results, setResults] = useState(SITE_CONTENT);
+  const searchParams = useSearchParams();
+  const initialQuery = searchParams.get("q") || "";
+  const [query, setQuery] = useState(initialQuery);
+  const [results, setResults] = useState<SearchItem[]>([]);
+  const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        if (query.trim() === '') {
-            setResults(SITE_CONTENT);
-        } else {
-            const lowerQuery = query.toLowerCase();
-            const filtered = SITE_CONTENT.filter(item =>
-                item.title.toLowerCase().includes(lowerQuery) ||
-                item.description.toLowerCase().includes(lowerQuery)
-            );
-            setResults(filtered);
-        }
-    }, [query]);
+  const baseUrl = new ApiService().getBaseUrl();
 
-    // Update local state if URL param changes
-    useEffect(() => {
-        setQuery(searchParams.get('q') || '');
-    }, [searchParams]);
+  useEffect(() => {
+    if (!query.trim()) {
+      setResults([]);
+      return;
+    }
 
-    const handleSearch = (e: React.FormEvent) => {
-        e.preventDefault();
-        // The effect will handle the filtering based on state 'query'
-        // If we wanted to update URL, we would router.push(`?q=${query}`)
+    const fetchResults = async () => {
+      try {
+        setLoading(true);
+
+        const res = await fetch(
+          `${baseUrl}wp-json/wp/v2/search?search=${encodeURIComponent(
+            query
+          )}&per_page=20`
+        );
+
+        const data = await res.json();
+
+        const formatted = data.map((item: any) => ({
+          id: item.id,
+          title: item.title,
+          url: item.url.replace(baseUrl, ""), // convert to frontend route
+          type: item.subtype || item.type,
+        }));
+
+        setResults(formatted);
+      } catch (err) {
+        console.error("Search error", err);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    return (
-        <main>
-            {/* <InnerPageBanner
-                tag="Search"
-                title={query ? `Results for "${query}"` : "Search Our Site"}
-                breadcrumbs={[
-                    { label: 'Home', link: '/' },
-                    { label: 'Search' }
-                ]}
-                imageSrc={getMediaUrl("/images/innerbanner.png")}
-            /> */}
+    fetchResults();
+  }, [query]);
 
-            <section className={styles.container}>
-                <div className="container">
+  return (
+    <main>
+      <section className={styles.container}>
+        <div className="container">
+          {/* Search Box */}
+          <div className={styles.searchHeader}>
+            <div className={styles.searchBoxWrapper}>
+              <div className={styles.searchInputGroup}>
+                <Search className={styles.searchIcon} size={24} />
+                <input
+                  type="text"
+                  placeholder="Search services, blogs, pages..."
+                  className={styles.input}
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                />
+              </div>
+            </div>
 
-                    {/* Search Input Area */}
-                    <div className={styles.searchHeader}>
-                        <form onSubmit={handleSearch} className={styles.searchBoxWrapper}>
-                            <div className={styles.searchInputGroup}>
-                                <Search className={styles.searchIcon} size={24} color="#E30613" />
-                                <input
-                                    type="text"
-                                    placeholder="Search services, pages, or topics..."
-                                    className={styles.input}
-                                    value={query}
-                                    onChange={(e) => setQuery(e.target.value)}
-                                />
-                                <button type="submit" className={styles.searchBtn}>Search</button>
-                            </div>
-                        </form>
+            {query && !loading && (
+              <p className={styles.resultsCount}>
+                Found {results.length} result
+                {results.length !== 1 ? "s" : ""} for "{query}"
+              </p>
+            )}
+          </div>
 
-                        {query && (
-                            <p className={styles.resultsCount}>
-                                Found {results.length} result{results.length !== 1 ? 's' : ''} for "{query}"
-                            </p>
-                        )}
-                    </div>
+          {/* Results */}
+          <div className={styles.resultsList}>
+            {loading ? (
+              <p>Searching...</p>
+            ) : results.length > 0 ? (
+              results.map((item) => (
+                <div key={item.id} className={styles.resultCard}>
+                  <span className={styles.resultCategory}>
+                    {item.type}
+                  </span>
 
-                    {/* Results List */}
-                    <div className={styles.resultsList}>
-                        {results.length > 0 ? (
-                            results.map((item, index) => (
-                                <div key={index} className={styles.resultCard}>
-                                    <span className={styles.resultCategory}>{item.category}</span>
-                                    <h3 className={styles.resultTitle}>
-                                        <Link href={item.link}>{item.title}</Link>
-                                    </h3>
-                                    <p className={styles.resultDescription}>{item.description}</p>
-                                    <Link href={item.link} style={{ display: 'inline-flex', alignItems: 'center', marginTop: '1rem', color: '#E30613', fontWeight: 600 }}>
-                                        Read More <ArrowRight size={16} style={{ marginLeft: '0.5rem' }} />
-                                    </Link>
-                                </div>
-                            ))
-                        ) : (
-                            <div className={styles.noResults}>
-                                <h3>No results found</h3>
-                                <p>Try adjusting your search terms or browse our main menu.</p>
-                            </div>
-                        )}
-                    </div>
+                  <h3 className={styles.resultTitle}>
+                    <Link href={item.url}>{item.title}</Link>
+                  </h3>
 
+                  <Link
+                    href={item.url}
+                    className={styles.readMore}
+                  >
+                    View Page <ArrowRight size={16} />
+                  </Link>
                 </div>
-            </section>
-        </main>
-    );
+              ))
+            ) : query ? (
+              <div className={styles.noResults}>
+                <h3>No results found</h3>
+                <p>Try different keywords.</p>
+              </div>
+            ) : null}
+          </div>
+        </div>
+      </section>
+    </main>
+  );
 }
 
 export default function SearchPage() {
-    return (
-        <Suspense fallback={<div>Loading...</div>}>
-            <SearchResults />
-        </Suspense>
-    );
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SearchResults />
+    </Suspense>
+  );
 }

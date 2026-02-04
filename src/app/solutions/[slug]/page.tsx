@@ -16,38 +16,68 @@ import WhyChoose from '@/components/WhyChoose';
 import { services } from '@/data/servicesData';
 import { ApiService } from '@/services/api.service';
 import { hasContent } from "@/utils/hasContent";
+import type { Metadata } from "next";
 
 interface PageProps {
     params: Promise<{ slug: string }>;
 }
-
-export default async function ServicesPage({ params }: PageProps) {
+async function getSolutionPageData(slug: string) {
     const baseUrl = new ApiService();
+  
+    const res = await fetch(
+      baseUrl.getBaseUrl() + `wp-json/wp/v2/solutions?slug=${slug}`,
+      { next: { revalidate: 60 } }
+    );
+  
+    if (!res.ok) return null;
+  
+    const data = await res.json();
+    return data?.[0] ?? null;
+  }
+  
+export async function generateMetadata(
+    { params }: { params: { slug: string } }
+  ): Promise<Metadata> {
+  
+    const service = await getSolutionPageData(params.slug);
+    const seo = service?.yoast_head_json;
+  
+    if (!seo) {
+      return {
+        title: service?.title?.rendered || "Solutions | NetiApps",
+        description:
+          "Explore our Solutions and discover how NetiApps helps businesses grow with technology.",
+      };
+    }
+  
+    return {
+      title: seo.title,
+      description: seo.description,
+      alternates: {
+        canonical: seo.canonical,
+      },
+      openGraph: {
+        title: seo.og_title,
+        description: seo.og_description,
+        type: "website",
+        images: seo.og_image?.map((img: any) => ({
+          url: img.url,
+        })),
+      },
+    };
+  }
+export default async function ServicesPage({ params }: PageProps) {
     const { slug } = await params;
-
-    let Solutions: any[] = [];
-
-    try {
-        const resSolutions = await fetch(
-            baseUrl.getBaseUrl() + `wp-json/wp/v2/solutions?slug=${slug}`,
-            { cache: 'no-store' }
-        );
-
-        Solutions = await resSolutions.json();
-    } catch (error) {
-        console.error('Error fetching Solutions:', error);
+    const solution = await getSolutionPageData(slug);
+  
+    if (!solution?.acf) {
+      return (
+        <main className={styles.emptyState}>
+          <h2>Content not available</h2>
+          <p>Data is not available in your CMS for this service.</p>
+        </main>
+      );
     }
-
-    if (!Solutions?.length || !Solutions[0]?.acf) {
-        return (
-            <main className={styles.emptyState}>
-                <h2>Content not available</h2>
-                <p>Data is not available in your CMS for this page.</p>
-            </main>
-        );
-    }
-
-    const solution = Solutions[0];
 
     return (
         <main>

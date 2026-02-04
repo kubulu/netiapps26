@@ -15,41 +15,65 @@ interface PageProps {
     params: Promise<{ slug: string }>;
 }
 
-export const metadata: Metadata = {
-    title: "About Us",
-    description: "Learn more about our company",
-};
+async function getAboutPageData(slug: string) {
+    const baseUrl = new ApiService();
+  
+    const res = await fetch(
+      baseUrl.getBaseUrl() + `wp-json/wp/v2/about?slug=${slug}`,
+      { next: { revalidate: 60 } }
+    );
+  
+    if (!res.ok) return null;
+  
+    const data = await res.json();
+    return data?.[0] ?? null;
+  }
+  export async function generateMetadata(
+    { params }: { params: { slug: string } }
+  ): Promise<Metadata> {
+  
+    const page = await getAboutPageData(params.slug);
+    const seo = page?.yoast_head_json;
+  
+    if (!seo) {
+      return {
+        title: "About Us | NetiApps",
+        description: "Learn more about NetiApps, our values, leadership, and the work we do.",
+      };
+    }
+  
+    return {
+      title: seo.title,
+      description: seo.description,
+      alternates: {
+        canonical: seo.canonical,
+      },
+      openGraph: {
+        title: seo.og_title,
+        description: seo.og_description,
+        images: seo.og_image?.map((img: any) => ({
+          url: img.url,
+        })),
+      },
+    };
+  }
+    
 
 export default async function AbtPage({ params }: PageProps) {
-    const baseUrl = new ApiService();
     const { slug } = await params;
-
-    let About: any[] = [];
-
-    try {
-        const resAbout = await fetch(
-            baseUrl.getBaseUrl() + `wp-json/wp/v2/about?slug=${slug}`,
-            { cache: 'no-store' }
-        );
-
-        About = await resAbout.json();
-    } catch (error) {
-        console.error('Error fetching services:', error);
+    const about = await getAboutPageData(slug);
+  
+    if (!about?.acf) {
+      return (
+        <main className={styles.emptyState}>
+          <h2>Content not available</h2>
+          <p>Data is not available in your CMS for this page.</p>
+        </main>
+      );
     }
-
-    if (!About?.length || !About[0]?.acf) {
-        return (
-            <main className={styles.emptyState}>
-                <h2>Content not available</h2>
-                <p>Data is not available in your CMS for this page.</p>
-            </main>
-        );
-    }
-
-    const about = About[0];
+  
     const content = about?.acf.content?.[0];
     const clientDetails = content?.client_details;
-    // console.log(about);
     
     return (
         <main>
