@@ -4,6 +4,7 @@ import "./globals.scss";
 import "./hubspot-form-overrides.css";
 
 import BootstrapClient from "@/components/BootstrapClient";
+import CookieConsent from "@/components/CookieConsent/CookieConsent";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ReactNode } from "react";
@@ -70,6 +71,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
                     )}
 
                     <BootstrapClient />
+                    <CookieConsent />
                 </LanguageProvider>
                 {/* <!-- Start of HubSpot Embed Code --> */}
                 <script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/245019687.js"></script>
