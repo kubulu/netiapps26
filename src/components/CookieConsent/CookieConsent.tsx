@@ -38,7 +38,7 @@ export default function CookieConsent() {
                 <p>
                     We use cookies to enhance your browsing experience, serve personalized content, and analyze our traffic.
                     By clicking "Accept All", you consent to our use of cookies.
-                    Read our <Link href="/privacy-policy">Privacy Policy</Link>.
+                    Read our <Link href="/about/privacy-policy">Privacy Policy</Link>.
                 </p>
             </div>
             <div className={styles.actions}>
