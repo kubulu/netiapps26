@@ -8,7 +8,7 @@ async function getBlogsPageData() {
 
   const res = await fetch(
     baseUrl.getBaseUrl() + `wp-json/wp/v2/blogs?per_page=1`,
-    { next: { revalidate: 60 } }
+    { next: { revalidate: 10 } }
   );
 
   if (!res.ok) return null;
@@ -51,7 +51,7 @@ export default async function BlogsPage() {
   try {
     const resBlogs = await fetch(
       baseUrl.getBaseUrl() + `wp-json/wp/v2/blogs?per_page=100`,
-      { next: { revalidate: 60 } }
+      { next: { revalidate: 10 } }
     );
 
     Blogs = await resBlogs.json();

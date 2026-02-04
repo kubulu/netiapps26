@@ -26,7 +26,7 @@ async function getServicePageData(slug: string) {
   
     const res = await fetch(
       baseUrl.getBaseUrl() + `wp-json/wp/v2/services?slug=${slug}`,
-      { next: { revalidate: 60 } }
+      { next: { revalidate: 10 } }
     );
   
     if (!res.ok) return null;
