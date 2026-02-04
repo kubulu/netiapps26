@@ -84,17 +84,17 @@ export default function Navbar(nav: any) {
     // Language Dropdown State
     const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
 
-    const languages: { code: Language; name: string; flag: string }[] = [
-        { code: "EN", name: "English", flag: "🇺🇸" },
-        { code: "FR", name: "French", flag: "🇫🇷" },
-        { code: "DE", name: "German", flag: "🇩🇪" },
-        { code: "NL", name: "Dutch", flag: "🇳🇱" },
-        { code: "PT", name: "Portuguese", flag: "🇵🇹" },
-        { code: "IT", name: "Italian", flag: "🇮🇹" },
-        { code: "ES", name: "Spanish", flag: "🇪🇸" },
-        { code: "PL", name: "Polish", flag: "🇵🇱" },
-        { code: "SE", name: "Swedish", flag: "🇸🇪" },
-        { code: "FI", name: "Finnish", flag: "🇫🇮" },
+    const languages: { code: Language; name: string; countryCode: string }[] = [
+        { code: "EN", name: "English", countryCode: "us" },
+        { code: "FR", name: "French", countryCode: "fr" },
+        { code: "DE", name: "German", countryCode: "de" },
+        { code: "NL", name: "Dutch", countryCode: "nl" },
+        { code: "PT", name: "Portuguese", countryCode: "pt" },
+        { code: "IT", name: "Italian", countryCode: "it" },
+        { code: "ES", name: "Spanish", countryCode: "es" },
+        { code: "PL", name: "Polish", countryCode: "pl" },
+        { code: "SE", name: "Swedish", countryCode: "se" },
+        { code: "FI", name: "Finnish", countryCode: "fi" },
     ];
 
     // const [selectedLanguage, setSelectedLanguage] = useState(languages[0]);
@@ -208,7 +208,15 @@ export default function Navbar(nav: any) {
                                 // For simplicity we toggle on click
                             }}
                         >
-                            <span className="me-2 text-xl">{selectedLanguage.flag}</span>
+                            <span className="me-2 d-flex align-items-center">
+                                <img
+                                    src={`https://flagcdn.com/w40/${selectedLanguage.countryCode}.png`}
+                                    srcSet={`https://flagcdn.com/w80/${selectedLanguage.countryCode}.png 2x`}
+                                    width="20"
+                                    alt={selectedLanguage.name}
+                                    style={{ borderRadius: '2px', objectFit: 'cover' }}
+                                />
+                            </span>
                             <span className="ms-1">{selectedLanguage.code}</span>
                             <ChevronDown size={12} className="ms-1" />
 
@@ -224,7 +232,15 @@ export default function Navbar(nav: any) {
                                                 setIsLangDropdownOpen(false);
                                             }}
                                         >
-                                            <span className="me-2">{lang.flag}</span>
+                                            <span className="me-2 d-flex align-items-center">
+                                                <img
+                                                    src={`https://flagcdn.com/w40/${lang.countryCode}.png`}
+                                                    srcSet={`https://flagcdn.com/w80/${lang.countryCode}.png 2x`}
+                                                    width="20"
+                                                    alt={lang.name}
+                                                    style={{ borderRadius: '2px', objectFit: 'cover' }}
+                                                />
+                                            </span>
                                             {lang.name}
                                         </li>
                                     ))}
