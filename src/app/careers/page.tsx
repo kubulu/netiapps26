@@ -12,7 +12,7 @@ export default async function CareersPage() {
     try {
         const resCareers = await fetch(
             baseUrl.getBaseUrl() + "wp-json/wp/v2/careerpage",
-            { cache: "no-store" }
+            {  next: { revalidate: 60 }}
           );
           
           if (!resCareers.ok) {

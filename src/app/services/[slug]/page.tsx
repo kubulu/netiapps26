@@ -17,6 +17,7 @@ import { services } from '@/data/servicesData';
 import { ApiService } from '@/services/api.service';
 import { hasContent } from "@/utils/hasContent";
 import type { Metadata } from "next";
+export const dynamic = "force-dynamic";
 
 interface PageProps {
     params: Promise<{ slug: string }>;
@@ -26,7 +27,7 @@ async function getServicePageData(slug: string) {
   
     const res = await fetch(
       baseUrl.getBaseUrl() + `wp-json/wp/v2/services?slug=${slug}`,
-      { next: { revalidate: 60 } }
+      {  cache: "no-store" }
     );
   
     if (!res.ok) return null;

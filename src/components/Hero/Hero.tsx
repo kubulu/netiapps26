@@ -6,11 +6,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade } from "swiper/modules";
 import styles from "./Hero.module.scss";
 import "swiper/css";
-
 import "swiper/css/effect-fade";
-
-
-
 import { useEffect, useState, useMemo } from "react";
 import { cachedTranslate, useLanguage } from "@/context/LanguageContext";
 import { getMediaUrl } from "@/lib/media";
@@ -19,15 +15,7 @@ export default function Hero(slides: any) {
     const { language, translate } = useLanguage();
 
     const originalSlides = useMemo(() => {
-        const dummySlides = [
-            {
-                title: "<strong>Scale Your Business</strong><br>With Advanced Technology",
-                button_name: "Discover More",
-                link: "/services",
-                description: "Empowering your enterprise with cutting-edge solutions."
-            },
-        ];
-        return [...(slides.slides || []), ...dummySlides];
+        return [...(slides.slides || [])];
     }, [slides.slides]);
     const [translatedSlides, setTranslatedSlides] = useState(originalSlides);
     const [activeIndex, setActiveIndex] = useState(0);

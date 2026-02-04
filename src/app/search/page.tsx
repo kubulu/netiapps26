@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Search, ArrowRight } from "lucide-react";
 import styles from "./page.module.scss";
 import { ApiService } from "@/services/api.service";
+export const dynamic = "force-dynamic";
 
 interface SearchItem {
   id: number;

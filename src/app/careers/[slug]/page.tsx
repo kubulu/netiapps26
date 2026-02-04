@@ -3,6 +3,7 @@ import styles from "./page.module.scss";
 import { ApiService } from "@/services/api.service";
 import CareerApplyForm from "../../../components/CareerApplyForm/CareerApplyForm";
 import CareerDetailClient from "../../../components/CareerDetail/CareerDetail";
+export const dynamic = "force-dynamic";
 
 export default async function CareerDetailPage({   params, }: { params: Promise<{ slug: string }>; }) {
   const baseUrl = new ApiService();

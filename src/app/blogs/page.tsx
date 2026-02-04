@@ -43,20 +43,15 @@ export async function generateMetadata(): Promise<Metadata> {
     },
   };
 }
-export default async function CareerDetailPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export default async function BlogsPage() {
   const baseUrl = new ApiService();
-  await params; // required to unwrap params (slug not used)
 
   let Blogs: any[] = [];
 
   try {
     const resBlogs = await fetch(
       baseUrl.getBaseUrl() + `wp-json/wp/v2/blogs?per_page=100`,
-      { cache: "no-store" }
+      { next: { revalidate: 60 } }
     );
 
     Blogs = await resBlogs.json();
