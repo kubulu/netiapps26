@@ -3,10 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, EffectFade } from "swiper/modules";
+import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import styles from "./Hero.module.scss";
 import "swiper/css";
 import "swiper/css/effect-fade";
+import "swiper/css/pagination";
 import { useEffect, useState, useMemo } from "react";
 import { cachedTranslate, useLanguage } from "@/context/LanguageContext";
 import { getMediaUrl } from "@/lib/media";
@@ -73,7 +74,7 @@ export default function Hero(slides: any) {
         <section className={styles.hero}>
             <div className="w-100 h-100">
                 <Swiper
-                    modules={[Autoplay, EffectFade]}
+                    modules={[Autoplay, EffectFade, Pagination]}
                     effect="fade"
                     fadeEffect={{ crossFade: true }}
                     spaceBetween={0}
@@ -83,9 +84,25 @@ export default function Hero(slides: any) {
                         delay: 5000,
                         disableOnInteraction: false,
                     }}
+                    pagination={{ clickable: true }}
 
                     className={styles.swiperContainer}
-                    onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
+                    onSlideChange={(swiper) => {
+                        setActiveIndex(swiper.activeIndex);
+                        const realIndex = swiper.realIndex;
+                        // Reset desktop video
+                        const desktopVideo = document.getElementById(`video-desktop-${realIndex}`) as HTMLVideoElement;
+                        if (desktopVideo) {
+                            desktopVideo.currentTime = 0;
+                            desktopVideo.play().catch(() => { });
+                        }
+                        // Reset mobile video
+                        const mobileVideo = document.getElementById(`video-mobile-${realIndex}`) as HTMLVideoElement;
+                        if (mobileVideo) {
+                            mobileVideo.currentTime = 0;
+                            mobileVideo.play().catch(() => { });
+                        }
+                    }}
                 >
                     {translatedSlides.map((slide: any, index: number) => (
                         <SwiperSlide key={index}>
@@ -96,6 +113,7 @@ export default function Hero(slides: any) {
                                     style={{ height: '300px', backgroundColor: '#ffffff', order: 1 }}
                                 >
                                     <video
+                                        id={`video-mobile-${index}`}
                                         autoPlay
                                         loop
                                         muted
@@ -116,6 +134,7 @@ export default function Hero(slides: any) {
                                     style={{ zIndex: 1, backgroundColor: '#ffffff', width: '35%', height: '85%', right: '5%' }}
                                 >
                                     <video
+                                        id={`video-desktop-${index}`}
                                         autoPlay
                                         loop
                                         muted
