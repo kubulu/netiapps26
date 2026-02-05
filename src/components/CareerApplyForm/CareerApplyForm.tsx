@@ -6,7 +6,7 @@ import styles from "./CareerApplyForm.module.scss";
 import { ApiService } from "../../services/api.service";
 
 
-const SITE_KEY = "6LcoXl8sAAAAAHvVR6_sWc0eiX20fMpBJuOnrgNh"; // test key
+const SITE_KEY = "6LcoXl8sAAAAAHvVR6_sWc0eiX20fMpBJuOnrgNh"; 
 
 export default function CareerApplyForm({ role }: { role: string }) {
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
@@ -102,6 +102,16 @@ export default function CareerApplyForm({ role }: { role: string }) {
       <div className={styles.formGroup}>
         <label htmlFor="city">City*</label>
         <input type="text" id="city" name="city" required />
+      </div>
+
+      <div className={styles.formGroup}>
+        <label htmlFor="experience">Years of experience*</label>
+        <input type="text" id="experience" name="experience" required />
+      </div>
+
+      <div className={styles.formGroup}>
+        <label htmlFor="notice">Notice Period (In days)*</label>
+        <input type="text" id="notice" name="notice" required />
       </div>
 
       <div className={styles.formGroup}>
