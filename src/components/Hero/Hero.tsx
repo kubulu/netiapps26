@@ -66,8 +66,8 @@ export default function Hero(slides: any) {
 
     const videos = [
         getMediaUrl("/images/herovideo1.mp4"),
-        getMediaUrl("/images/videobanner9.mp4"),
-        getMediaUrl("/images/videobanner8.mp4"),
+        getMediaUrl("/images/videobanner10.mp4"),
+        getMediaUrl("/images/videobanner12.mp4"),
     ];
 
     return (
@@ -131,7 +131,7 @@ export default function Hero(slides: any) {
                                 {/* Desktop Video Wrapper (Hidden on mobile) */}
                                 <div
                                     className="d-none d-lg-block position-absolute bottom-0"
-                                    style={{ zIndex: 1, backgroundColor: '#ffffff', width: '35%', height: '85%', right: '5%' }}
+                                    style={{ zIndex: 1, backgroundColor: '#ffffff', width: index === 2 ? '55%' : '35%', height: '85%', right: index === 2 ? '0' : '5%' }}
                                 >
                                     <video
                                         id={`video-desktop-${index}`}
