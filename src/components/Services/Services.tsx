@@ -90,7 +90,7 @@ export default function Services(services: any) {
                   {/* Vertical Header */}
                   <div className={styles.verticalHeader}>
                     <div className={styles.iconBox}>
-                      <Image
+                      <img
                         src={
                           isActive
                             ? getMediaUrl("/images/minus.svg")
