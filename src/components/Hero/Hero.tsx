@@ -3,10 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, EffectFade } from "swiper/modules";
+import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import styles from "./Hero.module.scss";
 import "swiper/css";
 import "swiper/css/effect-fade";
+import "swiper/css/pagination";
 import { useEffect, useState, useMemo } from "react";
 import { cachedTranslate, useLanguage } from "@/context/LanguageContext";
 import { getMediaUrl } from "@/lib/media";
@@ -65,15 +66,15 @@ export default function Hero(slides: any) {
 
     const videos = [
         getMediaUrl("/images/herovideo1.mp4"),
-        getMediaUrl("/images/videobanner8.mp4"),
         getMediaUrl("/images/videobanner9.mp4"),
+        getMediaUrl("/images/videobanner8.mp4"),
     ];
 
     return (
         <section className={styles.hero}>
             <div className="w-100 h-100">
                 <Swiper
-                    modules={[Autoplay, EffectFade]}
+                    modules={[Autoplay, EffectFade, Pagination]}
                     effect="fade"
                     fadeEffect={{ crossFade: true }}
                     spaceBetween={0}
@@ -82,6 +83,10 @@ export default function Hero(slides: any) {
                     autoplay={{
                         delay: 5000,
                         disableOnInteraction: false,
+                    }}
+                    pagination={{
+                        el: '.swiper-pagination',
+                        clickable: true,
                     }}
 
                     className={styles.swiperContainer}
@@ -162,7 +167,7 @@ export default function Hero(slides: any) {
                             </div>
                         </SwiperSlide>
                     ))}
-
+                    <div className="swiper-pagination"></div>
                 </Swiper>
             </div>
         </section>

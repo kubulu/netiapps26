@@ -83,9 +83,8 @@ export default function Services(services: any) {
               return (
                 <div
                   key={index}
-                  className={`${styles.serviceItem} ${
-                    isActive ? styles.active : ""
-                  }`}
+                  className={`${styles.serviceItem} ${isActive ? styles.active : ""
+                    }`}
                   onClick={() => setActiveIndex(index)}
                 >
                   {/* Vertical Header */}
