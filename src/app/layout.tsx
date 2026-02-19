@@ -15,9 +15,14 @@ import Script from "next/script";
 
 const sora = Sora({ subsets: ["latin"], display: 'swap' });
 
+
 export const metadata = {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.netiapps.com'),
     title: "NetiApps – Innovative App & Digital Solutions",
     description: "NetiApps delivers cutting-edge mobile apps, web development, and digital solutions designed to help businesses grow, scale, and succeed in the digital world.",
+    alternates: {
+        canonical: './',
+    },
 };
 
 interface RootLayoutProps {

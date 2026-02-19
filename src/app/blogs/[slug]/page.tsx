@@ -28,6 +28,9 @@ export async function generateMetadata(
       title: blog?.title?.rendered || "Blog | NetiApps",
       description:
         "Read the latest insights, updates, and expert articles from NetiApps.",
+      alternates: {
+        canonical: `/blogs/${params.slug}`,
+      },
     };
   }
 
@@ -35,7 +38,7 @@ export async function generateMetadata(
     title: seo.title,
     description: seo.description,
     alternates: {
-      canonical: seo.canonical,
+      canonical: seo.canonical || `/blogs/${params.slug}`,
     },
     openGraph: {
       title: seo.og_title,
