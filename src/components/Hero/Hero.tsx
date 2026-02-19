@@ -16,7 +16,27 @@ export default function Hero(slides: any) {
     const { language, translate } = useLanguage();
 
     const originalSlides = useMemo(() => {
-        return [...(slides.slides || [])];
+        const dummySlides = [
+            {
+                title: "Scale Your Business. Accelerate Your Success.",
+
+                button_name: "Learn More",
+                link: "#"
+            },
+            {
+                title: "Scale Your Business. Accelerate Your Success.",
+
+                button_name: "Learn More",
+                link: "#"
+            },
+            {
+                title: "Scale Your Business. Accelerate Your Success.",
+
+                button_name: "Learn More",
+                link: "#"
+            }
+        ];
+        return [...(slides.slides || []), ...dummySlides];
     }, [slides.slides]);
     const [translatedSlides, setTranslatedSlides] = useState(originalSlides);
     const [activeIndex, setActiveIndex] = useState(0);
@@ -66,8 +86,11 @@ export default function Hero(slides: any) {
 
     const videos = [
         getMediaUrl("/images/herovideo1.mp4"),
-        getMediaUrl("/images/videobanner9.mp4"),
-        getMediaUrl("/images/videobanner8.mp4"),
+        getMediaUrl("/images/videobanner24.mp4"),
+        getMediaUrl("/images/videobanner14.mov"),
+        getMediaUrl("/images/videobanner22.mp4"),
+        getMediaUrl("/images/videobanner17.mp4"),
+        getMediaUrl("/images/videobanner20.mov"),
     ];
 
     return (
@@ -81,7 +104,7 @@ export default function Hero(slides: any) {
                     slidesPerView={1}
                     loop={true}
                     autoplay={{
-                        delay: 5000,
+                        delay: 12000,
                         disableOnInteraction: false,
                     }}
                     pagination={{ clickable: true }}
@@ -122,6 +145,7 @@ export default function Hero(slides: any) {
                                             width: '100%',
                                             height: '100%',
                                             objectFit: 'cover',
+                                            filter: index === 0 ? 'contrast(1.2) brightness(1.2)' : 'none',
                                         }}
                                     >
                                         <source src={videos[index % videos.length]} type="video/mp4" />
@@ -131,7 +155,7 @@ export default function Hero(slides: any) {
                                 {/* Desktop Video Wrapper (Hidden on mobile) */}
                                 <div
                                     className="d-none d-lg-block position-absolute bottom-0"
-                                    style={{ zIndex: 1, backgroundColor: '#ffffff', width: '35%', height: '85%', right: '5%' }}
+                                    style={{ zIndex: 1, backgroundColor: '#ffffff', width: index === 2 ? '55%' : '35%', height: '85%', right: index === 2 ? '0' : '5%' }}
                                 >
                                     <video
                                         id={`video-desktop-${index}`}
@@ -147,7 +171,7 @@ export default function Hero(slides: any) {
                                             backgroundColor: '#ffffff',
                                             opacity: 0.999,
                                             display: 'block',
-                                            filter: 'contrast(1)',
+                                            filter: index === 0 ? 'contrast(1.6) brightness(1.2)' : 'contrast(1)',
                                         }}
                                     >
                                         <source src={videos[index % videos.length]} type="video/mp4" />

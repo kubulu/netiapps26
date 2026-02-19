@@ -16,8 +16,8 @@ import Script from "next/script";
 const sora = Sora({ subsets: ["latin"], display: 'swap' });
 
 export const metadata = {
-    title: "Netiapps",
-    description: "Created with Next.js",
+    title: "NetiApps – Innovative App & Digital Solutions",
+    description: "NetiApps delivers cutting-edge mobile apps, web development, and digital solutions designed to help businesses grow, scale, and succeed in the digital world.",
 };
 
 interface RootLayoutProps {
