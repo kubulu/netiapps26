@@ -42,5 +42,4 @@ yarn-error.log*
 next-env.d.ts
 
 # visual assets
-public/images
 .env.local
