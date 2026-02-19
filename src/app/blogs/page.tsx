@@ -3,43 +3,15 @@ import { ApiService } from "@/services/api.service";
 import BlogsClient from "../../components/Blogs/Blogs";
 import type { Metadata } from "next";
 
-async function getBlogsPageData() {
-  const baseUrl = new ApiService();
 
-  const res = await fetch(
-    baseUrl.getBaseUrl() + `wp-json/wp/v2/blogs?per_page=1`,
-    { next: { revalidate: 10 } }
-  );
 
-  if (!res.ok) return null;
-
-  const data = await res.json();
-  return data?.[0] ?? null;
-}
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await getBlogsPageData();
-  const seo = page?.yoast_head_json;
-
-  if (!seo) {
-    return {
-      title: "Blogs | NetiApps",
-      description:
-        "Explore insights, updates, and expert articles from NetiApps.",
-    };
-  }
-
   return {
-    title: seo.title,
-    description: seo.description,
+    title: "Blogs | NetiApps",
+    description:
+      "Explore insights, updates, and expert articles from NetiApps.",
     alternates: {
-      canonical: seo.canonical,
-    },
-    openGraph: {
-      title: seo.og_title,
-      description: seo.og_description,
-      images: seo.og_image?.map((img: any) => ({
-        url: img.url,
-      })),
+      canonical: '/blogs',
     },
   };
 }
