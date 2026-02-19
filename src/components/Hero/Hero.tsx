@@ -3,11 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, EffectFade, Pagination } from "swiper/modules";
+import { Autoplay, EffectFade } from "swiper/modules";
 import styles from "./Hero.module.scss";
 import "swiper/css";
 import "swiper/css/effect-fade";
-import "swiper/css/pagination";
 import { useEffect, useState, useMemo } from "react";
 import { cachedTranslate, useLanguage } from "@/context/LanguageContext";
 import { getMediaUrl } from "@/lib/media";
@@ -16,27 +15,7 @@ export default function Hero(slides: any) {
     const { language, translate } = useLanguage();
 
     const originalSlides = useMemo(() => {
-        const dummySlides = [
-            {
-                title: "Scale Your Business. Accelerate Your Success.",
-
-                button_name: "Learn More",
-                link: "#"
-            },
-            {
-                title: "Scale Your Business. Accelerate Your Success.",
-
-                button_name: "Learn More",
-                link: "#"
-            },
-            {
-                title: "Scale Your Business. Accelerate Your Success.",
-
-                button_name: "Learn More",
-                link: "#"
-            }
-        ];
-        return [...(slides.slides || []), ...dummySlides];
+        return [...(slides.slides || [])];
     }, [slides.slides]);
     const [translatedSlides, setTranslatedSlides] = useState(originalSlides);
     const [activeIndex, setActiveIndex] = useState(0);
@@ -86,46 +65,27 @@ export default function Hero(slides: any) {
 
     const videos = [
         getMediaUrl("/images/herovideo1.mp4"),
-        getMediaUrl("/images/videobanner24.mp4"),
-        getMediaUrl("/images/videobanner14.mov"),
-        getMediaUrl("/images/videobanner22.mp4"),
-        getMediaUrl("/images/videobanner17.mp4"),
-        getMediaUrl("/images/videobanner20.mov"),
+        getMediaUrl("/images/videobanner8.mp4"),
+        getMediaUrl("/images/videobanner9.mp4"),
     ];
 
     return (
         <section className={styles.hero}>
             <div className="w-100 h-100">
                 <Swiper
-                    modules={[Autoplay, EffectFade, Pagination]}
+                    modules={[Autoplay, EffectFade]}
                     effect="fade"
                     fadeEffect={{ crossFade: true }}
                     spaceBetween={0}
                     slidesPerView={1}
                     loop={true}
                     autoplay={{
-                        delay: 12000,
+                        delay: 5000,
                         disableOnInteraction: false,
                     }}
-                    pagination={{ clickable: true }}
 
                     className={styles.swiperContainer}
-                    onSlideChange={(swiper) => {
-                        setActiveIndex(swiper.activeIndex);
-                        const realIndex = swiper.realIndex;
-                        // Reset desktop video
-                        const desktopVideo = document.getElementById(`video-desktop-${realIndex}`) as HTMLVideoElement;
-                        if (desktopVideo) {
-                            desktopVideo.currentTime = 0;
-                            desktopVideo.play().catch(() => { });
-                        }
-                        // Reset mobile video
-                        const mobileVideo = document.getElementById(`video-mobile-${realIndex}`) as HTMLVideoElement;
-                        if (mobileVideo) {
-                            mobileVideo.currentTime = 0;
-                            mobileVideo.play().catch(() => { });
-                        }
-                    }}
+                    onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
                 >
                     {translatedSlides.map((slide: any, index: number) => (
                         <SwiperSlide key={index}>
@@ -136,7 +96,6 @@ export default function Hero(slides: any) {
                                     style={{ height: '300px', backgroundColor: '#ffffff', order: 1 }}
                                 >
                                     <video
-                                        id={`video-mobile-${index}`}
                                         autoPlay
                                         loop
                                         muted
@@ -145,7 +104,6 @@ export default function Hero(slides: any) {
                                             width: '100%',
                                             height: '100%',
                                             objectFit: 'cover',
-                                            filter: index === 0 ? 'contrast(1.2) brightness(1.2)' : 'none',
                                         }}
                                     >
                                         <source src={videos[index % videos.length]} type="video/mp4" />
@@ -155,10 +113,9 @@ export default function Hero(slides: any) {
                                 {/* Desktop Video Wrapper (Hidden on mobile) */}
                                 <div
                                     className="d-none d-lg-block position-absolute bottom-0"
-                                    style={{ zIndex: 1, backgroundColor: '#ffffff', width: index === 2 ? '55%' : '35%', height: '85%', right: index === 2 ? '0' : '5%' }}
+                                    style={{ zIndex: 1, backgroundColor: '#ffffff', width: '35%', height: '85%', right: '5%' }}
                                 >
                                     <video
-                                        id={`video-desktop-${index}`}
                                         autoPlay
                                         loop
                                         muted
@@ -171,7 +128,7 @@ export default function Hero(slides: any) {
                                             backgroundColor: '#ffffff',
                                             opacity: 0.999,
                                             display: 'block',
-                                            filter: index === 0 ? 'contrast(1.6) brightness(1.2)' : 'contrast(1)',
+                                            filter: 'contrast(1)',
                                         }}
                                     >
                                         <source src={videos[index % videos.length]} type="video/mp4" />
