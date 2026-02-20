@@ -102,16 +102,21 @@ export default function Hero(slides: any) {
                                 >
                                     <video
                                         autoPlay
-                                        loop
                                         muted
                                         playsInline
+                                        preload="auto"
+                                        onEnded={(e) => {
+                                            e.currentTarget.currentTime = 0;
+                                            e.currentTarget.play().catch(() => { });
+                                        }}
+                                        src={videos[index % videos.length]}
                                         style={{
                                             width: '100%',
                                             height: '100%',
                                             objectFit: 'cover',
                                         }}
                                     >
-                                        <source src={videos[index % videos.length]} type="video/mp4" />
+                                        Your browser does not support the video tag.
                                     </video>
                                 </div>
 
@@ -122,10 +127,15 @@ export default function Hero(slides: any) {
                                 >
                                     <video
                                         autoPlay
-                                        loop
                                         muted
                                         playsInline
+                                        preload="auto"
                                         poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                                        onEnded={(e) => {
+                                            e.currentTarget.currentTime = 0;
+                                            e.currentTarget.play().catch(() => { });
+                                        }}
+                                        src={videos[index % videos.length]}
                                         style={{
                                             width: '100%',
                                             height: '100%',
@@ -136,7 +146,6 @@ export default function Hero(slides: any) {
                                             filter: 'contrast(1)',
                                         }}
                                     >
-                                        <source src={videos[index % videos.length]} type="video/mp4" />
                                         Your browser does not support the video tag.
                                     </video>
                                 </div>
