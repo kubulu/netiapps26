@@ -6,7 +6,7 @@
 const baseUrl =
   typeof process !== "undefined" && process.env.NEXT_PUBLIC_MEDIA_BASE_URL
     ? process.env.NEXT_PUBLIC_MEDIA_BASE_URL.replace(/\/$/, "")
-    : "";
+    : "https://netiapps-2026-website.sgp1.cdn.digitaloceanspaces.com";
 
 export function getMediaUrl(path: string): string {
   if (!path) return path;
