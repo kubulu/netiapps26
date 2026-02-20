@@ -59,6 +59,24 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 
     return (
         <html lang="en">
+            <head>
+                {/* Google tag (gtag.js) */}
+                <Script
+                    strategy="afterInteractive"
+                    src="https://www.googletagmanager.com/gtag/js?id=G-034Z9Q84DZ"
+                />
+                <Script
+                    id="google-analytics"
+                    strategy="afterInteractive"
+                >
+                    {`
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+                        gtag('config', 'G-034Z9Q84DZ');
+                    `}
+                </Script>
+            </head>
             <body className={sora.className}>
                 <LanguageProvider>
 

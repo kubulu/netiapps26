@@ -270,6 +270,54 @@ export default function Navbar(nav: any) {
             <div className={`${styles.mobileMenuOverlay} ${isMobileMenuOpen ? styles.open : ''}`}>
                 <div className="container">
                     <ul className={styles.mobileNavList}>
+                        {/* Mobile Language Selector */}
+                        <li className={styles.mobileNavItem}>
+                            <div className={styles.mobileNavHeader} onClick={() => toggleMobileAccordion('language')}>
+                                <div className="d-flex align-items-center">
+                                    <span className="me-2 d-flex align-items-center">
+                                        <img
+                                            src={`https://flagcdn.com/w40/${selectedLanguage.countryCode}.png`}
+                                            srcSet={`https://flagcdn.com/w80/${selectedLanguage.countryCode}.png 2x`}
+                                            width="20"
+                                            alt={selectedLanguage.name}
+                                            style={{ borderRadius: '2px', objectFit: 'cover' }}
+                                        />
+                                    </span>
+                                    <span>{selectedLanguage.name}</span>
+                                </div>
+                                <ChevronDown size={16} className={expandedMobileMenu === 'language' ? styles.rotate : ''} />
+                            </div>
+                            <div className={`${styles.mobileSubMenu} ${expandedMobileMenu === 'language' ? styles.open : ''}`}>
+                                <ul>
+                                    {languages.map((lang) => (
+                                        <li
+                                            key={lang.code}
+                                            onClick={() => {
+                                                setLanguage(lang.code);
+                                                toggleMobileMenu();
+                                            }}
+                                            style={{ cursor: 'pointer', padding: '0.8rem 0' }}
+                                        >
+                                            <div className="d-flex align-items-center">
+                                                <span className="me-2 d-flex align-items-center">
+                                                    <img
+                                                        src={`https://flagcdn.com/w40/${lang.countryCode}.png`}
+                                                        srcSet={`https://flagcdn.com/w80/${lang.countryCode}.png 2x`}
+                                                        width="20"
+                                                        alt={lang.name}
+                                                        style={{ borderRadius: '2px', objectFit: 'cover' }}
+                                                    />
+                                                </span>
+                                                <span style={{ color: lang.code === selectedLanguage.code ? '#E30613' : '#555', fontSize: '1rem' }}>
+                                                    {lang.name}
+                                                </span>
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </li>
+
                         <li>
                             <Link href={navigationData.home.link} onClick={toggleMobileMenu}>
                                 {navigationData.home.name}
@@ -346,6 +394,8 @@ export default function Navbar(nav: any) {
                                 {navigationData.career.name}
                             </Link>
                         </li>
+
+
                     </ul>
                 </div>
             </div>
